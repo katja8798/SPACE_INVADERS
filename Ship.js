@@ -146,10 +146,10 @@ Ship.prototype.update = function (du) {
         this.computeSubStep(dStep);
     }*/
 
-    if (keys[this.KEY_LEFT]) {
+    if (keys[this.KEY_LEFT] && this.cx < g_canvas.width) {
         this.cx += NOMINAL_MOVEMENT*du;
     }
-    if (keys[this.KEY_RIGHT]) {
+    if (keys[this.KEY_RIGHT] && this.cx > 0) {
         this.cx -= NOMINAL_MOVEMENT*du;
     }
 
