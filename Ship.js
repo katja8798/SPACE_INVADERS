@@ -42,6 +42,10 @@ Ship.prototype.rememberResets = function () {
 Ship.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
+// Some people might want to use arrow keys ('I' do :] )
+Ship.prototype.KEY_ARROW_LEFT = 37;
+Ship.prototype.KEY_ARROW_RIGHT = 39;
+
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
@@ -146,11 +150,11 @@ Ship.prototype.update = function (du) {
         this.computeSubStep(dStep);
     }*/
 
-    if (keys[this.KEY_LEFT] && this.cx < g_canvas.width) {
-        this.cx += NOMINAL_MOVEMENT*du;
-    }
-    if (keys[this.KEY_RIGHT] && this.cx > 0) {
+    if ((keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) && this.cx < g_canvas.width) {
         this.cx -= NOMINAL_MOVEMENT*du;
+    }
+    if ((keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) && this.cx > 0) {
+        this.cx += NOMINAL_MOVEMENT*du;
     }
 
 

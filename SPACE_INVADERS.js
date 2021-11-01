@@ -158,6 +158,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
     entityManager.render(ctx);
+	userInterface.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -173,7 +174,8 @@ function requestPreloads() {
 
     var requiredImages = {
         ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png"
+        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+		heart  : "img/heart_full_32x32.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -188,6 +190,8 @@ function preloadDone() {
 
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
+	
+	g_sprites.heart = new Sprite(g_images.heart);
 
     entityManager.init();
     createInitialShips();
