@@ -158,6 +158,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
     entityManager.render(ctx);
+	userInterface.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -172,9 +173,12 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        //ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship : "images/shipp.png",
+        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+		heart  : "img/heart_full_32x32.png"
+        //ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+
+       // ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         alien : "images/alien.png",
         green_bullet : "images/green_bullet.png"
     };
@@ -187,14 +191,12 @@ var g_sprites = {};
 function preloadDone() {
 
     g_sprites.ship  = new Sprite(g_images.ship);
-    //Þetta ætti að stækka skipið en gerir það ekki...hjalp
-    g_sprites.ship.scale = 2;
     g_sprites.ship2 = new Sprite(g_images.ship2);
 
-    g_sprites.bullet = new Sprite(g_images.green_bullet);
-    g_sprites.bullet.scale = 0.5;
+    g_sprites.bullet = new Sprite(g_images.ship);
+    g_sprites.bullet.scale = 0.25;
 
-    g_sprites.alien = new Sprite(g_images.alien);
+	g_sprites.heart = new Sprite(g_images.heart);
 
     entityManager.init();
     createInitialShips();
