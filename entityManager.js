@@ -2,7 +2,7 @@
 
 entityManager.js
 
-A module which handles arbitrary entity-management for "Asteroids"
+A module which handles arbitrary entity-management for "Galaga"
 
 
 We create this module as a single global object, and initialise it
@@ -29,6 +29,7 @@ var entityManager = {
 
 _bullets : [],
 _ships   : [],
+_enemies : [],
 
 
 // "PRIVATE" METHODS
@@ -76,7 +77,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._bullets, this._ships];
+    this._categories = [this._bullets, this._ships, this._enemies];
 },
 
 fireBullet: function(cx, cy, velX, velY, rotation) {
@@ -92,6 +93,12 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
 
 generateShip : function(descr) {
     this._ships.push(new Ship(descr));
+},
+
+generateEnemies : function(n, l, t, m) {
+	for (var i=0; i < n; i++) {
+		this._enemies.push(new Enemy(i,l,t,m));
+	}
 },
 
 killNearestShip : function(xPos, yPos) {

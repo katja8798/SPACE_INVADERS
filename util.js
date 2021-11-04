@@ -101,6 +101,23 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = oldStyle;
+},
+
+out: function(/* args */) {
+    var args = arguments;
+    console.log.apply(console, args);
+
+    var strs = [];
+    for (var i = 0; i < args.length; ++i) {
+        var thing = args[i];
+        if (typeof (thing) === "object") {
+            thing = JSON.stringify(thing);
+        }
+        strs.push(thing);
+    }
+    var line = strs.join(" ") + "<br/>";
+    
+    document.getElementById("output").innerHTML += line;
 }
 
 };
