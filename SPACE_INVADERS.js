@@ -77,11 +77,14 @@ function gatherInputs() {
 
 // GAME-SPECIFIC UPDATE LOGIC
 
-function updateSimulation(du) {
+function updateSimulation(dt, du) {
     
     processDiagnostics();
+	
+	levelManager.update(dt);
     
     entityManager.update(du);
+	
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
@@ -198,6 +201,7 @@ function preloadDone() {
 
 	g_sprites.heart = new Sprite(g_images.heart);
 
+	levelManager.init();
     entityManager.init();
     createInitialShips();
 

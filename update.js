@@ -40,7 +40,7 @@ function update(dt) {
     //
     var du = (dt / NOMINAL_UPDATE_INTERVAL);
     
-    updateSimulation(du);
+    updateSimulation(dt, du);
     
     g_prevUpdateDt = original_dt;
     g_prevUpdateDu = du;
