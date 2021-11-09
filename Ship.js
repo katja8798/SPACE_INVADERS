@@ -26,7 +26,7 @@ function Ship(descr) {
     // Set normal drawing scale, and warp state off
     this._scale = 1;
     this._isWarping = false;
-}
+};
 
 Ship.prototype = new Entity();
 
@@ -150,10 +150,10 @@ Ship.prototype.update = function (du) {
         this.computeSubStep(dStep);
     }*/
 
-    if (keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) {
+    if ((keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) && this.cx < g_canvas.width) {
         this.cx -= NOMINAL_MOVEMENT*du;
     }
-    if (keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) {
+    if ((keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) && this.cx > 0) {
         this.cx += NOMINAL_MOVEMENT*du;
     }
 
