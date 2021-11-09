@@ -157,7 +157,8 @@ Ship.prototype.update = function (du) {
         this.cx += NOMINAL_MOVEMENT*du;
     }
 
-
+    // Ensure ship stays on screen
+    this.wrapPosition();
 
     // Handle firing
     this.maybeFireBullet();
