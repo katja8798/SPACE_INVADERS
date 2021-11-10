@@ -90,10 +90,13 @@ strokeCircle: function (ctx, x, y, r) {
     ctx.stroke();
 },
 
-fillCircle: function (ctx, x, y, r) {
+fillCircle: function (ctx, x, y, r, style) {
+	var prevFillStyle = ctx.fillStyle;
+	ctx.fillStyle = style;
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
     ctx.fill();
+	ctx.fillStyle = prevFillStyle;
 },
 
 fillBox: function (ctx, x, y, w, h, style) {

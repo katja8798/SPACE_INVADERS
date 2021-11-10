@@ -4,7 +4,13 @@
 
 var levelManager = {
 	
-_currentLevel : {},
+_nextLevel : 0,
+	
+_currentLevel : {
+	_enemiesSpawnAtT : [],
+	_numSquadsAtT : [],
+	_enemySquad : []
+},
 
 // Elements in _enemyWave are the "squads" and are defined by:
 // [N, L, T, M] where:
@@ -30,36 +36,8 @@ _waitForLastKill : false,
 _enemiesAlive : 0,
 
 
-// Levels
-_levelOne : {
-	
-	// Determines at what time (in seconds!) waves spawn
-	_enemiesSpawnAtT : [3, 8, 12, 18],
-	
-	// Determines how many squads spawn for each wave
-	_numSquadsAtT : [2, 2, 2, 2],
-	
-	// Elements define a "squad" of enemy entities 
-	_enemies : [
-		[4,1,1,1],
-		[4,2,1,2],
-		[4,3,1,1],
-		[4,4,1,1],
-		[4,1,1,1],
-		[4,2,1,2],
-		[4,3,1,1],
-		[4,4,1,1]
-	],
-	
-	_nextLevel : this._levelTwo
-},
-
-_levelTwo : {},
-
-
 // PRIVATE METHODS
 
-//
 _generateWave: function() {
 	let level = this._currentLevel;
 	let wave = this._nextWaveNumber;
@@ -67,7 +45,7 @@ _generateWave: function() {
 	let numSquads = level._numSquadsAtT[wave];
 	
 	for (var i = squad; i < numSquads + squad; i++) {
-		this._enemyWave.push(level._enemies[i]);
+		this._enemyWave.push(level._enemySquad[i]);
 	}
 	
 	let nextWave = wave + 1;
@@ -102,8 +80,42 @@ _spawnEnemies: function() {
 
 _levelFinished: function() {
 	this._waitForLastKill = false;
-	this._currentLevel = this._currentLevel._nextLevel;
+	this._resetCurrentLevel();
+	this._loadLevel(this._nextLevel);
+},
+
+_loadLevel: function(levelNumber) {
+	let requestedLevel = this._levels[levelNumber];
+	
+	this._copyProperties(requestedLevel._enemiesSpawnAtT, 
+					 this._currentLevel._enemiesSpawnAtT);
+	this._copyProperties(requestedLevel._numSquadsAtT, 
+					 this._currentLevel._numSquadsAtT);
+	this._copyProperties(requestedLevel._enemySquad, 
+					 this._currentLevel._enemySquad);
+	
 	this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
+	this._nextLevel++;
+},
+
+_copyProperties: function(copyFrom, copyTo) {
+	for (var i=0; i < copyFrom.length; i++) {
+		if (copyFrom[i].length > 1) {
+			copyTo.push([]);
+			for (var j=0; j < copyFrom[i].length; j++) {
+				copyTo[i].push(copyFrom[i][j]);
+			}
+		}	
+		else {
+			copyTo.push(copyFrom[i]);
+		}
+	}
+},
+
+_resetCurrentLevel: function() {
+	this._currentLevel._enemiesSpawnAtT = [];
+	this._currentLevel._numSquadsAtT = [];
+	this._currentLevel._enemySquad = [];
 },
 
 
@@ -120,8 +132,77 @@ update: function(dt) {
 },
 
 init: function() {
-	this._currentLevel = this._levelOne;
-	this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
-}	
+	this._loadLevel(this._nextLevel);
+},
+
+
+
+// LEVELS
+
+_levels : [
 	
+	// LEVEL 1
+	{
+		_enemiesSpawnAtT: [3, 8, 12, 18],
+		_numSquadsAtT: [2,2,2,2],
+		_enemySquad: [
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1],
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1]
+		]
+	},
+	
+	// LEVEL 2
+	{
+		_enemiesSpawnAtT: [3, 8, 12, 18],
+		_numSquadsAtT: [2,2,2,2],
+		_enemySquad: [
+			[2,1,1,1],
+			[2,2,1,2],
+			[2,3,1,1],
+			[2,4,1,1],
+			[1,1,1,1],
+			[1,2,1,2],
+			[3,3,1,1],
+			[3,4,1,1]
+		]
+	},
+	
+	// LEVEL 3
+	{
+		_enemiesSpawnAtT: [3, 8, 12, 18],
+		_numSquadsAtT: [2,2,2,2],
+		_enemySquad: [
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1],
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1]
+		]
+	},
+	
+	// LEVEL 4
+	{
+		_enemiesSpawnAtT: [3, 8, 12, 18],
+		_numSquadsAtT: [2,2,2,2],
+		_enemySquad: [
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1],
+			[4,1,1,1],
+			[4,2,1,2],
+			[4,3,1,1],
+			[4,4,1,1]
+		]
+	},
+]	
 }

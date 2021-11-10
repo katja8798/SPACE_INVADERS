@@ -160,6 +160,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
+	paths.render(ctx);
     entityManager.render(ctx);
 	userInterface.render(ctx);
 
@@ -181,6 +182,9 @@ function requestPreloads() {
         heart  : "img/heart_full_32x32.png",
         bullet : "images/bullet.png",
         bee : "images/bee.png"
+        //ship   : "img/ship.png",
+        //ship2  : "img/ship_2.png",
+		//heart  : "img/heart_full_32x32.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -193,8 +197,8 @@ function preloadDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
+    //g_sprites.bullet = new Sprite(g_images.ship);
+    //g_sprites.bullet.scale = 0.25;
     g_sprites.bee = new Sprite(g_images.bee);
     g_sprites.bee.scale = 0.5;
     g_sprites.bullet = new Sprite(g_images.bullet);
@@ -202,6 +206,7 @@ function preloadDone() {
 
 	g_sprites.heart = new Sprite(g_images.heart);
 
+	paths.init();
 	levelManager.init();
     entityManager.init();
     createInitialShips();
