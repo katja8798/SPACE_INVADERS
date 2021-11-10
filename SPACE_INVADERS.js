@@ -81,6 +81,8 @@ var KEY_2 = keyCode('2');
 
 var KEY_K = keyCode('K');
 var backgroundMusicOn = false;
+var starting = true;
+var playing = false;
 
 function processDiagnostics() {
 
@@ -135,9 +137,7 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
-
     entityManager.render(ctx);
-
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
 
