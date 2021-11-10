@@ -167,33 +167,48 @@ function renderSimulation(ctx) {
 // PRELOAD STUFF
 // =============
 
-var g_images = {};
+let g_images = {};
+let g_sounds = {};
 
 function requestPreloads() {
 
-    var requiredImages = {
+    const requiredSounds = {
+        bulletFire : "sounds/bulletFire.ogg",
+        bulletZapped : "sounds/bulletZapped.ogg",
+        backgroundMusic : "sounds/backgroundMusic.ogg"
+    };
+
+    soundsPreload(requiredSounds, g_sounds, preloadSoundsDone)
+
+    const requiredImages = {
         ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png"
     };
 
-    imagesPreload(requiredImages, g_images, preloadDone);
+    imagesPreload(requiredImages, g_images, preloadImagesDone);
 }
 
 var g_sprites = {};
 
-function preloadDone() {
 
+function preloadSoundsDone() {
+}
+
+function preloadImagesDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
-
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
-
     entityManager.init();
     createInitialShips();
+    playGame();
+}
 
+function playGame(){
     main.init();
 }
+
+
 
 // Kick it off
 requestPreloads();
