@@ -92,6 +92,8 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
     }));
 },
 
+
+
 generatePowerUp : function (descr) {
   this._powerUps.push(new PowerUp(descr));
 },

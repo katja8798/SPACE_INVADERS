@@ -102,15 +102,15 @@ PowerUp.prototype.checkType = function (type) {
 };
 
 PowerUp.prototype.purple = function() {
-
+    //change bulet firing
 };
 
 PowerUp.prototype.yellow = function() {
-
+    //add ship speed
 };
 
 PowerUp.prototype.red = function() {
-
+    //add life
 };
 
 PowerUp.prototype.render = function (ctx) {
@@ -121,27 +121,3 @@ PowerUp.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
 };
-/*
-Rock.prototype.takeBulletHit = function () {
-    this.kill();
-
-    if (this.scale > 0.25) {
-        this._spawnFragment();
-        this._spawnFragment();
-
-        this.splitSound.play();
-    } else {
-        this.evaporateSound.play();
-    }
-};
-
-Rock.prototype._spawnFragment = function () {
-    entityManager.generateRock({
-        cx : this.cx,
-        cy : this.cy,
-        scale : this.scale /2
-    });
-};
-
-
-*/
