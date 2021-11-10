@@ -6,8 +6,8 @@
 
 /* jshint browser: true, devel: true, globalstrict: true */
 
-var g_canvas = document.getElementById("myCanvas");
-var g_ctx = g_canvas.getContext("2d");
+const g_canvas = document.getElementById("myCanvas");
+const g_ctx = g_canvas.getContext("2d");
 
 /*
 0        1         2         3         4         5         6         7         8
@@ -62,24 +62,24 @@ function updateSimulation(du) {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_allowMixedActions = true;
-var g_useGravity = false;
-var g_useAveVel = true;
-var g_renderSpatialDebug = false;
+let g_allowMixedActions = true;
+let g_useGravity = false;
+let g_useAveVel = true;
+let g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
-var KEY_GRAVITY = keyCode('G');
-var KEY_AVE_VEL = keyCode('V');
-var KEY_SPATIAL = keyCode('X');
+const KEY_MIXED = keyCode('M');
+const KEY_GRAVITY = keyCode('G');
+const KEY_AVE_VEL = keyCode('V');
+const KEY_SPATIAL = keyCode('X');
 
-var KEY_HALT  = keyCode('H');
-var KEY_RESET = keyCode('R');
+const KEY_HALT = keyCode('H');
+const KEY_RESET = keyCode('R');
 
 
-var KEY_1 = keyCode('1');
-var KEY_2 = keyCode('2');
+const KEY_1 = keyCode('1');
+const KEY_2 = keyCode('2');
 
-var KEY_K = keyCode('K');
+const KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
@@ -161,7 +161,7 @@ function requestPreloads() {
     imagesPreload(requiredImages, g_images, preloadImagesDone);
 }
 
-var g_sprites = {};
+let g_sprites = {};
 
 
 function preloadSoundsDone() {
