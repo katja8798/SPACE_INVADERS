@@ -21,12 +21,12 @@ function soundsPreload(requiredSounds, loadedSounds, completionCallback) {
             if (numSoundsHandled === numSoundsRequired) {
                 completionCallback();
             }
+            numSoundsHandled++;
         };
 
     for(currName in requiredSounds) {
         loadedSounds[currName] = new Audio();
         loadedSounds[currName].addEventListener('loaded', loaded, false);
         loadedSounds[currName].src = requiredSounds[currName];
-        numSoundsHandled++;
     }
 }
