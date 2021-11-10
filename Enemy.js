@@ -9,13 +9,15 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 	this._type = type;
 	
 	this._manoeuvre = manoeuvre;
+
+
 	
-	this.sprite = g_sprites.ship2;
+	this.sprite = g_sprites.bee;
 	
 	this._scale = 1;
 	
 
-};
+}
 
 Enemy.prototype = new Entity();
 
@@ -77,3 +79,16 @@ Enemy.prototype.render = function (ctx) {
 	);
 	this.sprite.scale = origScale;
 };
+
+Enemy.prototype.takeBulletHit = function(){
+	console.log("TAKInG HIT OOOMG");
+
+		this._spawnFragment();
+
+
+}
+Enemy.prototype._spawnFragment = function(){
+	this._isDeadNow = true;
+	console.log("ætti að hverfa held ég...");
+}
+

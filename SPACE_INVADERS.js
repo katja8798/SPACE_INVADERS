@@ -176,14 +176,11 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship   : "images/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-		heart  : "img/heart_full_32x32.png"
-        //ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-
-       // ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        alien : "images/alien.png",
-        green_bullet : "images/green_bullet.png"
+        heart  : "img/heart_full_32x32.png",
+        bullet : "images/bullet.png",
+        bee : "images/bee.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -198,6 +195,10 @@ function preloadDone() {
 
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
+    g_sprites.bee = new Sprite(g_images.bee);
+    g_sprites.bee.scale = 0.5;
+    g_sprites.bullet = new Sprite(g_images.bullet);
+    g_sprites.bullet.scale = 0.5;
 
 	g_sprites.heart = new Sprite(g_images.heart);
 
