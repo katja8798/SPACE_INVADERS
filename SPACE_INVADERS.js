@@ -114,8 +114,7 @@ function processDiagnostics() {
         g_mouseX, g_mouseY);
 
     if(!backgroundMusicOn) {
-        g_sounds.backgroundMusic3.loop = true;
-        g_sounds.backgroundMusic3.play();
+        playMusic(g_sounds.backgroundMusic3);
         backgroundMusicOn = true;
     }
 }
@@ -153,6 +152,11 @@ var g_images = {},
 function playSound(p){
     p.pause();
     p.currentTime = 0;
+    p.play();
+}
+
+function playMusic(p){
+    p.loop = true;
     p.play();
 }
 
