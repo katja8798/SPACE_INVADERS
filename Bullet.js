@@ -12,7 +12,7 @@
 */
 
 
-// A generic contructor which accepts an arbitrary descriptor object
+// A generic constructor which accepts an arbitrary descriptor object
 function Bullet(descr) {
 
     // Common inherited setup logic from Entity
@@ -20,7 +20,7 @@ function Bullet(descr) {
 
     // Make a noise when I am created (i.e. fired)
     playSound(g_sounds.bulletFire);
-    //g_sounds.bulletFire.play();
+
 /*
     // Diagnostics to check inheritance stuff
     this._bulletProperty = true;
