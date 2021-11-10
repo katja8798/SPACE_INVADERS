@@ -13,14 +13,23 @@ var paths = {
 _paths : [],
 
 // TODO: Make a combination of key presses change which path to draw
-//		 for debug purposes. Change the render function accordingly.
+//		 for debug/visualization purposes. 
+//		 Change the render function accordingly.
 _drawPath : 0,
 
 // PRIVATE METHODS
 
-// Calculate and return a point on a cubic Bezier curve
-// for any given t, where 0 <= t <= 1.
-_bezierPoint : function (t, p0, p1, p2, p3) {
+// Generates a cubic Bezier curve
+// n = number of points generated on the curve
+// p0 = starting point of curve {x0,y0}
+// p1, p2 = control points, (usually) not on curve
+// p3 = end point of curve {xn,yn}
+_bezierCurve : function (n, p0, p1, p2, p3) {
+	
+	let curve = [];
+	let t = 0;
+	let dt = 1/n;
+	
 	// Intermediate points
 	let c1 = {	x : 3*(p1.x - p0.x),
 				y : 3*(p1.y - p0.y)};
@@ -30,34 +39,23 @@ _bezierPoint : function (t, p0, p1, p2, p3) {
 				
 	let c3 = {	x : p3.x - p0.x - c1.x - c2.x,
 				y : p3.y - p0.y - c1.y - c2.y};
-				
-	// Calculate point on the curve
-	let tt = util.square(t)
 	
-	let p = {
-		x : Math.round((tt * t * c3.x) + (tt * c2.x) + (t * c1.x) + p0.x),
-		y : Math.round((tt * t * c3.y) + (tt * c2.y) + (t * c1.y) + p0.y)
-	}
-	
-	return p;
-},
 
-// Generates a cubic Bezier curve
-// n = number of points generated on the curve
-// p0 = starting point of curve {x0,y0}
-// p1, p2 = control points, (usually) not on curve
-// p3 = end point of curve {xn,yn}
-_bezierCurve : function (n, p0, p1, p2, p3) {
-	let a_bezier = [];
-	let dt = 1 / n;
-	let t = 0;
-	
 	for (var i = 0; i < n; i++) {
 		t += dt;
-		let p = this._bezierPoint(t, p0, p1, p2, p3);
-		a_bezier.push(p);
+		
+		// Calculate point on the curve
+		let tt = util.square(t)
+		
+		let p = {
+			x : Math.round((tt * t * c3.x) + (tt * c2.x) + (t * c1.x) + p0.x),
+			y : Math.round((tt * t * c3.y) + (tt * c2.y) + (t * c1.y) + p0.y)
+		}
+		
+		curve.push(p);
 	}
-	return a_bezier;
+	
+	return curve;
 },
 
 _circleManoeuvre : function (n, r) {},
