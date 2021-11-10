@@ -74,6 +74,7 @@ render: function(ctx) {
     for (var ID in this._entities) {
         var e = this._entities[ID];
         util.strokeCircle(ctx, e.posX, e.posY, e.radius);
+        console.log(e.radius);
     }
     ctx.strokeStyle = oldStyle;
 }

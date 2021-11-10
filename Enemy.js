@@ -44,7 +44,8 @@ Enemy.prototype.waitT = 16;
 Enemy.prototype.update = function (du) {
 	
 	spatialManager.unregister(this);
-    if(this._isDeadNow){
+
+	if(this._isDeadNow){
         return entityManager.KILL_ME_NOW;
     }
 	
@@ -62,6 +63,10 @@ Enemy.prototype.update = function (du) {
 	
 	spatialManager.register(this);
 };
+
+Enemy.prototype.getRadius = function() {
+	return (this.sprite.width / 2) * 0.9;
+}
 
 // TODO: this._pointN must be set equal to number of points generated
 // 		 for this implementation to work. FIX!
@@ -90,6 +95,10 @@ Enemy.prototype.followPath = function(du) {
 		}
 		this._pointN += 1;
 	}
+};
+
+Enemy.prototype.takeBulletHit = function () {
+    this.kill();
 };
 
 Enemy.prototype.initialize = function (number, spawnLocation) {
