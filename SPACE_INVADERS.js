@@ -179,7 +179,8 @@ function requestPreloads() {
     var requiredImages = {
         ship   : "img/ship.png",
         ship2  : "img/ship_2.png",
-		heart  : "img/heart_full_32x32.png"
+		heart  : "img/heart_full_32x32.png",
+        purpleRock : "img/purpleRock.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -196,6 +197,8 @@ function preloadDone() {
     g_sprites.bullet.scale = 0.25;
 	
 	g_sprites.heart = new Sprite(g_images.heart);
+
+    g_sprites.purpleRock = new Sprite(g_images.purpleRock);
 
 	paths.init();
 	levelManager.init();
