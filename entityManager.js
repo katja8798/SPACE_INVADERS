@@ -30,6 +30,7 @@ var entityManager = {
 _bullets : [],
 _ships   : [],
 _enemies : [],
+_powerUps : [],
 
 
 // "PRIVATE" METHODS
@@ -77,7 +78,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._bullets, this._ships, this._enemies];
+    this._categories = [this._bullets, this._ships, this._enemies, this._powerUps];
 },
 
 fireBullet: function(cx, cy, velX, velY, rotation) {
@@ -89,6 +90,10 @@ fireBullet: function(cx, cy, velX, velY, rotation) {
 
         rotation : rotation
     }));
+},
+
+generatePowerUp : function (descr) {
+  this._powerUps.push(new PowerUp(descr));
 },
 
 generateShip : function(descr) {

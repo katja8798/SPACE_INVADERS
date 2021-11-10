@@ -2,17 +2,17 @@
 // POWER UP STUFF
 // ==========
 
-function PowerUps(descr) {
+function PowerUp(descr) {
 
     this.setup(descr);
 
 }
 
-PowerUps.prototype = new Entity();
+PowerUp.prototype = new Entity();
 
 // Initial, inheritable, default values
 
-PowerUps.prototype.update = function (du) {
+PowerUp.prototype.update = function (du) {
 
     spatialManager.unregister(this);
 
@@ -23,15 +23,15 @@ PowerUps.prototype.update = function (du) {
     spatialManager.register(this);
 };
 
-PowerUps.prototype.getRadius = function() {
+PowerUp.prototype.getRadius = function() {
     return (this.sprite.width / 2) * 0.9;
 }
 
-PowerUps.prototype.takeBulletHit = function () {
+PowerUp.prototype.takeBulletHit = function () {
     this.kill();
 };
 
-PowerUps.prototype.render = function (ctx) {
+PowerUp.prototype.render = function (ctx) {
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
     this.sprite.drawCentredAt(
