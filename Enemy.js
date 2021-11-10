@@ -139,10 +139,12 @@ Enemy.prototype.takeBulletHit = function(){
 
 		this._spawnFragment();
 
-
 }
 Enemy.prototype._spawnFragment = function(){
 	this._isDeadNow = true;
 	console.log("ætti að hverfa held ég...");
 }
 
+Enemy.prototype.getRadius = function(){
+	return (this.sprite.width/4);
+}

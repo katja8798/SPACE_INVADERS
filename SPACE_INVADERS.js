@@ -196,9 +196,6 @@ function preloadDone() {
 
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
-
-    //g_sprites.bullet = new Sprite(g_images.ship);
-    //g_sprites.bullet.scale = 0.25;
     g_sprites.bee = new Sprite(g_images.bee);
     g_sprites.bee.scale = 0.5;
     g_sprites.bullet = new Sprite(g_images.bullet);
