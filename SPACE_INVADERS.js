@@ -114,8 +114,8 @@ function processDiagnostics() {
         g_mouseX, g_mouseY);
 
     if(!backgroundMusicOn) {
-        playSound(g_sounds.music);
-        g_sounds.music.loop=true;
+        g_sounds.backgroundMusic3.loop = true;
+        g_sounds.backgroundMusic3.play();
         backgroundMusicOn = true;
     }
 }
@@ -163,7 +163,7 @@ function requestPreloads() {
         bulletZapped : "sounds/bulletZapped.ogg",
         backgroundMusic : "sounds/backgroundMusic.ogg",
         backgroundMusic2 : "sounds/backgroundMusic2.ogg",
-        music : "sounds/music.ogg"
+        backgroundMusic3 : "sounds/music.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
