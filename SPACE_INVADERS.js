@@ -254,7 +254,7 @@ var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
+var KEY_MIXED   = keyCode('M');
 var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
@@ -336,6 +336,12 @@ function renderSimulation(ctx) {
 
 var g_images = {},
     g_sounds = {};
+
+function playSound(p){
+    p.pause();
+    p.currentTime = 0;
+    p.play();
+}
 
 
 function requestPreloads() {
