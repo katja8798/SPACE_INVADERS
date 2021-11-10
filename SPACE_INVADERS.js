@@ -160,6 +160,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
+	paths.render(ctx);
     entityManager.render(ctx);
 	userInterface.render(ctx);
 
@@ -176,8 +177,8 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        ship   : "img/ship.png",
+        ship2  : "img/ship_2.png",
 		heart  : "img/heart_full_32x32.png"
     };
 
@@ -196,6 +197,7 @@ function preloadDone() {
 	
 	g_sprites.heart = new Sprite(g_images.heart);
 
+	paths.init();
 	levelManager.init();
     entityManager.init();
     createInitialShips();
