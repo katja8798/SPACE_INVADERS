@@ -10,9 +10,9 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 	
 	this._manoeuvre = manoeuvre;
 	
-	this.sprite = g_sprites.ship2;
+	this.sprite = g_sprites.bee;
 	
-	this.width = g_sprites.ship2.width;
+	this.width = g_sprites.bee.width;
 
 	this._scale = 0.5;
 
@@ -21,7 +21,7 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 
 	this._spawnPoint = spawnLocation - 1;
 	
-	this._path = path;
+	//this._path = path;
 
 	this._manoN = 0;
 
