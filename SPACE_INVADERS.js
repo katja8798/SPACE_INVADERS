@@ -53,6 +53,13 @@ function createInitialShips() {
     });
 }
 
+function createPowerUp() {
+    entityManager.generatePowerUp({
+        cx : g_canvas.width/2,
+        cy : g_canvas.height/2
+    });
+}
+
 // =============
 // GATHER INPUTS
 // =============
@@ -204,6 +211,7 @@ function preloadDone() {
 	levelManager.init();
     entityManager.init();
     createInitialShips();
+    createPowerUp();
 
     main.init();
 }
