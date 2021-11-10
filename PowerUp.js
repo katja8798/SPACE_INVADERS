@@ -25,8 +25,9 @@ PowerUp.prototype.cx = 200;
 PowerUp.prototype.cy = 200;
 PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 0;
-PowerUp.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
+PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
 PowerUp.prototype.hasBeenHit = false;
+PowerUp.prototype.type = "purple";
 
 PowerUp.prototype.update = function (du) {
 
@@ -46,9 +47,6 @@ PowerUp.prototype.update = function (du) {
         }
     }
 };
-
-var NOMINAL_ROTATE_RATE = 0.1;
-
 
 PowerUp.prototype.getRadius = function() {
     return this._scale*(this.sprite.width / 2) * 0.9;
@@ -79,17 +77,39 @@ PowerUp.prototype.randomiseVelocity = function () {
 };
 
 PowerUp.prototype.takeBulletHit = function () {
-    this.hit = true;
+    this.hasBeenHit = true;
+    spatialManager.unregister(this);
+    this.checkType(this.type);
     this.cx = g_canvas.width-this.sprite.width;
     this.cy = g_canvas.height-this.sprite.height;
     this.velX = 0;
     this.velY = 0;
-    this.countDown();
-
-    //TODO add so it makes changes a.k.a. power ups
 };
 
-PowerUp.prototype.countDown = function() {
+PowerUp.prototype.checkType = function (type) {
+  switch (type) {
+      case "purple":
+          this.purple();
+          break;
+      case "red":
+          this.purple();
+          break;
+      case "yellow":
+          this.purple();
+          break;
+      default:
+  }
+};
+
+PowerUp.prototype.purple = function() {
+
+};
+
+PowerUp.prototype.yellow = function() {
+
+};
+
+PowerUp.prototype.red = function() {
 
 };
 
@@ -102,30 +122,6 @@ PowerUp.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
 };
 /*
-
-Rock.prototype.update = function (du) {
-
-    spatialManager.unregister(this);
-    if (this._isDeadNow) {
-        return entityManager.KILL_ME_NOW;
-    }
-
-    this.cx += this.velX * du;
-    this.cy += this.velY * du;
-
-    this.rotation += 1 * this.velRot;
-    this.rotation = util.wrapRange(this.rotation,
-        0, consts.FULL_CIRCLE);
-
-    this.wrapPosition();
-
-    spatialManager.register(this);
-};
-
-Rock.prototype.getRadius = function () {
-    return this.scale * (this.sprite.width / 2) * 0.9;
-};
-
 Rock.prototype.takeBulletHit = function () {
     this.kill();
 
@@ -147,12 +143,5 @@ Rock.prototype._spawnFragment = function () {
     });
 };
 
-Rock.prototype.render = function (ctx) {
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this.scale;
-    this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );
-};
+
 */
