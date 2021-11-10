@@ -114,11 +114,8 @@ function processDiagnostics() {
         g_mouseX, g_mouseY);
 
     if(!backgroundMusicOn) {
-        playSound(g_sounds.backgroundMusicWav);
-        g_sounds.backgroundMusicWav.onended = function () {
-            g_sounds.backgroundMusicWav.currentTime = 0;
-            g_sounds.backgroundMusicWav.play();
-        }
+        playSound(g_sounds.music);
+        g_sounds.music.loop=true;
         backgroundMusicOn = true;
     }
 }
@@ -166,7 +163,7 @@ function requestPreloads() {
         bulletZapped : "sounds/bulletZapped.ogg",
         backgroundMusic : "sounds/backgroundMusic.ogg",
         backgroundMusic2 : "sounds/backgroundMusic2.ogg",
-        backgroundMusicWav : "sounds/backgroundMusicWav.ogg"
+        music : "sounds/music.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
