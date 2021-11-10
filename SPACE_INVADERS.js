@@ -114,8 +114,11 @@ function processDiagnostics() {
         g_mouseX, g_mouseY);
 
     if(!backgroundMusicOn) {
-        g_sounds.backgroundMusic.loop = true;
-        playSound(g_sounds.backgroundMusic2);
+        playSound(g_sounds.backgroundMusicWav);
+        g_sounds.backgroundMusicWav.onended = function () {
+            g_sounds.backgroundMusicWav.currentTime = 0;
+            g_sounds.backgroundMusicWav.play();
+        }
         backgroundMusicOn = true;
     }
 }
@@ -162,7 +165,8 @@ function requestPreloads() {
         bulletFire : "sounds/bulletFire.ogg",
         bulletZapped : "sounds/bulletZapped.ogg",
         backgroundMusic : "sounds/backgroundMusic.ogg",
-        backgroundMusic2 : "sounds/backgroundMusic2.ogg"
+        backgroundMusic2 : "sounds/backgroundMusic2.ogg",
+        backgroundMusicWav : "sounds/backgroundMusicWav.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
@@ -199,4 +203,5 @@ function playGame(){
 
 // Kick it off
 requestPreloads();
+
 
