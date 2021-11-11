@@ -64,7 +64,7 @@ function createPowerUp(type) {
     entityManager.generatePowerUp({
         cx : g_canvas.width/2,
         cy : g_canvas.height/2,
-        type : type
+        sprite : g_sprites.type
     });
 }
 
@@ -77,19 +77,19 @@ function generatePowerUpType() {
         case 3:
         case 4:
         case 5:
-            type = "purple";
+            type = "purpleRock";
             break;
         case 6:
         case 7:
         case 8:
-            type = "purple";
+            type = "greenRock";
             break;
         case 9:
         case 10:
-            type = "purple";
+            type = "yellowRock";
             break;
         default:
-            type = "purple";
+            type = "purpleRock";
             break;
     }
 
@@ -141,7 +141,7 @@ var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
+var KEY_MIXED   = keyCode('M');
 var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
