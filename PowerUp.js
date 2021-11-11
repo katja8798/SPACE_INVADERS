@@ -5,29 +5,18 @@
 function PowerUp(descr) {
 
     this.setup(descr);
-
-    // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.purpleRock;
-
+    //this.powerUpType();
+    this.sprite = this.sprite || g_sprites.greenRock;
     this.randomisePosition();
     this.randomiseVelocity();
 
-    // Set normal drawing scale, and warp state off
+    this.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
+    this.hasBeenHit = false;
     this._scale = 1;
 
 }
 
 PowerUp.prototype = new Entity();
-
-// Initial, inheritable, default values
-PowerUp.prototype.rotation = 0;
-//PowerUp.prototype.cx = 200;
-//PowerUp.prototype.cy = 200;
-PowerUp.prototype.velX = 0;
-PowerUp.prototype.velY = 0;
-PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
-PowerUp.prototype.hasBeenHit = false;
-PowerUp.prototype.type = "purple";
 
 PowerUp.prototype.update = function (du) {
     if (!this.hasBeenHit) {
@@ -59,8 +48,8 @@ PowerUp.prototype.getRadius = function() {
 
 PowerUp.prototype.randomisePosition = function () {
     // Rock randomisation defaults (if nothing otherwise specified)
-    this.cx = Math.random() * g_canvas.width;
-    this.cy = Math.random() * g_canvas.height;
+    this.cx = this.cx || Math.random() * g_canvas.width;
+    this.cy = this.cy || Math.random() * g_canvas.height;
     this.rotation = this.rotation || 0;
 };
 
@@ -84,25 +73,26 @@ PowerUp.prototype.randomiseVelocity = function () {
 PowerUp.prototype.takeBulletHit = function () {
     this.hasBeenHit = true;
     spatialManager.unregister(this);
-    this.checkType(this.type);
+    this.checkType();
     this.cx = g_canvas.width-this.sprite.width;
     this.cy = g_canvas.height-this.sprite.height;
     this.velX = 0;
     this.velY = 0;
 };
 
-PowerUp.prototype.checkType = function (type) {
-  switch (type) {
-      case "purple":
+PowerUp.prototype.checkType = function () {
+  switch (this.sprite) {
+      case g_sprites.purpleRock:
           this.purple();
           break;
-      case "red":
-          this.red();
+      case g_sprites.greenRock:
+          this.green();
           break;
-      case "yellow":
+      case g_sprites.yellowRock:
           this.yellow();
           break;
       default:
+          this.purple();
   }
 };
 
@@ -114,7 +104,7 @@ PowerUp.prototype.yellow = function() {
     //TODO add ship speed
 };
 
-PowerUp.prototype.red = function() {
+PowerUp.prototype.green = function() {
     //TODO add life
 };
 

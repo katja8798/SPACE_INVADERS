@@ -55,45 +55,51 @@ function createInitialShips() {
 
 function maybeGeneratePowerUp() {
     var chance = util.randRange(0,1000);
-    if (chance <= 5) {
-        createPowerUp(generatePowerUpType());
+    if (chance < 500) {
+        createPowerUp();
     }
 }
 
-function createPowerUp(type) {
+function createPowerUp() {
+    //generatePowerUpType();
     entityManager.generatePowerUp({
-        cx : g_canvas.width/2,
-        cy : g_canvas.height/2,
-        sprite : g_sprites.type
+        sprite : g_sprites.yellowRock
     });
+
 }
 
 function generatePowerUpType() {
-    var type = util.randRange(1,10);
+    var num = Math.round(util.randRange(1,10));
 
-    switch (type) {
+    switch (num) {
         case 1:
         case 2:
         case 3:
         case 4:
         case 5:
-            type = "purpleRock";
+            entityManager.generatePowerUp({
+                sprite : g_sprites.purpleRock
+            });
             break;
         case 6:
         case 7:
         case 8:
-            type = "greenRock";
+            entityManager.generatePowerUp({
+                sprite : g_sprites.purpleRock
+            });
             break;
         case 9:
         case 10:
-            type = "yellowRock";
+            entityManager.generatePowerUp({
+                sprite : g_sprites.purpleRock
+            });
             break;
         default:
-            type = "purpleRock";
+            entityManager.generatePowerUp({
+                sprite : g_sprites.purpleRock
+            });
             break;
     }
-
-    return type
 }
 
 // =============
@@ -224,7 +230,9 @@ function requestPreloads() {
         ship   : "img/ship.png",
         ship2  : "img/ship_2.png",
 		heart  : "img/heart_full_32x32.png",
-        purpleRock : "img/purpleRock.png"
+        purpleRock : "img/purpleRock.png",
+        greenRock : "img/greenRock.png",
+        yellowRock : "img/yellowRock.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
