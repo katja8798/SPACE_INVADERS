@@ -21,8 +21,8 @@ PowerUp.prototype = new Entity();
 
 // Initial, inheritable, default values
 PowerUp.prototype.rotation = 0;
-PowerUp.prototype.cx = 200;
-PowerUp.prototype.cy = 200;
+//PowerUp.prototype.cx = 200;
+//PowerUp.prototype.cy = 200;
 PowerUp.prototype.velX = 0;
 PowerUp.prototype.velY = 0;
 PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
@@ -30,9 +30,14 @@ PowerUp.prototype.hasBeenHit = false;
 PowerUp.prototype.type = "purple";
 
 PowerUp.prototype.update = function (du) {
-
     if (!this.hasBeenHit) {
         spatialManager.unregister(this);
+
+        //Kill if it reaches the edge
+        if (this.cy < 0-this.getRadius() || this.cy > g_canvas.height+this.getRadius() ||
+            this.cx < 0-this.getRadius() || this.cx > g_canvas.width+this.getRadius()){
+            return entityManager.KILL_ME_NOW;
+        }
 
         this.cx += this.velX * du;
         this.cy += this.velY * du;
@@ -54,8 +59,8 @@ PowerUp.prototype.getRadius = function() {
 
 PowerUp.prototype.randomisePosition = function () {
     // Rock randomisation defaults (if nothing otherwise specified)
-    this.cx = this.cx || Math.random() * g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height;
+    this.cx = Math.random() * g_canvas.width;
+    this.cy = Math.random() * g_canvas.height;
     this.rotation = this.rotation || 0;
 };
 

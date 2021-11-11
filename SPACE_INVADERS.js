@@ -53,12 +53,47 @@ function createInitialShips() {
     });
 }
 
-function createPowerUp() {
+function maybeGeneratePowerUp() {
+    var chance = util.randRange(0,1000);
+    if (chance <= 5) {
+        createPowerUp(generatePowerUpType());
+    }
+}
+
+function createPowerUp(type) {
     entityManager.generatePowerUp({
         cx : g_canvas.width/2,
         cy : g_canvas.height/2,
-        type : "purple"
+        type : type
     });
+}
+
+function generatePowerUpType() {
+    var type = util.randRange(1,10);
+
+    switch (type) {
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            type = "purple";
+            break;
+        case 6:
+        case 7:
+        case 8:
+            type = "purple";
+            break;
+        case 9:
+        case 10:
+            type = "purple";
+            break;
+        default:
+            type = "purple";
+            break;
+    }
+
+    return type
 }
 
 // =============
@@ -92,7 +127,8 @@ function updateSimulation(dt, du) {
 	levelManager.update(dt);
     
     entityManager.update(du);
-	
+
+    maybeGeneratePowerUp();
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
@@ -212,7 +248,6 @@ function preloadDone() {
 	levelManager.init();
     entityManager.init();
     createInitialShips();
-    createPowerUp();
 
     main.init();
 }
