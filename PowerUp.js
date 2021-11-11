@@ -6,7 +6,7 @@ function PowerUp(descr) {
 
     this.setup(descr);
     //this.powerUpType();
-    this.sprite = this.sprite || g_sprites.greenRock;
+    this.sprite = this.sprite || g_sprites.purpleRock;
     this.randomisePosition();
     this.randomiseVelocity();
 

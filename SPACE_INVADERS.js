@@ -53,55 +53,6 @@ function createInitialShips() {
     });
 }
 
-function maybeGeneratePowerUp() {
-    var chance = util.randRange(0,1000);
-    if (chance < 500) {
-        createPowerUp();
-    }
-}
-
-function createPowerUp() {
-    //generatePowerUpType();
-    entityManager.generatePowerUp({
-        sprite : g_sprites.yellowRock
-    });
-
-}
-
-function generatePowerUpType() {
-    var num = Math.round(util.randRange(1,10));
-
-    switch (num) {
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            entityManager.generatePowerUp({
-                sprite : g_sprites.purpleRock
-            });
-            break;
-        case 6:
-        case 7:
-        case 8:
-            entityManager.generatePowerUp({
-                sprite : g_sprites.purpleRock
-            });
-            break;
-        case 9:
-        case 10:
-            entityManager.generatePowerUp({
-                sprite : g_sprites.purpleRock
-            });
-            break;
-        default:
-            entityManager.generatePowerUp({
-                sprite : g_sprites.purpleRock
-            });
-            break;
-    }
-}
-
 // =============
 // GATHER INPUTS
 // =============
@@ -134,7 +85,7 @@ function updateSimulation(dt, du) {
     
     entityManager.update(du);
 
-    maybeGeneratePowerUp();
+    entityManager.maybeGeneratePowerUp();
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
@@ -251,6 +202,8 @@ function preloadDone() {
 	g_sprites.heart = new Sprite(g_images.heart);
 
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
+    g_sprites.greenRock = new Sprite(g_images.greenRock);
+    g_sprites.yellowRock = new Sprite(g_images.yellowRock);
 
 	paths.init();
 	levelManager.init();

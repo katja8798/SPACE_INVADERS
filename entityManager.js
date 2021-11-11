@@ -108,6 +108,43 @@ generateEnemies : function(n, l, t, m) {
 	}
 },
 
+maybeGeneratePowerUp : function() {
+    var chance = util.randRange(0,1000);
+    if (chance < 5) {
+        var num = Math.round(util.randRange(1, 10));
+
+        switch (num) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                entityManager.generatePowerUp({
+                    sprite: g_sprites.purpleRock
+                });
+                break;
+            case 6:
+            case 7:
+            case 8:
+                entityManager.generatePowerUp({
+                    sprite: g_sprites.greenRock
+                });
+                break;
+            case 9:
+            case 10:
+                entityManager.generatePowerUp({
+                    sprite: g_sprites.yellowRock
+                });
+                break;
+            default:
+                entityManager.generatePowerUp({
+                    sprite: g_sprites.purpleRock
+                });
+                break;
+        }
+    }
+},
+
 killNearestShip : function(xPos, yPos) {
     var theShip = this._findNearestShip(xPos, yPos).theShip;
     if (theShip) {
