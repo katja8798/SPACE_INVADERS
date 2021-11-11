@@ -92,25 +92,25 @@ PowerUp.prototype.checkType = function (type) {
           this.purple();
           break;
       case "red":
-          this.purple();
+          this.red();
           break;
       case "yellow":
-          this.purple();
+          this.yellow();
           break;
       default:
   }
 };
 
 PowerUp.prototype.purple = function() {
-    //change bulet firing
+    //TODO change bullet firing
 };
 
 PowerUp.prototype.yellow = function() {
-    //add ship speed
+    //TODO add ship speed
 };
 
 PowerUp.prototype.red = function() {
-    //add life
+    //TODO add life
 };
 
 PowerUp.prototype.render = function (ctx) {
