@@ -16,13 +16,13 @@ e.g. general collision detection.
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
 */
 
-var spatialManager = {
+const spatialManager = {
 
 // "PRIVATE" DATA
 
-_nextSpatialID : 1, // make all valid IDs non-falsey (i.e. don't start at 0)
+    _nextSpatialID: 1, // make all valid IDs non-falsey (i.e. don't start at 0)
 
-_entities : [],
+    _entities: [],
 
 // "PRIVATE" METHODS
 //
@@ -31,52 +31,52 @@ _entities : [],
 
 // PUBLIC METHODS
 
-getNewSpatialID : function() {
-    return this._nextSpatialID++;
-},
+    getNewSpatialID: function () {
+        return this._nextSpatialID++;
+    },
 
-register: function(entity) {
-    var pos = entity.getPos();
-    var spatialID = entity.getSpatialID();
+    register: function (entity) {
+        const pos = entity.getPos();
+        const spatialID = entity.getSpatialID();
 
-    this._entities[spatialID] = entity;
-    this._entities[spatialID].posX = pos.posX;
-    this._entities[spatialID].posY = pos.posY;
-    this._entities[spatialID].radius = entity.getRadius();
-},
+        this._entities[spatialID] = entity;
+        this._entities[spatialID].posX = pos.posX;
+        this._entities[spatialID].posY = pos.posY;
+        this._entities[spatialID].radius = entity.getRadius();
+    },
 
-unregister: function(entity) {
-    var spatialID = entity.getSpatialID();
+    unregister: function (entity) {
+        const spatialID = entity.getSpatialID();
 
-    delete this._entities[spatialID];
-},
+        delete this._entities[spatialID];
+    },
 
-findEntityInRange: function(posX, posY, radius) {
-    for (let id in this._entities) {
-        let entity = this._entities[id];
-        if (entity) {
-            let ePosX = entity.posX,
-                ePosY = entity.posY,
-                eRad = entity.radius;
-            if (Math.sqrt(Math.pow(posX - ePosX, 2) + Math.pow(posY - ePosY, 2)) <
-                radius+eRad) {
-                return entity;
+    findEntityInRange: function (posX, posY, radius) {
+        for (let id in this._entities) {
+            let entity = this._entities[id];
+            if (entity) {
+                let ePosX = entity.posX,
+                    ePosY = entity.posY,
+                    eRad = entity.radius;
+                if (Math.sqrt(Math.pow(posX - ePosX, 2) + Math.pow(posY - ePosY, 2)) <
+                    radius + eRad) {
+                    return entity;
+                }
             }
         }
-    }
-    return false;
-},
+        return false;
+    },
 
-render: function(ctx) {
-    var oldStyle = ctx.strokeStyle;
-    ctx.strokeStyle = "red";
-    
-    for (var ID in this._entities) {
-        var e = this._entities[ID];
-        util.strokeCircle(ctx, e.posX, e.posY, e.radius);
-        console.log(e.radius);
-    }
-    ctx.strokeStyle = oldStyle;
-}
+    render: function (ctx) {
+        const oldStyle = ctx.strokeStyle;
+        ctx.strokeStyle = "red";
 
-}
+        for (const ID in this._entities) {
+            const e = this._entities[ID];
+            util.strokeCircle(ctx, e.posX, e.posY, e.radius);
+            console.log(e.radius);
+        }
+        ctx.strokeStyle = oldStyle;
+    }
+
+};
