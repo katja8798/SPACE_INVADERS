@@ -77,6 +77,8 @@ const  KEY_MUSIC = keyCode('N')
 
 let backgroundMusicOn = true;
 
+const g_sounds = {};
+
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
@@ -128,17 +130,16 @@ function renderSimulation(ctx) {
 // PRELOAD STUFF
 // =============
 
-var g_images = {},
-    g_sounds = {};
+const g_images = {};
 
 function requestPreloads() {
 
-    var requiredSounds = {
-        bulletFire : "sounds/bulletFire.ogg",
-        bulletZapped : "sounds/bulletZapped.ogg",
-        backgroundMusic : "sounds/backgroundMusic.ogg",
-        backgroundMusic2 : "sounds/backgroundMusic2.ogg",
-        backgroundMusic3 : "sounds/music.ogg"
+    const requiredSounds = {
+        bulletFire: "sounds/bulletFire.ogg",
+        bulletZapped: "sounds/bulletZapped.ogg",
+        backgroundMusic: "sounds/backgroundMusic.ogg",
+        backgroundMusic2: "sounds/backgroundMusic2.ogg",
+        backgroundMusic3: "sounds/music.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
