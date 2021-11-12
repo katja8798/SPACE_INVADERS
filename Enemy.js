@@ -37,11 +37,14 @@ Enemy.prototype = new Entity();
 Enemy.prototype.rotation = 0;
 Enemy.prototype.cx = -10;
 Enemy.prototype.cy = -10;
-Enemy.prototype.velX = -4;
-Enemy.prototype.velY = 4;
+Enemy.prototype.velX = 0;
+Enemy.prototype.velY = 0;
 Enemy.prototype.waitT = 16;
 
 Enemy.prototype.update = function (du) {
+	
+	let oldX = this.cx;
+	let oldY = this.cy;
 	
 	spatialManager.unregister(this);
     if(this._isDeadNow){
@@ -54,8 +57,12 @@ Enemy.prototype.update = function (du) {
 	
 	if (this._onPath) {
 		this.followPath(du);
+		
+		this.velX = oldX - this.cx;
+		this.velY = oldY - this.cy;
 	}
-	else {
+	else {	
+	
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
 	}
@@ -82,6 +89,23 @@ Enemy.prototype.followPath = function(du) {
 			
 		if (nextPoint === 0) {
 			this._onPath = false;
+			
+			// Give enemies speed boost when they leave path
+			// if needed
+			if (this.velX > -10 && this.velX < 0) {
+				this.velX *= 2;
+			}
+			else if (this.velX < 10) {
+				this.velX *= 2;
+			}
+			
+			if (this.velY > -10 && this.velY < 0) {
+				this.velY *= 2;
+			}
+			else if (this.velY < 10) {
+				this.velY *= 2;
+			}
+			
 			this.cx += this.velX * du;
 			this.cy += this.velY * du;
 		} else {
@@ -130,4 +154,14 @@ Enemy.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, this.rotation
 	);
 	this.sprite.scale = origScale;
+};
+
+// Kill enemies that have 'fled' too far away
+Enemy.prototype.outOfBounds = function (x, y) {
+	
+	if (x < -100 || x > g_canvas.width + 100 ||
+		y < -100 || y > g_canvas.width + 100) {
+		
+		this.kill();
+	}
 };
