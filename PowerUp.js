@@ -47,9 +47,34 @@ PowerUp.prototype.getRadius = function() {
 }
 
 PowerUp.prototype.randomisePosition = function () {
+    let chance = Math.random(),
+        x,
+        y;
+
+    //always appear at random edge
+    if (chance < 0.25) {
+        x = 0;
+        y = Math.random() * g_canvas.height;
+    } else if (chance < 0.5) {
+        x = g_canvas.width;
+        y = Math.random() * g_canvas.height;
+    }
+    else if (chance < 0.75) {
+        x = Math.random() * g_canvas.width;
+        y = 0;
+    }
+    else if(chance < 1) {
+        x = Math.random() * g_canvas.width;
+        y = g_canvas.height;
+    }
+    else {
+        x = 0;
+        y = 0;
+    }
+
     // Rock randomisation defaults (if nothing otherwise specified)
-    this.cx = this.cx || Math.random() * g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height;
+    this.cx = this.cx || x;
+    this.cy = this.cy || y;
     this.rotation = this.rotation || 0;
 };
 
@@ -69,6 +94,7 @@ PowerUp.prototype.randomiseVelocity = function () {
     this.velRot = this.velRot ||
         util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
 };
+
 
 PowerUp.prototype.takeBulletHit = function () {
     this.hasBeenHit = true;
