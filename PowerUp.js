@@ -51,21 +51,17 @@ PowerUp.prototype.randomisePosition = function () {
         x,
         y;
 
-    //always appear at random edge
-    if (chance < 0.25) {
+    //always appear from random edges
+    if (chance < 0.33) {//left edge
         x = 0;
         y = Math.random() * g_canvas.height;
-    } else if (chance < 0.5) {
+    } else if (chance < 0.66) {//right edge
         x = g_canvas.width;
         y = Math.random() * g_canvas.height;
     }
-    else if (chance < 0.75) {
+    else if (chance < 1) {//top edge
         x = Math.random() * g_canvas.width;
         y = 0;
-    }
-    else if(chance < 1) {
-        x = Math.random() * g_canvas.width;
-        y = g_canvas.height;
     }
     else {
         x = 0;
@@ -88,8 +84,8 @@ PowerUp.prototype.randomiseVelocity = function () {
     this.velX = this.velX || speed * Math.cos(dirn);
     this.velY = this.velY || speed * Math.sin(dirn);
 
-    const MIN_ROT_SPEED = 0.5,
-        MAX_ROT_SPEED = 2.5;
+    const MIN_ROT_SPEED = 1.5,
+        MAX_ROT_SPEED = 3.5;
 
     this.velRot = this.velRot ||
         util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
