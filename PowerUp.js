@@ -37,7 +37,8 @@ PowerUp.prototype.update = function (du) {
     else {
         this.lifeSpan -= du;
         if (this.lifeSpan < 0 ||
-            this.sprite === g_sprites.purpleRock){
+            this.sprite === g_sprites.purpleRock ||
+            this.sprite === g_sprites.greenRock){
             return entityManager.KILL_ME_NOW;
         }
     }
@@ -129,12 +130,8 @@ PowerUp.prototype.yellow = function() {
 };
 
 PowerUp.prototype.green = function() {
-    //TODO add life
+    userInterface.gainHealth();
 };
-
-PowerUp.prototype.pink = function () {
-    //TODO add to score
-}
 
 PowerUp.prototype.render = function (ctx) {
 

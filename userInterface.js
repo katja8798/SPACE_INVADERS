@@ -16,6 +16,10 @@ var userInterface = {
 		if (this.player_health === 0) this.gameOver();
 	},
 
+	gainHealth : function () {
+		this.player_health += 1;
+	},
+
 	changeScore : function () {
 		this.score += 100;
 	},
