@@ -67,54 +67,25 @@ function updateSimulation(dt, du) {
 // GAME-SPECIFIC DIAGNOSTICS
 
 let g_allowMixedActions = true;
-let g_useGravity = false;
 let g_useAveVel = true;
 let g_renderSpatialDebug = false;
 
 const KEY_MIXED = keyCode('M');
-const KEY_GRAVITY = keyCode('G');
 const KEY_AVE_VEL = keyCode('V');
 const KEY_SPATIAL = keyCode('X');
 
-const KEY_HALT = keyCode('H');
 const KEY_RESET = keyCode('R');
-
-
-const KEY_1 = keyCode('1');
-const KEY_2 = keyCode('2');
-
-const KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
         g_allowMixedActions = !g_allowMixedActions;
 
-    if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-
     if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShips();
-
     if (eatKey(KEY_RESET)) entityManager.resetShips();
-
-    if (eatKey(KEY_1)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship});
-
-    if (eatKey(KEY_2)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship2
-        });
-
-    if (eatKey(KEY_K)) entityManager.killNearestShip(
-        g_mouseX, g_mouseY);
 }
 
 
