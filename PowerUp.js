@@ -51,7 +51,7 @@ PowerUp.prototype.update = function (du) {
 };
 
 PowerUp.prototype.getRadius = function() {
-    return this._scale*(this.sprite.width / 2) * 0.9;
+    return this.sprite.scale*(this.sprite.width / 2) * 0.9;
 }
 
 PowerUp.prototype.randomisePosition = function () {
@@ -59,17 +59,18 @@ PowerUp.prototype.randomisePosition = function () {
         x,
         y;
 
+
     //always appear from random edges
     if (chance < 0.33) {//left edge
-        x = 0;
+        x = -this.getRadius();
         y = Math.random() * g_canvas.height/3*2;//always appear above ship
     } else if (chance < 0.66) {//right edge
-        x = g_canvas.width;
+        x = g_canvas.width + this.getRadius();
         y = Math.random() * g_canvas.height/3*2;//always appear above ship
     }
     else if (chance < 1) {//top edge
         x = Math.random() * g_canvas.width;
-        y = 0;
+        y = -this.getRadius();
     }
     else {
         x = 0;
@@ -83,7 +84,7 @@ PowerUp.prototype.randomisePosition = function () {
 };
 
 PowerUp.prototype.randomiseVelocity = function () {
-    const MIN_SPEED = 20,
+    const MIN_SPEED = 40,
         MAX_SPEED = 70;
 
     const speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
