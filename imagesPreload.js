@@ -4,9 +4,6 @@
 
 /*jslint browser: true, devel: true, white: true */
 
-var canvas = document.getElementById("myCanvas");
-var ctx = canvas.getContext("2d");
-
 /*
 0        1         2         3         4         5         6         7         8
 12345678901234567890123456789012345678901234567890123456789012345678901234567890
