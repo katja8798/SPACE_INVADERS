@@ -1,33 +1,6 @@
-// =========
-// ASTEROIDS
-// =========
-/*
-
-A sort-of-playable version of the classic arcade game.
-
-
-HOMEWORK INSTRUCTIONS:
-
-You have some "TODO"s to fill in again, particularly in:
-
-spatialManager.js
-
-But also, to a lesser extent, in:
-
-Rock.js
-Bullet.js
-Ship.js
-
-
-...Basically, you need to implement the core of the spatialManager,
-and modify the Rock/Bullet/Ship to register (and unregister)
-with it correctly, so that they can participate in collisions.
-
-Be sure to test the diagnostic rendering for the spatialManager,
-as toggled by the 'X' key. We rely on that for marking. My default
-implementation will work for the "obvious" approach, but you might
-need to tweak it if you do something "non-obvious" in yours.
-*/
+// ==============
+// SPACE INVADERS
+// ==============
 
 "use strict";
 
@@ -93,24 +66,24 @@ function updateSimulation(dt, du) {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_allowMixedActions = true;
-var g_useGravity = false;
-var g_useAveVel = true;
-var g_renderSpatialDebug = false;
+let g_allowMixedActions = true;
+let g_useGravity = false;
+let g_useAveVel = true;
+let g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');
-var KEY_GRAVITY = keyCode('G');
-var KEY_AVE_VEL = keyCode('V');
-var KEY_SPATIAL = keyCode('X');
+const KEY_MIXED = keyCode('M');
+const KEY_GRAVITY = keyCode('G');
+const KEY_AVE_VEL = keyCode('V');
+const KEY_SPATIAL = keyCode('X');
 
-var KEY_HALT  = keyCode('H');
-var KEY_RESET = keyCode('R');
+const KEY_HALT = keyCode('H');
+const KEY_RESET = keyCode('R');
 
 
-var KEY_1 = keyCode('1');
-var KEY_2 = keyCode('2');
+const KEY_1 = keyCode('1');
+const KEY_2 = keyCode('2');
 
-var KEY_K = keyCode('K');
+const KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
@@ -173,23 +146,23 @@ function renderSimulation(ctx) {
 // PRELOAD STUFF
 // =============
 
-var g_images = {};
+const g_images = {};
 
 function requestPreloads() {
 
-    var requiredImages = {
-        ship   : "img/ship.png",
-        ship2  : "img/ship_2.png",
-		heart  : "img/heart_full_32x32.png",
-        purpleRock : "img/purpleRock.png",
-        greenRock : "img/greenRock.png",
-        yellowRock : "img/yellowRock.png"
+    const requiredImages = {
+        ship: "img/ship.png",
+        ship2: "img/ship_2.png",
+        heart: "img/heart_full_32x32.png",
+        purpleRock: "img/purpleRock.png",
+        greenRock: "img/greenRock.png",
+        yellowRock: "img/yellowRock.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
-var g_sprites = {};
+const g_sprites = {};
 
 function preloadDone() {
 
