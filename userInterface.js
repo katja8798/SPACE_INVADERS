@@ -15,6 +15,10 @@ var userInterface = {
 		
 		if (this.player_health === 0) this.gameOver();
 	},
+
+	changeScore : function () {
+		this.score += 100;
+	},
 	
 	// Reset all relevant UI data
 	// TODO: Have this function call entityManager

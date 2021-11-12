@@ -36,7 +36,8 @@ PowerUp.prototype.update = function (du) {
     }
     else {
         this.lifeSpan -= du;
-        if (this.lifeSpan < 0){
+        if (this.lifeSpan < 0 ||
+            this.sprite === g_sprites.purpleRock){
             return entityManager.KILL_ME_NOW;
         }
     }
@@ -54,10 +55,10 @@ PowerUp.prototype.randomisePosition = function () {
     //always appear from random edges
     if (chance < 0.33) {//left edge
         x = 0;
-        y = Math.random() * g_canvas.height;
+        y = Math.random() * g_canvas.height/3*2;//always appear above ship
     } else if (chance < 0.66) {//right edge
         x = g_canvas.width;
-        y = Math.random() * g_canvas.height;
+        y = Math.random() * g_canvas.height/3*2;//always appear above ship
     }
     else if (chance < 1) {//top edge
         x = Math.random() * g_canvas.width;
@@ -100,6 +101,7 @@ PowerUp.prototype.takeBulletHit = function () {
     this.cy = g_canvas.height-this.sprite.height;
     this.velX = 0;
     this.velY = 0;
+    this.rotation = 0;
 };
 
 PowerUp.prototype.checkType = function () {
@@ -119,7 +121,7 @@ PowerUp.prototype.checkType = function () {
 };
 
 PowerUp.prototype.purple = function() {
-    //TODO change bullet firing
+    userInterface.changeScore();
 };
 
 PowerUp.prototype.yellow = function() {
@@ -130,7 +132,12 @@ PowerUp.prototype.green = function() {
     //TODO add life
 };
 
+PowerUp.prototype.pink = function () {
+    //TODO add to score
+}
+
 PowerUp.prototype.render = function (ctx) {
+
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
     this.sprite.drawCentredAt(
