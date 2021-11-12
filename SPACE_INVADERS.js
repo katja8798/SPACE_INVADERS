@@ -50,9 +50,9 @@ function gatherInputs() {
 function updateSimulation(dt, du) {
     
     processDiagnostics();
-	
+
 	levelManager.update(dt);
-    
+
     entityManager.update(du);
 
     entityManager.maybeGeneratePowerUp();
@@ -73,6 +73,10 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
+let backgroundMusicOn = false;
+let starting = true;
+let playing = false;
+
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
@@ -83,6 +87,11 @@ function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
+
+    if(!backgroundMusicOn) {
+        playMusic(g_sounds.backgroundMusic3);
+        backgroundMusicOn = true;
+    }
 }
 
 
@@ -114,9 +123,31 @@ function renderSimulation(ctx) {
 // PRELOAD STUFF
 // =============
 
-const g_images = {};
+var g_images = {},
+    g_sounds = {};
+
+function playSound(p){
+    p.pause();
+    p.currentTime = 0;
+    p.play();
+}
+
+function playMusic(p){
+    p.loop = true;
+    p.play();
+}
 
 function requestPreloads() {
+
+    var requiredSounds = {
+        bulletFire : "sounds/bulletFire.ogg",
+        bulletZapped : "sounds/bulletZapped.ogg",
+        backgroundMusic : "sounds/backgroundMusic.ogg",
+        backgroundMusic2 : "sounds/backgroundMusic2.ogg",
+        backgroundMusic3 : "sounds/music.ogg"
+    };
+
+    soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
         ship: "img/ship.png",
@@ -127,27 +158,32 @@ function requestPreloads() {
         yellowRock: "img/yellowRock.png"
     };
 
-    imagesPreload(requiredImages, g_images, preloadDone);
+    imagesPreload(requiredImages, g_images, preloadImagesDone);
 }
 
 const g_sprites = {};
 
-function preloadDone() {
+function preloadSoundsDone() {
+}
 
+function preloadImagesDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
-
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
-	
+
 	g_sprites.heart = new Sprite(g_images.heart);
 
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
     g_sprites.greenRock = new Sprite(g_images.greenRock);
     g_sprites.yellowRock = new Sprite(g_images.yellowRock);
 
-	paths.init();
-	levelManager.init();
+    playGame();
+}
+
+function playGame(){
+    paths.init();
+    levelManager.init();
     entityManager.init();
     createInitialShips();
 

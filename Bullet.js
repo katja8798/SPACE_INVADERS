@@ -12,15 +12,15 @@
 */
 
 
-// A generic contructor which accepts an arbitrary descriptor object
+// A generic constructor which accepts an arbitrary descriptor object
 function Bullet(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
 
     // Make a noise when I am created (i.e. fired)
-    this.fireSound.play();
-    
+    playSound(g_sounds.bulletFire);
+
 /*
     // Diagnostics to check inheritance stuff
     this._bulletProperty = true;
@@ -30,12 +30,6 @@ function Bullet(descr) {
 }
 
 Bullet.prototype = new Entity();
-
-// HACKED-IN AUDIO (no preloading)
-Bullet.prototype.fireSound = new Audio(
-    "sounds/bulletFire.ogg");
-Bullet.prototype.zappedSound = new Audio(
-    "sounds/bulletZapped.ogg");
     
 // Initial, inheritable, default values
 Bullet.prototype.rotation = 0;
@@ -81,7 +75,7 @@ Bullet.prototype.takeBulletHit = function () {
     this.kill();
     
     // Make a noise when I am zapped by another bullet
-    this.zappedSound.play();
+    playSound(g_sounds.bulletZapped);
 };
 
 Bullet.prototype.render = function (ctx) {
