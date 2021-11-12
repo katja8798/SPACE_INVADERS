@@ -85,7 +85,7 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-    g_sprites.bullet.drawWrappedCentredAt(
+    g_sprites.bullet.drawCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
 

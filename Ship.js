@@ -25,6 +25,8 @@ function Ship(descr) {
     
     // Set normal drawing scale, and warp state off
     this._scale = 1;
+
+    this.powerUpBullet = false;
 }
 
 Ship.prototype = new Entity();
@@ -97,6 +99,18 @@ Ship.prototype.maybeFireBullet = function () {
            this.cx + dX * launchDist, this.cy + dY * launchDist,
            this.velX + relVelX, this.velY + relVelY,
            this.rotation);
+
+        if(this.powerUpBullet) {
+            entityManager.fireBullet(
+                this.cx+this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
+                this.velX + 0.5 + relVelX, this.velY + relVelY,
+                this.rotation);
+            entityManager.fireBullet(
+                this.cx-this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
+                this.velX - 0.5 - relVelX, this.velY + relVelY,
+                this.rotation);
+        }
+
     }
 };
 

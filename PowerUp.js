@@ -36,8 +36,14 @@ PowerUp.prototype.update = function (du) {
     }
     else {
         this.lifeSpan -= du;
-        if (this.lifeSpan < 0 ||
-            this.sprite === g_sprites.purpleRock ||
+        if (this.lifeSpan < 0 && this.sprite === g_sprites.yellowRock){
+            var ship = entityManager._findNearestShip(0,0).theShip;
+            if (ship.powerUpBullet) {
+                ship.powerUpBullet = false;
+            }
+            return entityManager.KILL_ME_NOW;
+        }
+        else if (this.sprite === g_sprites.purpleRock ||
             this.sprite === g_sprites.greenRock){
             return entityManager.KILL_ME_NOW;
         }
@@ -98,11 +104,6 @@ PowerUp.prototype.takeBulletHit = function () {
     this.hasBeenHit = true;
     spatialManager.unregister(this);
     this.checkType();
-    this.cx = g_canvas.width-this.sprite.width;
-    this.cy = g_canvas.height-this.sprite.height;
-    this.velX = 0;
-    this.velY = 0;
-    this.rotation = 0;
 };
 
 PowerUp.prototype.checkType = function () {
@@ -126,7 +127,15 @@ PowerUp.prototype.purple = function() {
 };
 
 PowerUp.prototype.yellow = function() {
-    //TODO add ship speed
+    var ship = entityManager._findNearestShip(0,0).theShip;
+    if (!ship.powerUpBullet) {
+        ship.powerUpBullet = true;
+    }
+    this.cx = g_canvas.width-this.sprite.width;
+    this.cy = g_canvas.height-this.sprite.height;
+    this.velX = 0;
+    this.velY = 0;
+    this.rotation = 0;
 };
 
 PowerUp.prototype.green = function() {
