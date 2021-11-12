@@ -2,34 +2,36 @@
 // ENEMY STUFF
 // ==========
 
-function Enemy(number, spawnLocation, type, path) {
+function Enemy(number, spawnLocation, type, manoeuvre) {
 	
     this.initialize(number, spawnLocation);
 	
 	this._type = type;
 	
-	this.sprite = g_sprites.ship2;
+	this._manoeuvre = manoeuvre;
 	
-	this.width = g_sprites.ship2.width;
+	this.sprite = g_sprites.bee;
 	
+	this.width = g_sprites.bee.width;
+
 	this._scale = 0.5;
 
 	// Path related
 	this._numberInLine = number;
-	
+
 	this._spawnPoint = spawnLocation - 1;
 	
-	this._path = path;
-	
+	//this._path = path;
+
 	this._manoN = 0;
-	
+
 	this._pointN = 0;
-	
+
 	this._onPath = true;
-	
+
 	this._wait = true;
 
-};
+}
 
 Enemy.prototype = new Entity();
 
@@ -54,7 +56,7 @@ Enemy.prototype.update = function (du) {
 	// waitT is the number of updates enemy skips after being
 	// created before starting to follow path
 	if (this._wait) this.waitT -= 1;
-	
+
 	if (this._onPath) {
 		this.followPath(du);
 		
@@ -73,20 +75,20 @@ Enemy.prototype.update = function (du) {
 // TODO: this._pointN must be set equal to number of points generated
 // 		 for this implementation to work. FIX!
 Enemy.prototype.followPath = function(du) {
-	
+
 	if (this.waitT <= 0) this._wait = false;
-	
+
 	if (!this._wait) {
 		if (this._pointN >= 200) {
 			this._pointN -= 200;
 			this._manoN += 1;
 		}
 		let nextPoint = paths.getPathPoint(
-			this._spawnPoint, 
-			this._manoN, 
+			this._spawnPoint,
+			this._manoN,
 			this._pointN);
-			
-			
+
+
 		if (nextPoint === 0) {
 			this._onPath = false;
 			
@@ -164,4 +166,19 @@ Enemy.prototype.outOfBounds = function (x, y) {
 		
 		this.kill();
 	}
+};
+Enemy.prototype.takeBulletHit = function(){
+	console.log("TAKInG HIT OOOMG");
+
+		this._spawnFragment();
+
+};
+
+Enemy.prototype._spawnFragment = function(){
+	this._isDeadNow = true;
+	console.log("ætti að hverfa held ég...");
+};
+
+Enemy.prototype.getRadius = function(){
+	return (this.sprite.width/4);
 };
