@@ -30,3 +30,18 @@ function soundsPreload(requiredSounds, loadedSounds, completionCallback) {
         loadedSounds[currName].src = requiredSounds[currName];
     }
 }
+
+function playSound(p){
+    p.pause();
+    p.currentTime = 0;
+    p.play();
+}
+
+function playMusic(p){
+    p.loop = true;
+    p.play();
+}
+
+function pauseMusic(p){
+    p.pause();
+}

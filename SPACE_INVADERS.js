@@ -73,9 +73,9 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
-let backgroundMusicOn = false;
-let starting = true;
-let playing = false;
+const  KEY_MUSIC = keyCode('N')
+
+let backgroundMusicOn = true;
 
 function processDiagnostics() {
 
@@ -88,9 +88,14 @@ function processDiagnostics() {
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
 
-    if(!backgroundMusicOn) {
-        playMusic(g_sounds.backgroundMusic3);
-        backgroundMusicOn = true;
+    if (eatKey(KEY_MUSIC)) {
+        backgroundMusicOn = !backgroundMusicOn;
+    }
+
+    if(backgroundMusicOn) {
+        playMusic(g_sounds.backgroundMusic2);
+    }else {
+        pauseMusic(g_sounds.backgroundMusic2)
     }
 }
 
@@ -126,17 +131,6 @@ function renderSimulation(ctx) {
 var g_images = {},
     g_sounds = {};
 
-function playSound(p){
-    p.pause();
-    p.currentTime = 0;
-    p.play();
-}
-
-function playMusic(p){
-    p.loop = true;
-    p.play();
-}
-
 function requestPreloads() {
 
     var requiredSounds = {
@@ -164,6 +158,7 @@ function requestPreloads() {
 const g_sprites = {};
 
 function preloadSoundsDone() {
+    console.log("preloading sounds successful");
 }
 
 function preloadImagesDone() {
