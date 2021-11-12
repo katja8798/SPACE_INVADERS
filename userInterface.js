@@ -18,9 +18,10 @@ var userInterface = {
 
 	gainHealth : function () {
 		this.player_health += 1;
+		//restrict health? have max health be 5?
 	},
 
-	changeScore : function () {
+	increaseScoreFromPowerUp : function () {
 		this.score += 100;
 	},
 	

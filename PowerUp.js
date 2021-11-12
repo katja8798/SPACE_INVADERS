@@ -122,7 +122,7 @@ PowerUp.prototype.checkType = function () {
 };
 
 PowerUp.prototype.purple = function() {
-    userInterface.changeScore();
+    userInterface.increaseScoreFromPowerUp();
 };
 
 PowerUp.prototype.yellow = function() {
