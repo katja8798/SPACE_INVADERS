@@ -29,7 +29,7 @@ function Enemy(number, spawnLocation, type, path) {
 	
 	this._wait = true;
 
-};
+}
 
 Enemy.prototype = new Entity();
 

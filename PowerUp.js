@@ -132,8 +132,8 @@ PowerUp.prototype.yellow = function() {
     if (!ship.powerUpBullet) {
         ship.powerUpBullet = true;
     }
-    this.cx = g_canvas.width-this.sprite.width;
-    this.cy = g_canvas.height-this.sprite.height;
+    this.cx = g_canvas.width-this.sprite.width/2;
+    this.cy = g_canvas.height-this.sprite.height/2;
     this.velX = 0;
     this.velY = 0;
     this.rotation = 0;
@@ -145,6 +145,7 @@ PowerUp.prototype.green = function() {
 
 PowerUp.prototype.render = function (ctx) {
 
+    ctx.save();
     let fadeThresh = PowerUp.prototype.lifeSpan/3;
 
     if(this.sprite === g_sprites.yellowRock && fadeThresh > this.lifeSpan) {
@@ -157,4 +158,5 @@ PowerUp.prototype.render = function (ctx) {
         ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
+    ctx.restore();
 };
