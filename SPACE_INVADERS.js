@@ -1,40 +1,10 @@
-// =========
-// ASTEROIDS
-// =========
-/*
-
-A sort-of-playable version of the classic arcade game.
-
-
-HOMEWORK INSTRUCTIONS:
-
-You have some "TODO"s to fill in again, particularly in:
-
-spatialManager.js
-
-But also, to a lesser extent, in:
-
-Rock.js
-Bullet.js
-Ship.js
-
-
-...Basically, you need to implement the core of the spatialManager,
-and modify the Rock/Bullet/Ship to register (and unregister)
-with it correctly, so that they can participate in collisions.
-
-Be sure to test the diagnostic rendering for the spatialManager,
-as toggled by the 'X' key. We rely on that for marking. My default
-implementation will work for the "obvious" approach, but you might
-need to tweak it if you do something "non-obvious" in yours.
-*/
+// ==============
+// SPACE INVADERS
+// ==============
 
 "use strict";
 
 /* jshint browser: true, devel: true, globalstrict: true */
-
-var g_canvas = document.getElementById("myCanvas");
-var g_ctx = g_canvas.getContext("2d");
 
 /*
 0        1         2         3         4         5         6         7         8
@@ -80,11 +50,12 @@ function gatherInputs() {
 function updateSimulation(dt, du) {
     
     processDiagnostics();
-	
+
 	levelManager.update(dt);
-    
+
     entityManager.update(du);
-	
+
+    entityManager.maybeGeneratePowerUp();
 
     // Prevent perpetual firing!
     eatKey(Ship.prototype.KEY_FIRE);
@@ -92,55 +63,42 @@ function updateSimulation(dt, du) {
 
 // GAME-SPECIFIC DIAGNOSTICS
 
-var g_allowMixedActions = true;
-var g_useGravity = false;
-var g_useAveVel = true;
-var g_renderSpatialDebug = false;
+let g_allowMixedActions = true;
+let g_useAveVel = true;
+let g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
-var KEY_GRAVITY = keyCode('G');
-var KEY_AVE_VEL = keyCode('V');
-var KEY_SPATIAL = keyCode('X');
+const KEY_MIXED = keyCode('M');
+const KEY_AVE_VEL = keyCode('V');
+const KEY_SPATIAL = keyCode('X');
 
-var KEY_HALT  = keyCode('H');
-var KEY_RESET = keyCode('R');
+const KEY_RESET = keyCode('R');
 
+const  KEY_MUSIC = keyCode('N')
 
-var KEY_1 = keyCode('1');
-var KEY_2 = keyCode('2');
+let backgroundMusicOn = true;
 
-var KEY_K = keyCode('K');
+const g_sounds = {};
 
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
         g_allowMixedActions = !g_allowMixedActions;
 
-    if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
-
     if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
-    if (eatKey(KEY_HALT)) entityManager.haltShips();
-
     if (eatKey(KEY_RESET)) entityManager.resetShips();
 
-    if (eatKey(KEY_1)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship});
+    if (eatKey(KEY_MUSIC)) {
+        backgroundMusicOn = !backgroundMusicOn;
+    }
 
-    if (eatKey(KEY_2)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship2
-        });
-
-    if (eatKey(KEY_K)) entityManager.killNearestShip(
-        g_mouseX, g_mouseY);
+    if(backgroundMusicOn) {
+        playMusic(g_sounds.backgroundMusic2);
+    }else {
+        pauseMusic(g_sounds.backgroundMusic2)
+    }
 }
 
 
@@ -172,10 +130,27 @@ function renderSimulation(ctx) {
 // PRELOAD STUFF
 // =============
 
-var g_images = {};
+const g_images = {};
 
 function requestPreloads() {
 
+    const requiredSounds = {
+        bulletFire: "sounds/bulletFire.ogg",
+        bulletZapped: "sounds/bulletZapped.ogg",
+        backgroundMusic: "sounds/backgroundMusic.ogg",
+        backgroundMusic2: "sounds/backgroundMusic2.ogg",
+        backgroundMusic3: "sounds/music.ogg"
+    };
+
+    soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
+
+    const requiredImages = {
+        ship: "img/ship.png",
+        ship2: "img/ship_2.png",
+        heart: "img/heart_full_32x32.png",
+        purpleRock: "img/purpleRock.png",
+        greenRock: "img/greenRock.png",
+        yellowRock: "img/yellowRock.png"
     var requiredImages = {
         ship   : "images/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
@@ -187,13 +162,16 @@ function requestPreloads() {
 		//heart  : "img/heart_full_32x32.png"
     };
 
-    imagesPreload(requiredImages, g_images, preloadDone);
+    imagesPreload(requiredImages, g_images, preloadImagesDone);
 }
 
-var g_sprites = {};
+const g_sprites = {};
 
-function preloadDone() {
+function preloadSoundsDone() {
+    console.log("preloading sounds successful");
+}
 
+function preloadImagesDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.bee = new Sprite(g_images.bee);
@@ -203,8 +181,16 @@ function preloadDone() {
 
 	g_sprites.heart = new Sprite(g_images.heart);
 
-	paths.init();
-	levelManager.init();
+    g_sprites.purpleRock = new Sprite(g_images.purpleRock);
+    g_sprites.greenRock = new Sprite(g_images.greenRock);
+    g_sprites.yellowRock = new Sprite(g_images.yellowRock);
+
+    playGame();
+}
+
+function playGame(){
+    paths.init();
+    levelManager.init();
     entityManager.init();
     createInitialShips();
 

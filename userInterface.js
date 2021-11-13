@@ -15,6 +15,15 @@ var userInterface = {
 		
 		if (this.player_health === 0) this.gameOver();
 	},
+
+	gainHealth : function () {
+		this.player_health += 1;
+		//restrict health? have max health be 5?
+	},
+
+	increaseScoreFromPowerUp : function () {
+		this.score += 100;
+	},
 	
 	// Reset all relevant UI data
 	// TODO: Have this function call entityManager
