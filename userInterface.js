@@ -3,9 +3,10 @@
 // ====================
 
 var userInterface = {
+	height : 30,
+	width : g_canvas.width,
 	player_health : 3,
 	score : 0,
-	
 	
 	// Decrement player life pool and start over
 	// if it reaches zero
@@ -43,20 +44,26 @@ var userInterface = {
 	},
 	
 	render : function (ctx) {
+		this.renderBar(ctx, 0);
+		this.renderBar(ctx, g_canvas.height-this.height)
 		
 		this.renderHealth(ctx);
 		
 		this.renderScore(ctx);
 	},
+
+	renderBar : function (ctx, y) {
+		util.fillBox(ctx,0,y,g_canvas.width, this.height, "purple");
+	},
 	
 	// Draws a sprite for every point of health remaining
 	renderHealth : function (ctx) {
-		
-		hp = this.player_health;
-		sprite = g_sprites.heart;
-		spriteHalfWidth = sprite.width / 2;
-		spriteHalfHeight = sprite.height / 2;
-		
+
+		const hp = this.player_health,
+			sprite = g_sprites.heart,
+			spriteHalfWidth = sprite.width / 2,
+			spriteHalfHeight = sprite.height / 2;
+
 		for (let i = 0; i < hp; i++) {
 			let x = i * sprite.width + spriteHalfWidth;
 			let y = g_canvas.height - spriteHalfHeight;
@@ -65,7 +72,9 @@ var userInterface = {
 	},
 	
 	renderScore : function (ctx) {
+
 		ctx.save();
+
 		ctx.font = '20px bold Helvetica';
 		ctx.lineWidth = .5;
 		ctx.fillStyle = '#FFFFFF';

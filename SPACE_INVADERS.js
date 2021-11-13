@@ -19,7 +19,7 @@
 function createInitialShips() {
     entityManager.generateShip({
         cx : g_canvas.width/2,
-        cy : g_canvas.height-g_sprites.ship.height/2
+        cy : g_canvas.height-g_sprites.ship.height/2-userInterface.height
     });
 }
 
