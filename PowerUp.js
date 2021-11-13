@@ -5,18 +5,18 @@
 function PowerUp(descr) {
 
     this.setup(descr);
-    //this.powerUpType();
     this.sprite = this.sprite || g_sprites.purpleRock;
     this.randomisePosition();
     this.randomiseVelocity();
 
-    this.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
     this.hasBeenHit = false;
     this._scale = 1;
 
 }
 
+
 PowerUp.prototype = new Entity();
+PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
 
 PowerUp.prototype.update = function (du) {
     if (!this.hasBeenHit) {
@@ -144,6 +144,12 @@ PowerUp.prototype.green = function() {
 };
 
 PowerUp.prototype.render = function (ctx) {
+
+    let fadeThresh = PowerUp.prototype.lifeSpan/3;
+
+    if(this.sprite === g_sprites.yellowRock && fadeThresh > this.lifeSpan) {
+        ctx.globalAlpha = this.lifeSpan / fadeThresh;
+    }
 
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
