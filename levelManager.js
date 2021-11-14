@@ -70,8 +70,8 @@ _spawnEnemies: function() {
 		l = squad[1],
 		t = squad[2],
 		m = squad[3];
-		//BREYTTI ÞESSU til að reyna við collision dótið
 		entityManager._generateEnemies(n, l, t, m);
+
 
 		
 		this._enemiesAlive += n;

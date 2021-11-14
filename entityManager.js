@@ -67,7 +67,7 @@ const entityManager = {
         }
     },
 
-    _generateEnemies: function(){
+    _generateEnemies: function(n,l,t,m){
         for(var i = 0; i< n; i++) {
             this.generateEnemy(i, l, t, m);
         }
