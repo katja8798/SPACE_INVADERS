@@ -75,7 +75,7 @@ const KEY_RESET = keyCode('R');
 
 const  KEY_MUSIC = keyCode('N')
 
-let backgroundMusicOn = false;
+let backgroundMusicOn = true;
 
 const g_sounds = {};
 
@@ -152,7 +152,12 @@ function requestPreloads() {
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         heart  : "img/heart_full_32x32.png",
         bullet : "images/bullet.png",
-        bee : "images/bee.png"
+        bee : "images/bee.png",
+        enemyBullet : "images/enemyBullet.png",
+        //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
+        butterfly : "images/butterfly.png",
+        boss : "images/boss.png",
+        purpleBoss : "images/purpleboss.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -171,8 +176,12 @@ function preloadImagesDone() {
     g_sprites.bee.scale = 0.5;
     g_sprites.bullet = new Sprite(g_images.bullet);
     g_sprites.bullet.scale = 0.5;
-
+    g_sprites.enemyBullet = new Sprite(g_images.enemyBullet);
+    g_sprites.enemyBullet.scale = 0.5;
 	g_sprites.heart = new Sprite(g_images.heart);
+    g_sprites.butterfly = new Sprite(g_images.butterfly);
+    g_sprites.boss = new Sprite(g_images.boss);
+    g_sprites.purpleBoss = new Sprite(g_images.purpleBoss);
 
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
     g_sprites.greenRock = new Sprite(g_images.greenRock);

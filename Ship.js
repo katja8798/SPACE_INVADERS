@@ -122,7 +122,8 @@ Ship.prototype.getRadius = function () {
 };
 
 Ship.prototype.takeBulletHit = function () {
-    //TODO make ship lose life after being shot by an Enemy
+    userInterface.player_health -=1;
+
 };
 
 Ship.prototype.reset = function () {

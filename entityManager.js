@@ -31,6 +31,7 @@ const entityManager = {
     _ships: [],
     _enemies: [],
     _powerUps: [],
+    _enemyBullets: [],
 
 
 // "PRIVATE" METHODS
@@ -83,7 +84,7 @@ const entityManager = {
 // i.e. thing which need `this` to be defined.
 //
     deferredSetup: function () {
-        this._categories = [this._bullets, this._ships, this._enemies, this._powerUps];
+        this._categories = [this._bullets, this._ships, this._enemies, this._powerUps, this._enemyBullets];
     },
 
     fireBullet: function (cx, cy, velX, velY, rotation) {
@@ -94,6 +95,15 @@ const entityManager = {
             velY: velY,
 
             rotation: rotation
+        }));
+    },
+
+    fireEnemyBullet: function(cx, cy, velX, velY) {
+        this._enemyBullets.push(new EnemyBullet({
+            cx: cx,
+            cy: cy,
+            velX: velX,
+            velY: velY
         }));
     },
 

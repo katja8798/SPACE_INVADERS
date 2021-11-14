@@ -62,6 +62,7 @@ Enemy.prototype.update = function (du) {
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
 	}
+	this.maybeShootBullet();
 	spatialManager.register(this);
 };
 
@@ -97,7 +98,7 @@ Enemy.prototype.followPath = function(du) {
 		this._pointN += 1;
 	}
 };
-
+//Hvort á að nota þetta eða það sem er fyrir neðan?
 Enemy.prototype.takeBulletHit = function () {
     this.kill();
 };
@@ -143,17 +144,26 @@ Enemy.prototype.render = function (ctx) {
 };
 
 Enemy.prototype.takeBulletHit = function(){
-	console.log("TAKInG HIT OOOMG");
-
-		this._spawnFragment();
+	this._spawnFragment();
 
 }
 Enemy.prototype._spawnFragment = function(){
 	this._isDeadNow = true;
 	userInterface.increaseScore(Enemy);
-	console.log("ætti að hverfa held ég...");
 }
 
 Enemy.prototype.getRadius = function(){
 	return (this.sprite.width/4);
+}
+//TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
+Enemy.prototype.maybeShootBullet = function(){
+	if(!this._isDeadNow) {
+		let chance = Math.random();
+		if(chance < 0.33) {
+			entityManager.fireEnemyBullet(this.cx, this.cy, this.velX, this.velY);
+		}
+
+		}
+
+
 }
