@@ -2,11 +2,11 @@
 // ENEMY STUFF
 // ==========
 
-function Enemy(number, spawnLocation, type, manoeuvre) {
+function Enemy(descr) {
+
+	this.setup(descr);
 	
-    this.initialize(number, spawnLocation);
-	
-	this._type = type;
+    this.initialize(this._numberInLine, this._spawnPoint);
 	
 	this._manoeuvre = manoeuvre;
 	
@@ -17,18 +17,14 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 	this._scale = 0.5;
 
 	// Path related
-	this._numberInLine = number;
 
-	this._spawnPoint = spawnLocation - 1;
-	
-	//this._path = path;
 
 	this._manoN = 0;
-
+	
 	this._pointN = 0;
-
+	
 	this._onPath = true;
-
+	
 	this._wait = true;
 
 }
@@ -43,6 +39,11 @@ Enemy.prototype.velX = -4;
 Enemy.prototype.velY = 4;
 Enemy.prototype.waitT = 16;
 
+Enemy.prototype._type = null;
+Enemy.prototype._numberInLine = null;
+Enemy.prototype._spawnPoint = null;
+Enemy.prototype._path = null;
+
 Enemy.prototype.update = function (du) {
 	
 	spatialManager.unregister(this);
@@ -54,7 +55,7 @@ Enemy.prototype.update = function (du) {
 	// waitT is the number of updates enemy skips after being
 	// created before starting to follow path
 	if (this._wait) this.waitT -= 1;
-
+	
 	if (this._onPath) {
 		this.followPath(du);
 	}
@@ -62,31 +63,31 @@ Enemy.prototype.update = function (du) {
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
 	}
-	this.maybeShootBullet();
+	
 	spatialManager.register(this);
 };
 
 Enemy.prototype.getRadius = function() {
-	return (this.sprite.width / 2) * 0.9;
+	return this._scale*(this.sprite.width / 2) * 0.9;
 }
 
 // TODO: this._pointN must be set equal to number of points generated
 // 		 for this implementation to work. FIX!
 Enemy.prototype.followPath = function(du) {
-
+	
 	if (this.waitT <= 0) this._wait = false;
-
+	
 	if (!this._wait) {
 		if (this._pointN >= 200) {
 			this._pointN -= 200;
 			this._manoN += 1;
 		}
 		let nextPoint = paths.getPathPoint(
-			this._spawnPoint,
-			this._manoN,
+			this._spawnPoint, 
+			this._manoN, 
 			this._pointN);
-
-
+			
+			
 		if (nextPoint === 0) {
 			this._onPath = false;
 			this.cx += this.velX * du;
@@ -98,7 +99,7 @@ Enemy.prototype.followPath = function(du) {
 		this._pointN += 1;
 	}
 };
-//Hvort á að nota þetta eða það sem er fyrir neðan?
+
 Enemy.prototype.takeBulletHit = function () {
     this.kill();
 };
@@ -106,7 +107,7 @@ Enemy.prototype.takeBulletHit = function () {
 Enemy.prototype.initialize = function (number, spawnLocation) {
 	let offset = number * g_sprites.ship2.width + 16;
 	this.waitT = this.waitT * number;
-
+	
 	switch (spawnLocation) {
 		case 1:
 			this.cx = 200;
@@ -142,28 +143,3 @@ Enemy.prototype.render = function (ctx) {
 	);
 	this.sprite.scale = origScale;
 };
-
-Enemy.prototype.takeBulletHit = function(){
-	this._spawnFragment();
-
-}
-Enemy.prototype._spawnFragment = function(){
-	this._isDeadNow = true;
-	userInterface.increaseScore(Enemy);
-}
-
-Enemy.prototype.getRadius = function(){
-	return (this.sprite.width/4);
-}
-//TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
-Enemy.prototype.maybeShootBullet = function(){
-	if(!this._isDeadNow) {
-		let chance = Math.random();
-		if(chance < 0.33) {
-			entityManager.fireEnemyBullet(this.cx, this.cy, this.velX, this.velY);
-		}
-
-		}
-
-
-}

@@ -70,10 +70,16 @@ _spawnEnemies: function() {
 		l = squad[1],
 		t = squad[2],
 		m = squad[3];
-		entityManager._generateEnemies(n, l, t, m);
-
-
 		
+		for (let j = 0; j < n; j++) {
+			entityManager.generateEnemies({
+				_numberInLine : j,
+				_spawnPoint : l-1,
+				_type : t,
+				_path : m
+			});
+		}
+
 		this._enemiesAlive += n;
 	}
 	

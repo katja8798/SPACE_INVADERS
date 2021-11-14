@@ -139,7 +139,8 @@ function requestPreloads() {
         bulletZapped: "sounds/bulletZapped.ogg",
         backgroundMusic: "sounds/backgroundMusic.ogg",
         backgroundMusic2: "sounds/backgroundMusic2.ogg",
-        backgroundMusic3: "sounds/music.ogg"
+        backgroundMusic3: "sounds/music.ogg",
+        asteroidHit : "sounds/asteroidHit.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);

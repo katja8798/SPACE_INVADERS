@@ -50,6 +50,10 @@ canvas{
     margin: 2px;
 }
 
+h2{
+    margin-bottom: 2px;
+}
+
 .gold{
     color: gold;
 }
