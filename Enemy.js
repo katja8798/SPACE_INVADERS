@@ -2,11 +2,11 @@
 // ENEMY STUFF
 // ==========
 
-function Enemy(number, spawnLocation, type, path) {
+function Enemy(descr) {
+
+	this.setup(descr);
 	
-    this.initialize(number, spawnLocation);
-	
-	this._type = type;
+    this.initialize(this._numberInLine, this._spawnPoint);
 	
 	this.sprite = g_sprites.ship2;
 	
@@ -15,11 +15,6 @@ function Enemy(number, spawnLocation, type, path) {
 	this._scale = 0.5;
 
 	// Path related
-	this._numberInLine = number;
-	
-	this._spawnPoint = spawnLocation - 1;
-	
-	this._path = path;
 	
 	this._manoN = 0;
 	
@@ -40,6 +35,11 @@ Enemy.prototype.cy = -10;
 Enemy.prototype.velX = -4;
 Enemy.prototype.velY = 4;
 Enemy.prototype.waitT = 16;
+
+Enemy.prototype._type = null;
+Enemy.prototype._numberInLine = null;
+Enemy.prototype._spawnPoint = null;
+Enemy.prototype._path = null;
 
 Enemy.prototype.update = function (du) {
 	

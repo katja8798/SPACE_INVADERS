@@ -102,6 +102,7 @@ PowerUp.prototype.randomiseVelocity = function () {
 
 
 PowerUp.prototype.takeBulletHit = function () {
+    playSound(g_sounds.asteroidHit);
     this.hasBeenHit = true;
     spatialManager.unregister(this);
     this.checkType();
