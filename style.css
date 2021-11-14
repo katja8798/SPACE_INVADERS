@@ -41,4 +41,23 @@ canvas{
 
 .text{
     flex: 40%;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.text div{
+    margin: 2px;
+}
+
+.gold{
+    color: gold;
+}
+
+.green{
+    color: green;
+}
+
+.purple{
+    color: purple;
 }
