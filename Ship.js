@@ -65,12 +65,15 @@ Ship.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    if ((keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) && this.cx > 0) {
+
+    if (keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) {
         this.cx -= NOMINAL_MOVEMENT*du;
     }
-    if ((keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) && this.cx < g_canvas.width) {
+    if (keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) {
         this.cx += NOMINAL_MOVEMENT*du;
     }
+    // Ensure ship stays on screen
+    this.wrapPosition();
 
     // Handle firing
     this.maybeFireBullet();
