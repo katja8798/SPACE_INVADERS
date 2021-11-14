@@ -8,7 +8,7 @@ function Enemy(descr) {
 	
     this.initialize(this._numberInLine, this._spawnPoint);
 	
-	this._manoeuvre = manoeuvre;
+	//this._manoeuvre = manoeuvre;
 	
 	this.sprite = g_sprites.bee;
 	
@@ -63,7 +63,8 @@ Enemy.prototype.update = function (du) {
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
 	}
-	
+	//Þarf að útfæra betur
+	//this.maybeShootBullet();
 	spatialManager.register(this);
 };
 
@@ -102,6 +103,7 @@ Enemy.prototype.followPath = function(du) {
 
 Enemy.prototype.takeBulletHit = function () {
     this.kill();
+	userInterface.score +=100;
 };
 
 Enemy.prototype.initialize = function (number, spawnLocation) {
@@ -142,4 +144,15 @@ Enemy.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, this.rotation
 	);
 	this.sprite.scale = origScale;
+};
+
+//TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
+Enemy.prototype.maybeShootBullet = function() {
+	if (!this._isDeadNow) {
+		let chance = Math.random();
+		if (chance < 0.33) {
+			entityManager.fireEnemyBullet(this.cx, this.cy, this.velX, this.velY);
+		}
+
+	}
 };
