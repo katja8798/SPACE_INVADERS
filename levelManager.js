@@ -64,11 +64,11 @@ _generateWave: function() {
 _spawnEnemies: function() {
 	let length = this._enemyWave.length;
 	
-	for (var i = 0; i < length; i++) {
-		let squad = this._enemyWave[i];
-		n = squad[0];
-		l = squad[1];
-		t = squad[2];
+	for (let i = 0; i < length; i++) {
+		let squad = this._enemyWave[i],
+		n = squad[0],
+		l = squad[1],
+		t = squad[2],
 		m = squad[3];
 		//BREYTTI ÞESSU til að reyna við collision dótið
 		entityManager._generateEnemies(n, l, t, m);
