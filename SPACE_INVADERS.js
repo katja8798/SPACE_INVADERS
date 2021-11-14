@@ -75,7 +75,7 @@ const KEY_RESET = keyCode('R');
 
 const  KEY_MUSIC = keyCode('N')
 
-let backgroundMusicOn = true;
+let backgroundMusicOn = false;
 
 const g_sounds = {};
 
@@ -145,21 +145,14 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        ship: "img/ship.png",
-        ship2: "img/ship_2.png",
-        heart: "img/heart_full_32x32.png",
         purpleRock: "img/purpleRock.png",
         greenRock: "img/greenRock.png",
-        yellowRock: "img/yellowRock.png"
-    var requiredImages = {
+        yellowRock: "img/yellowRock.png",
         ship   : "images/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         heart  : "img/heart_full_32x32.png",
         bullet : "images/bullet.png",
         bee : "images/bee.png"
-        //ship   : "img/ship.png",
-        //ship2  : "img/ship_2.png",
-		//heart  : "img/heart_full_32x32.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);

@@ -67,6 +67,11 @@ const entityManager = {
         }
     },
 
+    _generateEnemies: function(){
+        for(var i = 0; i< n; i++) {
+            this.generateEnemy(i, l, t, m);
+        }
+    },
 // PUBLIC METHODS
 
 // A special return value, used by other objects,
@@ -101,11 +106,15 @@ const entityManager = {
         this._ships.push(new Ship(descr));
     },
 
-    generateEnemies: function (n, l, t, m) {
+    //Bætti við generateEnemy af því ég hélt að það væri að hafa áhrif á collision detection dótið
+    generateEnemy: function(n,l,t,m){
+        this._enemies.push(new Enemy(n, l, t, m));
+    },
+   /* generateEnemies: function (n, l, t, m) {
         for (let i = 0; i < n; i++) {
             this._enemies.push(new Enemy(i, l, t, m));
         }
-    },
+    },*/
 
     maybeGeneratePowerUp: function () {
         const chance = util.randRange(0, 1000);

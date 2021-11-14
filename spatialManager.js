@@ -74,7 +74,6 @@ const spatialManager = {
         for (const ID in this._entities) {
             const e = this._entities[ID];
             util.strokeCircle(ctx, e.posX, e.posY, e.radius);
-            console.log(e.radius);
         }
         ctx.strokeStyle = oldStyle;
     }

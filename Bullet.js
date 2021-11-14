@@ -80,7 +80,7 @@ Bullet.prototype.takeBulletHit = function () {
 
 Bullet.prototype.render = function (ctx) {
     g_sprites.bullet.drawCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+        ctx, this.cx, this.cy, //this.rotation
     );
 
     ctx.globalAlpha = 1;

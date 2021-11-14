@@ -17,7 +17,12 @@ var userInterface = {
 	},
 
 	gainHealth : function () {
-		this.player_health += 1;
+		//Does not gain health if it's 5 or over
+		if(this.player_health == 5) {
+			this.player_health = this.player_health;
+		}
+		else {
+		this.player_health += 1;}
 		//restrict health? have max health be 5?
 	},
 
@@ -39,6 +44,8 @@ var userInterface = {
 	// TODO: Have enemy/entityManager call this function
 	//       when an enemy entity requests deletion
 	increaseScore : function (eType) {
+		//Placeholder-þarf að bæta við mismunandi cases fyrir eType
+		this.score += 100;
 		
 	},
 	

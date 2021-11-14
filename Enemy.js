@@ -62,7 +62,6 @@ Enemy.prototype.update = function (du) {
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
 	}
-	
 	spatialManager.register(this);
 };
 
@@ -106,7 +105,7 @@ Enemy.prototype.takeBulletHit = function () {
 Enemy.prototype.initialize = function (number, spawnLocation) {
 	let offset = number * g_sprites.ship2.width + 16;
 	this.waitT = this.waitT * number;
-	
+
 	switch (spawnLocation) {
 		case 1:
 			this.cx = 200;
@@ -151,6 +150,7 @@ Enemy.prototype.takeBulletHit = function(){
 }
 Enemy.prototype._spawnFragment = function(){
 	this._isDeadNow = true;
+	userInterface.increaseScore(Enemy);
 	console.log("ætti að hverfa held ég...");
 }
 
