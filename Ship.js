@@ -65,10 +65,10 @@ Ship.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    if ((keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) && this.cx < g_canvas.width) {
+    if ((keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) && this.cx > 0) {
         this.cx -= NOMINAL_MOVEMENT*du;
     }
-    if ((keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) && this.cx > 0) {
+    if ((keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) && this.cx < g_canvas.width) {
         this.cx += NOMINAL_MOVEMENT*du;
     }
 

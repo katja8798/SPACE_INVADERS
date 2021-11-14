@@ -157,10 +157,6 @@ const entityManager = {
         this._forEachOf(this._ships, Ship.prototype.reset);
     },
 
-    haltShips: function () {
-        this._forEachOf(this._ships, Ship.prototype.halt);
-    },
-
     init: function () {
 
     },

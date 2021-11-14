@@ -19,7 +19,7 @@
 function createInitialShips() {
     entityManager.generateShip({
         cx : g_canvas.width/2,
-        cy : g_canvas.height-g_sprites.ship.height/2
+        cy : g_canvas.height-g_sprites.ship.height/2-userInterface.height
     });
 }
 
@@ -120,7 +120,7 @@ function renderSimulation(ctx) {
 
 	paths.render(ctx);
     entityManager.render(ctx);
-	userInterface.render(ctx);
+    userInterface.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }

@@ -5,18 +5,18 @@
 function PowerUp(descr) {
 
     this.setup(descr);
-    //this.powerUpType();
     this.sprite = this.sprite || g_sprites.purpleRock;
     this.randomisePosition();
     this.randomiseVelocity();
 
-    this.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
     this.hasBeenHit = false;
     this._scale = 1;
 
 }
 
+
 PowerUp.prototype = new Entity();
+PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
 
 PowerUp.prototype.update = function (du) {
     if (!this.hasBeenHit) {
@@ -132,8 +132,8 @@ PowerUp.prototype.yellow = function() {
     if (!ship.powerUpBullet) {
         ship.powerUpBullet = true;
     }
-    this.cx = g_canvas.width-this.sprite.width;
-    this.cy = g_canvas.height-this.sprite.height;
+    this.cx = g_canvas.width-this.sprite.width/2;
+    this.cy = g_canvas.height-this.sprite.height/2;
     this.velX = 0;
     this.velY = 0;
     this.rotation = 0;
@@ -145,10 +145,18 @@ PowerUp.prototype.green = function() {
 
 PowerUp.prototype.render = function (ctx) {
 
+    ctx.save();
+    let fadeThresh = PowerUp.prototype.lifeSpan/3;
+
+    if(this.sprite === g_sprites.yellowRock && fadeThresh > this.lifeSpan) {
+        ctx.globalAlpha = this.lifeSpan / fadeThresh;
+    }
+
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
     this.sprite.drawCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
+    ctx.restore();
 };
