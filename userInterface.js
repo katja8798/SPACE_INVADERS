@@ -4,7 +4,6 @@
 
 var userInterface = {
 	height : 30,
-	width : g_canvas.width,
 	player_health : 3,
 	score : 0,
 	
@@ -44,16 +43,10 @@ var userInterface = {
 	},
 	
 	render : function (ctx) {
-		this.renderBar(ctx, 0);
-		this.renderBar(ctx, g_canvas.height-this.height)
-		
+
 		this.renderHealth(ctx);
 		
 		this.renderScore(ctx);
-	},
-
-	renderBar : function (ctx, y) {
-		util.fillBox(ctx,0,y,g_canvas.width, this.height, "purple");
 	},
 	
 	// Draws a sprite for every point of health remaining

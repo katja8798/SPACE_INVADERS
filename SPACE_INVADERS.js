@@ -119,8 +119,8 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
 	paths.render(ctx);
-    userInterface.render(ctx);
     entityManager.render(ctx);
+    userInterface.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }

@@ -5,6 +5,10 @@
 
 body {
     background-image: url("img/background.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +21,7 @@ body {
     width: 1000px;
     height: 600px;
     margin: 5px;
-    background-color: darkblue;
+    background-color: black;
     display: flex;
 }
 
@@ -25,10 +29,14 @@ body {
     margin: 5px;
     padding: 1px;
     font-family: "Arial", Helvetica, sans-serif;
+    color: white;
 }
 
 canvas{
-    flex: 60%;;
+    flex: 60%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
 }
 
 .text{
