@@ -65,7 +65,7 @@ Enemy.prototype.update = function (du) {
 };
 
 Enemy.prototype.getRadius = function() {
-	return (this.sprite.width / 2) * 0.9;
+	return this._scale*(this.sprite.width / 2) * 0.9;
 }
 
 // TODO: this._pointN must be set equal to number of points generated
