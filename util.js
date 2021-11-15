@@ -99,11 +99,32 @@ fillCircle: function (ctx, x, y, r, style) {
 	ctx.fillStyle = prevFillStyle;
 },
 
+strokeBox : function (ctx, x, y, w, h, style) {
+	var oldStyle = ctx.strokeStyle;
+	ctx.strokeStyle = style;
+	ctx.strokeRect(x, y, w, h);
+	ctx.strokeStyle = oldStyle;
+},
+
 fillBox: function (ctx, x, y, w, h, style) {
     var oldStyle = ctx.fillStyle;
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = oldStyle;
+},
+
+renderText : function (ctx, str, x, y, lineWidth, fillStyle, strokeStyle) {
+	ctx.save();
+	ctx.font = "12px bold Verdana";
+	ctx.lineWidth = lineWidth;
+	ctx.strokeStyle = strokeStyle;
+	ctx.fillStyle = fillStyle;
+	
+	let s = str;
+	let textWidth = ctx.measureText(str).width;
+	ctx.fillText(str, x, y);
+	ctx.strokeText(str, x, y);
+	ctx.restore();
 },
 
 out: function(/* args */) {

@@ -82,6 +82,8 @@ function updateSimulation(dt, du) {
     processDiagnostics();
 	
 	levelManager.update(dt);
+
+    formation.update(du);
     
     entityManager.update(du);
 	
@@ -97,8 +99,7 @@ var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
 
-var KEY_MIXED   = keyCode('M');;
-var KEY_GRAVITY = keyCode('G');
+var KEY_MIXED   = keyCode('M');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
 
@@ -106,17 +107,12 @@ var KEY_HALT  = keyCode('H');
 var KEY_RESET = keyCode('R');
 
 
-var KEY_1 = keyCode('1');
-var KEY_2 = keyCode('2');
 
-var KEY_K = keyCode('K');
 
 function processDiagnostics() {
 
     if (eatKey(KEY_MIXED))
         g_allowMixedActions = !g_allowMixedActions;
-
-    if (eatKey(KEY_GRAVITY)) g_useGravity = !g_useGravity;
 
     if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
@@ -125,22 +121,6 @@ function processDiagnostics() {
     if (eatKey(KEY_HALT)) entityManager.haltShips();
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
-
-    if (eatKey(KEY_1)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship});
-
-    if (eatKey(KEY_2)) entityManager.generateShip({
-        cx : g_mouseX,
-        cy : g_mouseY,
-        
-        sprite : g_sprites.ship2
-        });
-
-    if (eatKey(KEY_K)) entityManager.killNearestShip(
-        g_mouseX, g_mouseY);
 }
 
 
@@ -161,6 +141,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
 	paths.render(ctx);
+    formation.render(ctx);
     entityManager.render(ctx);
 	userInterface.render(ctx);
 
@@ -204,6 +185,7 @@ function preloadDone() {
 	g_sprites.heart = new Sprite(g_images.heart);
 
 	paths.init();
+    formation.init();
 	levelManager.init();
     entityManager.init();
     createInitialShips();

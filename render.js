@@ -5,7 +5,8 @@ var g_doBox = false;
 var g_undoBox = false;
 var g_doFlipFlop = false;
 var g_doRender = true;
-var g_doPaths = true;
+var g_doPaths = false;
+var g_doFormation = false;
 
 var g_frameCounter = 1;
 
@@ -15,6 +16,7 @@ var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
 var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
 var TOGGLE_RENDER = 'R'.charCodeAt(0);
 var TOGGLE_PATHS = 'I'.charCodeAt(0);
+var TOGGLE_FORMATION = 'J'.charCodeAt(0);
 
 function render(ctx) {
     
@@ -26,6 +28,7 @@ function render(ctx) {
     if (eatKey(TOGGLE_FLIPFLOP)) g_doFlipFlop = !g_doFlipFlop;
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
 	if (eatKey(TOGGLE_PATHS)) g_doPaths = !g_doPaths;
+    if (eatKey(TOGGLE_FORMATION)) g_doFormation = !g_doFormation;
     
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers

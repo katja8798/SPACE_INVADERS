@@ -8,7 +8,7 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 	
 	this._type = type;
 	
-	this._manoeuvre = manoeuvre;
+	this._manoeuvre = manoeuvre - 1;
 	
 	this.sprite = g_sprites.bee;
 	
@@ -20,8 +20,8 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 	this._numberInLine = number;
 
 	this._spawnPoint = spawnLocation - 1;
-	
-	//this._path = path;
+
+	this._pointsMax = paths.getPointsPerCurve();
 
 	this._manoN = 0;
 
@@ -31,12 +31,19 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 
 	this._wait = true;
 
+	// Formation related
+	this._myCell = 0;
+
+	this._formation = true;
+
+	this._inFormation = false;
+
 }
 
 Enemy.prototype = new Entity();
 
 // Initial, inheritable, default values
-Enemy.prototype.rotation = 0;
+Enemy.prototype.rotation = Math.PI;
 Enemy.prototype.cx = -10;
 Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
@@ -49,7 +56,11 @@ Enemy.prototype.update = function (du) {
 	let oldY = this.cy;
 	
 	spatialManager.unregister(this);
+
     if(this._isDeadNow){
+		if (this._myCell !== 0) {
+			formation.returnCell(this._myCell);
+		}
         return entityManager.KILL_ME_NOW;
     }
 	
@@ -57,16 +68,24 @@ Enemy.prototype.update = function (du) {
 	// created before starting to follow path
 	if (this._wait) this.waitT -= 1;
 
+	// If on a path: get next path coordinates
 	if (this._onPath) {
 		this.followPath(du);
 		
-		this.velX = oldX - this.cx;
-		this.velY = oldY - this.cy;
+		if(this._onPath) {
+			this.velX = oldX - this.cx;
+			this.velY = oldY - this.cy;
+		}
 	}
-	else {	
+	
+	else if (this._formation) {
+		this.goToFormation(this._myCell, du);
+	}
+
+	if (!this._formation) {	
 	
 		this.cx += this.velX * du;
-		this.cy += this.velY * du;
+		this.cy += -this.velY * du;
 	}
 	
 	spatialManager.register(this);
@@ -79,42 +98,86 @@ Enemy.prototype.followPath = function(du) {
 	if (this.waitT <= 0) this._wait = false;
 
 	if (!this._wait) {
-		if (this._pointN >= 200) {
-			this._pointN -= 200;
+		if (this._pointN >= this._pointsMax) {
+			this._pointN -= this._pointsMax;
 			this._manoN += 1;
 		}
 		let nextPoint = paths.getPathPoint(
 			this._spawnPoint,
+			this._manoeuvre,
 			this._manoN,
 			this._pointN);
 
 
+		// If path has ended: go to formation or leave area
 		if (nextPoint === 0) {
 			this._onPath = false;
-			
-			// Give enemies speed boost when they leave path
-			// if needed
-			if (this.velX > -10 && this.velX < 0) {
-				this.velX *= 2;
+
+			// Velocity can be too low when leaving path
+			//this.adjustSpeed();
+
+			// If formation is active: reserve an empty cell
+			if (this._formation) {
+				let reservedCell = formation.getEmptyCell(this._type);
+				if (reservedCell === 0) {
+					this._formation = false;
+				}
+				else {
+					this._myCell = reservedCell;
+				}
 			}
-			else if (this.velX < 10) {
-				this.velX *= 2;
+			else {
+				this.cx += this.velX * du;
+				this.cy += this.velY * du;
 			}
-			
-			if (this.velY > -10 && this.velY < 0) {
-				this.velY *= 2;
-			}
-			else if (this.velY < 10) {
-				this.velY *= 2;
-			}
-			
-			this.cx += this.velX * du;
-			this.cy += this.velY * du;
-		} else {
+		} 
+
+		// If still on path: go to next point
+		else {
 			this.cx = nextPoint.x;
 			this.cy = nextPoint.y;
 		}
+
 		this._pointN += 1;
+	}
+};
+
+// Increase enemy velocity if too low
+Enemy.prototype.adjustSpeed = function () {
+	if (this.velX < -6 || this.velX > 6) {
+		this.velX /= 3;
+	}
+	if (this.velY < -6 || this.velY > 6) {
+		this.velY /= 3;
+	}
+};
+
+// Seek coordinates of reserved cell in formation
+Enemy.prototype.goToFormation = function (cellID, du) {
+	let cellCoordinates = formation.getCellCoordinates(cellID);
+	let targetX = cellCoordinates.cx;
+	let targetY = cellCoordinates.cy;
+
+	if (this._inFormation) {
+		this.cx = targetX;
+		this.cy = targetY;
+		return;
+	}
+
+	let dx = targetX - this.cx;
+	let dy = targetY - this.cy;
+
+	let velocity = Math.sqrt(Math.sqrt(util.square(this.velX)+ util.square(this.velY)));
+	let distance = Math.sqrt(util.distSq(this.cx, this.cy, targetX, targetY));
+
+	if (distance < 5) {
+		this._inFormation = true;
+		this.cx = targetX;
+		this.cy = targetY;
+	}
+	else {
+		this.cx += velocity * du * dx / distance;
+		this.cy += velocity * du * dy / distance;
 	}
 };
 
@@ -161,8 +224,8 @@ Enemy.prototype.render = function (ctx) {
 // Kill enemies that have 'fled' too far away
 Enemy.prototype.outOfBounds = function (x, y) {
 	
-	if (x < -100 || x > g_canvas.width + 100 ||
-		y < -100 || y > g_canvas.width + 100) {
+	if (x < -200 || x > g_canvas.width + 200 ||
+		y < -200 || y > g_canvas.width + 200) {
 		
 		this.kill();
 	}
@@ -175,7 +238,7 @@ Enemy.prototype.takeBulletHit = function(){
 };
 
 Enemy.prototype._spawnFragment = function(){
-	this._isDeadNow = true;
+	this.kill();
 	console.log("ætti að hverfa held ég...");
 };
 
