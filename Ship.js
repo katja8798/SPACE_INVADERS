@@ -103,11 +103,11 @@ Ship.prototype.maybeFireBullet = function () {
         if(this.powerUpBullet) {
             entityManager.fireBullet(
                 this.cx+this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX + 0.5 + relVelX, this.velY + relVelY,
+                this.velX + 0.5 + relVelX, -5,
                 this.rotation);
             entityManager.fireBullet(
                 this.cx-this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX - 0.5 - relVelX, this.velY + relVelY,
+                this.velX - 0.5 - relVelX, -5,
                 this.rotation);
         }
 
