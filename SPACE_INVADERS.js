@@ -145,10 +145,10 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        ship: "images/galagaship.png",
+        ship: "img/galagaship.png",
         ship2: "img/ship_2.png",
         heart: "img/heart_full_32x32.png",
-        bullet: "images/bullet.png",
+        bullet: "img/bullet.png",
         bee: "images/bee.png",
         purpleRock: "img/purpleRock.png",
         greenRock: "img/greenRock.png",
