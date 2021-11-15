@@ -135,7 +135,8 @@ function requestPreloads() {
         backgroundMusic: "sounds/backgroundMusic.ogg",
         backgroundMusic2: "sounds/backgroundMusic2.ogg",
         backgroundMusic3: "sounds/music.ogg",
-        asteroidHit : "sounds/asteroidHit.ogg"
+        enemyHit : "sounds/enemyHit.ogg",
+        rockEvaporate : "sounds/rockEvaporate.ogg"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);

@@ -99,6 +99,7 @@ Enemy.prototype.followPath = function(du) {
 
 Enemy.prototype.takeBulletHit = function () {
     this.kill();
+	playSound(g_sounds.enemyHit);
 };
 
 Enemy.prototype.initialize = function (number, spawnLocation) {

@@ -14,7 +14,6 @@ function PowerUp(descr) {
 
 }
 
-
 PowerUp.prototype = new Entity();
 PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
 
@@ -59,7 +58,6 @@ PowerUp.prototype.randomisePosition = function () {
         x,
         y;
 
-
     //always appear from random edges
     if (chance < 0.33) {//left edge
         x = -this.getRadius();
@@ -102,7 +100,7 @@ PowerUp.prototype.randomiseVelocity = function () {
 
 
 PowerUp.prototype.takeBulletHit = function () {
-    playSound(g_sounds.asteroidHit);
+    playSound(g_sounds.rockEvaporate);
     this.hasBeenHit = true;
     spatialManager.unregister(this);
     this.checkType();
