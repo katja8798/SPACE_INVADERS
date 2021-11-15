@@ -101,8 +101,8 @@ const entityManager = {
         this._ships.push(new Ship(descr));
     },
 
-    generateEnemies: function (descr) {
-        this._enemies.push(new Enemy(descr));
+    generateEnemies: function (n, l, t, m) {
+        this._enemies.push(new Enemy(n,l,t,m));
     },
 
     maybeGeneratePowerUp: function () {

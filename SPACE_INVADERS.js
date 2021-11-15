@@ -54,6 +54,8 @@ function updateSimulation(dt, du) {
 
 	levelManager.update(dt);
 
+    formation.update(du);
+    
     entityManager.update(du);
 
     entityManager.maybeGeneratePowerUp();
@@ -114,6 +116,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
 	paths.render(ctx);
+    formation.render(ctx);
     entityManager.render(ctx);
     userInterface.render(ctx);
 
@@ -142,9 +145,11 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        ship: "img/ship.png",
+        ship: "images/galagaship.png",
         ship2: "img/ship_2.png",
         heart: "img/heart_full_32x32.png",
+        bullet: "images/bullet.png",
+        bee: "images/bee.png",
         purpleRock: "img/purpleRock.png",
         greenRock: "img/greenRock.png",
         yellowRock: "img/yellowRock.png"
@@ -162,10 +167,7 @@ function preloadSoundsDone() {
 function preloadImagesDone() {
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
 
-	g_sprites.heart = new Sprite(g_images.heart);
 
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
     g_sprites.greenRock = new Sprite(g_images.greenRock);
@@ -177,6 +179,17 @@ function preloadImagesDone() {
 function playGame(){
     paths.init();
     levelManager.init();
+    g_sprites.bee = new Sprite(g_images.bee);
+    g_sprites.bee.scale = 0.5;
+    
+    g_sprites.bullet = new Sprite(g_images.bullet);
+    g_sprites.bullet.scale = 0.5;
+
+	g_sprites.heart = new Sprite(g_images.heart);
+
+	paths.init();
+    formation.init();
+	levelManager.init();
     entityManager.init();
     createInitialShips();
 
