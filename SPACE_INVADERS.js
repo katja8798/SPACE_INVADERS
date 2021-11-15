@@ -50,6 +50,7 @@ function gatherInputs() {
 function updateSimulation(dt, du) {
     
     processDiagnostics();
+    playBackgroundMusic();
 
 	levelManager.update(dt);
 
@@ -73,10 +74,6 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
-const  KEY_MUSIC = keyCode('N')
-
-let backgroundMusicOn = true;
-
 const g_sounds = {};
 
 function processDiagnostics() {
@@ -91,13 +88,11 @@ function processDiagnostics() {
     if (eatKey(KEY_RESET)) entityManager.resetShips();
 
     if (eatKey(KEY_MUSIC)) {
-        backgroundMusicOn = !backgroundMusicOn;
+        musicOn = !musicOn;
     }
 
-    if(backgroundMusicOn) {
-        playMusic(g_sounds.backgroundMusic2);
-    }else {
-        pauseMusic(g_sounds.backgroundMusic2)
+    if (eatKey(KEY_SOUND)) {
+        soundOn = !soundOn;
     }
 }
 

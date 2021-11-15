@@ -84,8 +84,8 @@ PowerUp.prototype.randomisePosition = function () {
 };
 
 PowerUp.prototype.randomiseVelocity = function () {
-    const MIN_SPEED = 40,
-        MAX_SPEED = 70;
+    const MIN_SPEED = 60,
+        MAX_SPEED = 90;
 
     const speed = util.randRange(MIN_SPEED, MAX_SPEED) / SECS_TO_NOMINALS;
     const dirn = Math.random() * consts.FULL_CIRCLE;
@@ -93,8 +93,8 @@ PowerUp.prototype.randomiseVelocity = function () {
     this.velX = this.velX || speed * Math.cos(dirn);
     this.velY = this.velY || speed * Math.sin(dirn);
 
-    const MIN_ROT_SPEED = 1.5,
-        MAX_ROT_SPEED = 3.5;
+    const MIN_ROT_SPEED = 4.5,
+        MAX_ROT_SPEED = 5.5;
 
     this.velRot = this.velRot ||
         util.randRange(MIN_ROT_SPEED, MAX_ROT_SPEED) / SECS_TO_NOMINALS;
