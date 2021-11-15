@@ -11,7 +11,8 @@ function PowerUp(descr) {
 
     this.hasBeenHit = this.hasBeenHit || false;
     this._scale = this._scale || 1;
-    this.isChild = this.isChild || false;
+    this.isSpawn = this.isSpawn || false;
+    this.spawnIsReg = true;
 
 }
 
@@ -19,43 +20,50 @@ PowerUp.prototype = new Entity();
 PowerUp.prototype.lifeSpan = 5000 / NOMINAL_UPDATE_INTERVAL;
 
 PowerUp.prototype.update = function (du) {
-    if (!this.hasBeenHit) {
+    if (!this.isSpawn) {
         spatialManager.unregister(this);
 
-        if(!this._isDeadNow && !this.isChild){
-            //Kill if it reaches the edge
-            if (this.cy < 0-this.getRadius() || this.cy > g_canvas.height+this.getRadius() ||
-                this.cx < 0-this.getRadius() || this.cx > g_canvas.width+this.getRadius()){
-                return entityManager.KILL_ME_NOW;
-            }
-
-            this.cx += this.velX * du;
-            this.cy += this.velY * du;
-            this.rotation += 1 * this.velRot;
-
-            spatialManager.register(this);
+        if(this._isDeadNow){
+            return entityManager.KILL_ME_NOW;
         }
-        else {
-            this.hasBeenHit = true;
+
+        //Kill if it reaches the edge
+        if (this.cy < 0-this.getRadius() || this.cy > g_canvas.height+this.getRadius() ||
+            this.cx < 0-this.getRadius() || this.cx > g_canvas.width+this.getRadius()){
+            return entityManager.KILL_ME_NOW;
         }
+
+        this.cx += this.velX * du;
+        this.cy += this.velY * du;
+        this.rotation += 1 * this.velRot;
+
+        spatialManager.register(this);
     }
     else {
+        //unregister first
+        if (this.spawnIsReg) {
+            spatialManager.unregister(this);
+            this.spawnIsReg = false;
+        }
+
         this.lifeSpan -= du;
-        if (!(this.isChild && this.lifeSpan > 0)) {
-            if (this.lifeSpan < 0 && this.sprite === g_sprites.yellowRock) {
+
+        if (this.lifeSpan < 0 ) {
+            //only big yellow spawns can change bullet type
+            if (this.sprite === g_sprites.yellowRock && this._scale > 0.5) {
                 const ship = entityManager._findNearestShip(0, 0).theShip;
                 if (ship.powerUpBullet) {
                     ship.powerUpBullet = false;
                 }
-                return entityManager.KILL_ME_NOW;
-            } else if (this.sprite === g_sprites.purpleRock ||
-                this.sprite === g_sprites.greenRock) {
-                return entityManager.KILL_ME_NOW;
             }
+            return entityManager.KILL_ME_NOW;
         }
-        this.cx += this.velX * du;
-        this.cy += this.velY * du;
-        this.rotation += 1 * this.velRot;
+
+        //only small spawns move
+        if (this._scale <= 0.5) {
+            this.cx += this.velX * du;
+            this.cy += this.velY * du;
+        }
     }
 };
 
@@ -110,26 +118,27 @@ PowerUp.prototype.randomiseVelocity = function () {
 
 
 PowerUp.prototype.takeBulletHit = function () {
-    playSound(g_sounds.rockSplit);
     this.kill();
+    playSound(g_sounds.rockSplit);
     if (this._scale > 0.5) {
-        //spawn five power up fragments
-        for (let i = 0; i < 5; i++) {
-            this._spawn();
+        let n = Math.round(util.randRange(4,7));
+        for (let i = 0; i < n; i++) {
+            this.spawn({
+                cx : this.cx,
+                cy : this.cy,
+                _scale : this._scale/2,
+                lifeSpan : PowerUp.prototype.lifeSpan/10,
+                sprite : this.sprite,
+                isSpawn : true,
+                spawnIsReg : true
+            });
         }
     }
     this.checkType();
 };
 
-PowerUp.prototype._spawn = function () {
-    entityManager.generatePowerUp({
-        cx : this.cx,
-        cy : this.cy,
-        _scale : this._scale/2,
-        lifeSpan : PowerUp.prototype.lifeSpan/10,
-        sprite : this.sprite,
-        isChild : true
-    });
+PowerUp.prototype.spawn = function (descr) {
+    entityManager.generatePowerUp(descr);
 }
 
 PowerUp.prototype.checkType = function () {
@@ -157,11 +166,16 @@ PowerUp.prototype.yellow = function() {
     if (!ship.powerUpBullet) {
         ship.powerUpBullet = true;
     }
-    this.cx = g_canvas.width-this.sprite.width/2;
-    this.cy = g_canvas.height-this.sprite.height/2;
-    this.velX = 0;
-    this.velY = 0;
-    this.rotation = 0;
+    this.spawn({
+        sprite : this.sprite,
+        cx : g_canvas.width-this.sprite.width/2,
+        cy : g_canvas.height-this.sprite.height/2,
+        velX : 0,
+        velY : 0,
+        rotation : 0,
+        isSpawn : true,
+        spawnIsReg : true
+    });
 };
 
 PowerUp.prototype.green = function() {
@@ -173,7 +187,7 @@ PowerUp.prototype.render = function (ctx) {
     ctx.save();
     let fadeThresh = PowerUp.prototype.lifeSpan/3;
 
-    if((this.sprite === g_sprites.yellowRock || this.isChild) && fadeThresh > this.lifeSpan) {
+    if((this.sprite === g_sprites.yellowRock || this.isSpawn) && fadeThresh > this.lifeSpan) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
