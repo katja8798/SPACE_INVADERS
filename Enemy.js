@@ -2,11 +2,12 @@
 // ENEMY STUFF
 // ==========
 
-function Enemy(number, spawnLocation, type, manoeuvre) {
-	
-    this.initialize(number, spawnLocation);
+function Enemy(descr) {
 
-	this._type = type;
+	this.setup(descr);
+    this.initialize(this._numberInLine, this._spawnPoint);
+
+	//this._type = type;
 	
 	this.sprite = g_sprites.bee;
 	
@@ -16,11 +17,11 @@ function Enemy(number, spawnLocation, type, manoeuvre) {
 
 	// Path related
 
-	this._numberInLine = number;
+	//this._numberInLine = number;
 
-	this._spawnPoint = spawnLocation - 1;
+	//this._spawnPoint = spawnLocation - 1;
 
-	this._manoeuvre = manoeuvre - 1;
+	//this._manoeuvre = manoeuvre - 1;
 
 	this._pointsMax = paths.getPointsPerCurve();
 
@@ -54,7 +55,7 @@ Enemy.prototype.waitT = 16;
 Enemy.prototype._type = null;
 Enemy.prototype._numberInLine = null;
 Enemy.prototype._spawnPoint = null;
-Enemy.prototype._path = null;
+Enemy.prototype._manoeuvre = null;
 
 Enemy.prototype.update = function (du) {
 	
@@ -247,8 +248,4 @@ Enemy.prototype.outOfBounds = function (x, y) {
 		
 		this.kill();
 	}
-};
-
-Enemy.prototype.getRadius = function(){
-	return (this.sprite.width/4);
 };

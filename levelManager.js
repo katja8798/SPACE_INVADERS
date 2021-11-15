@@ -72,11 +72,12 @@ _spawnEnemies: function() {
 		m = squad[3];
 		
 		for (let j = 0; j < n; j++) {
-			entityManager.generateEnemies(
-				0 + j,
-				l,
-				t,
-				m
+			entityManager.generateEnemies({
+				_numberInLine : j,
+				_spawnPoint : l - 1,
+				_type : t ,
+				_manoeuvre : m - 1,
+				}
 			);
 		}
 
