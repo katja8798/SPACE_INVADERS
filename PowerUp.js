@@ -9,43 +9,53 @@ function PowerUp(descr) {
     this.randomisePosition();
     this.randomiseVelocity();
 
-    this.hasBeenHit = false;
-    this._scale = 1;
+    this.hasBeenHit = this.hasBeenHit || false;
+    this._scale = this._scale || 1;
+    this.isChild = this.isChild || false;
 
 }
 
 PowerUp.prototype = new Entity();
-PowerUp.prototype.lifeSpan = 6000 / NOMINAL_UPDATE_INTERVAL;
+PowerUp.prototype.lifeSpan = 5000 / NOMINAL_UPDATE_INTERVAL;
 
 PowerUp.prototype.update = function (du) {
     if (!this.hasBeenHit) {
         spatialManager.unregister(this);
 
-        //Kill if it reaches the edge
-        if (this.cy < 0-this.getRadius() || this.cy > g_canvas.height+this.getRadius() ||
-            this.cx < 0-this.getRadius() || this.cx > g_canvas.width+this.getRadius()){
-            return entityManager.KILL_ME_NOW;
+        if(!this._isDeadNow && !this.isChild){
+            //Kill if it reaches the edge
+            if (this.cy < 0-this.getRadius() || this.cy > g_canvas.height+this.getRadius() ||
+                this.cx < 0-this.getRadius() || this.cx > g_canvas.width+this.getRadius()){
+                return entityManager.KILL_ME_NOW;
+            }
+
+            this.cx += this.velX * du;
+            this.cy += this.velY * du;
+            this.rotation += 1 * this.velRot;
+
+            spatialManager.register(this);
         }
-
-        this.cx += this.velX * du;
-        this.cy += this.velY * du;
-        this.rotation += 1 * this.velRot;
-
-        spatialManager.register(this);
+        else {
+            this.hasBeenHit = true;
+        }
     }
     else {
         this.lifeSpan -= du;
-        if (this.lifeSpan < 0 && this.sprite === g_sprites.yellowRock){
-            var ship = entityManager._findNearestShip(0,0).theShip;
-            if (ship.powerUpBullet) {
-                ship.powerUpBullet = false;
+        if (!(this.isChild && this.lifeSpan > 0)) {
+            if (this.lifeSpan < 0 && this.sprite === g_sprites.yellowRock) {
+                const ship = entityManager._findNearestShip(0, 0).theShip;
+                if (ship.powerUpBullet) {
+                    ship.powerUpBullet = false;
+                }
+                return entityManager.KILL_ME_NOW;
+            } else if (this.sprite === g_sprites.purpleRock ||
+                this.sprite === g_sprites.greenRock) {
+                return entityManager.KILL_ME_NOW;
             }
-            return entityManager.KILL_ME_NOW;
         }
-        else if (this.sprite === g_sprites.purpleRock ||
-            this.sprite === g_sprites.greenRock){
-            return entityManager.KILL_ME_NOW;
-        }
+        this.cx += this.velX * du;
+        this.cy += this.velY * du;
+        this.rotation += 1 * this.velRot;
     }
 };
 
@@ -100,11 +110,27 @@ PowerUp.prototype.randomiseVelocity = function () {
 
 
 PowerUp.prototype.takeBulletHit = function () {
-    playSound(g_sounds.rockEvaporate);
-    this.hasBeenHit = true;
-    spatialManager.unregister(this);
+    playSound(g_sounds.rockSplit);
+    this.kill();
+    if (this._scale > 0.5) {
+        //spawn five power up fragments
+        for (let i = 0; i < 5; i++) {
+            this._spawn();
+        }
+    }
     this.checkType();
 };
+
+PowerUp.prototype._spawn = function () {
+    entityManager.generatePowerUp({
+        cx : this.cx,
+        cy : this.cy,
+        _scale : this._scale/2,
+        lifeSpan : PowerUp.prototype.lifeSpan/10,
+        sprite : this.sprite,
+        isChild : true
+    });
+}
 
 PowerUp.prototype.checkType = function () {
   switch (this.sprite) {
@@ -127,7 +153,7 @@ PowerUp.prototype.purple = function() {
 };
 
 PowerUp.prototype.yellow = function() {
-    var ship = entityManager._findNearestShip(0,0).theShip;
+    const ship = entityManager._findNearestShip(0, 0).theShip;
     if (!ship.powerUpBullet) {
         ship.powerUpBullet = true;
     }
@@ -147,7 +173,7 @@ PowerUp.prototype.render = function (ctx) {
     ctx.save();
     let fadeThresh = PowerUp.prototype.lifeSpan/3;
 
-    if(this.sprite === g_sprites.yellowRock && fadeThresh > this.lifeSpan) {
+    if((this.sprite === g_sprites.yellowRock || this.isChild) && fadeThresh > this.lifeSpan) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 

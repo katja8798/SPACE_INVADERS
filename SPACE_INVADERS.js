@@ -136,7 +136,7 @@ function requestPreloads() {
         backgroundMusic2: "sounds/backgroundMusic2.ogg",
         backgroundMusic3: "sounds/music.ogg",
         enemyHit : "sounds/enemyHit.ogg",
-        rockEvaporate : "sounds/rockEvaporate.ogg"
+        rockSplit : "sounds/rockSplit.ogg",
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
