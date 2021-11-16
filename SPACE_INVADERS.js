@@ -25,7 +25,7 @@ function createInitialShips() {
 
 function createBackground() {
     entityManager.generateBackground({
-        sprite : g_sprites.background
+        sprite : g_sprites.gameBackground
     });
 }
 
@@ -167,7 +167,7 @@ function requestPreloads() {
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
         purpleBoss : "images/purpleboss.png",
-        background : "img/gameBackground.jpg"
+        gameBackground : "img/gameBackground.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -204,7 +204,7 @@ function preloadImagesDone() {
 
     //other
 	g_sprites.heart = new Sprite(g_images.heart);
-    g_sprites.background = new Sprite(g_images.background);
+    g_sprites.gameBackground = new Sprite(g_images.gameBackground);
 
 
     playGame();
