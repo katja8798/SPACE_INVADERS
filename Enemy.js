@@ -230,6 +230,18 @@ Enemy.prototype.initialize = function (number, spawnLocation) {
 			this.cy = 400;
 			this.velX = -4;
 			this.velY = 0;
+			break;
+		case 5:
+			this.cx = 0 - offset;
+			this.cy = 200;
+			this.velX = 4;
+			this.velY = 0;
+			break;
+		case 6:
+			this.cx = g_canvas.width + offset;
+			this.cy = 200;
+			this.velX = -4;
+			this.velY = 0;
 	}
 };
 

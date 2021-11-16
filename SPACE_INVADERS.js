@@ -55,6 +55,7 @@ function updateSimulation(dt, du) {
 	levelManager.update(dt);
 
     formation.update(du);
+    stars.update(du);
 
     entityManager.update(du);
 
@@ -117,6 +118,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
+    stars.render(ctx);
 	paths.render(ctx);
     formation.render(ctx);
     entityManager.render(ctx);
@@ -205,6 +207,7 @@ function playGame(){
 
 	paths.init();
     formation.init();
+    stars.init();
 	levelManager.init();
     entityManager.init();
     createInitialShips();

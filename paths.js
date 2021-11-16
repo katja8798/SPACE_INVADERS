@@ -17,7 +17,7 @@ _paths : [],
 // TODO: Make a combination of key presses change which path to draw
 //		 for debug/visualization purposes. 
 //		 Change the render function accordingly.
-_drawPath : 0,
+_drawSpawnPointN : [false,false,false,false,false,false],
 
 // PRIVATE METHODS
 
@@ -72,13 +72,20 @@ render : function (ctx) {
 			for (var j=0; j < this._paths[i].length; j++) {
 				for (var k=0; k < this._paths[i][j].length; k++) {
 					for (var l=0; l < this._paths[i][j][k].length; l++) {
-						let p = this._paths[i][j][k][l];
-						util.fillCircle(ctx, p.x, p.y, 1, 'red');
+						if (this._drawSpawnPointN[i]) {
+							let p = this._paths[i][j][k][l];
+							util.fillCircle(ctx, p.x, p.y, 1, 'red');
+						}
 					}
 				}
 			}
 		}
 	}
+},
+
+// Toggles rendering of paths for spawn point 'sp' on/off
+drawPathsForSP : function(sp) {
+	this._drawSpawnPointN[sp] = !this._drawSpawnPointN[sp];
 },
 
 getPathPoint : function (spawnPoint, path, curveN, pointN) {
@@ -115,7 +122,7 @@ init : function() {
 
 let nPoints = this._pointsPerCurve;
 	
-// Spawn point 1
+// Spawn point 1 (x:200, y:0)
 	let sp1 = [];
 	this._paths.push(sp1);
 
@@ -127,7 +134,7 @@ let nPoints = this._pointsPerCurve;
 
 	// Path 2
 	
-// Spawn point 2
+// Spawn point 2 (x:400, y:0)
 	let sp2 = [];
 	this._paths.push(sp2);
 
@@ -140,7 +147,7 @@ let nPoints = this._pointsPerCurve;
 	// Path 2
 
 
-// Spawn point 3
+// Spawn point 3 (x:0, y: 400)
 	let sp3 = [];
 	this._paths.push(sp3);
 	
@@ -152,7 +159,7 @@ let nPoints = this._pointsPerCurve;
 	sp3.push(s3p1);
 
 
-// Spawn point 4
+// Spawn point 4 (x:canvas.width, y:400)
 	let sp4 = [];
 	this._paths.push(sp4);	
 
@@ -162,6 +169,32 @@ let nPoints = this._pointsPerCurve;
 	s4p1.push(this._bezierCurve(nPoints,{x:450,y:150},{x:700,y:20},{x:700,y:500},{x:300,y:200}));
 
 	sp4.push(s4p1);
+
+// Spawn point 5 (x:0, y:200)
+	let sp5 = [];
+	this._paths.push(sp5);
+
+	// Path 1
+	s5p1 = [];
+	s5p1.push(this._bezierCurve(nPoints,{x:0,y:200},{x:50,y:400},{x:250,y:400},{x:300,y:200}));
+	s5p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:350,y:0},{x:550,y:0},{x:600,y:200}));
+	s5p1.push(this._bezierCurve(nPoints,{x:600,y:200},{x:550,y:400},{x:350,y:400},{x:300,y:200}));
+
+	sp5.push(s5p1);
+
+
+
+// Spawn point 6 (x:canvas.width, y:200)
+	let sp6 = [];
+	this._paths.push(sp6);
+
+	// Path 1
+	s6p1 = [];
+	s6p1.push(this._bezierCurve(nPoints,{x:600,y:200},{x:550,y:400},{x:350,y:400},{x:300,y:200}));
+	s6p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:250,y:0},{x:50,y:0},{x:0,y:200}));
+	s6p1.push(this._bezierCurve(nPoints,{x:0,y:200},{x:50,y:400},{x:250,y:400},{x:300,y:200}));
+
+	sp6.push(s6p1);
 }
 
 }
