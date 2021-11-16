@@ -167,7 +167,7 @@ function requestPreloads() {
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
         purpleBoss : "images/purpleboss.png",
-        background : "img/background.jpg"
+        background : "img/gameBackground.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -204,9 +204,8 @@ function preloadImagesDone() {
 
     //other
 	g_sprites.heart = new Sprite(g_images.heart);
-    g_images.background.height = 600;
-    g_images.background.width = 600;
     g_sprites.background = new Sprite(g_images.background);
+
 
     playGame();
 }
