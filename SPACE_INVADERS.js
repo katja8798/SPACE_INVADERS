@@ -19,7 +19,7 @@
 function createInitialShips() {
     entityManager.generateShip({
         cx : g_canvas.width/2,
-        cy : g_canvas.height-g_sprites.ship.height/2-userInterface.height
+        cy : g_canvas.height-g_sprites.galagaShip.height/2-userInterface.height
     });
 }
 
@@ -50,8 +50,11 @@ function gatherInputs() {
 function updateSimulation(dt, du) {
     
     processDiagnostics();
+    playBackgroundMusic();
 
 	levelManager.update(dt);
+
+    formation.update(du);
 
     entityManager.update(du);
 
@@ -73,9 +76,7 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
-const  KEY_MUSIC = keyCode('N')
 
-let backgroundMusicOn = true;
 
 const g_sounds = {};
 
@@ -91,13 +92,11 @@ function processDiagnostics() {
     if (eatKey(KEY_RESET)) entityManager.resetShips();
 
     if (eatKey(KEY_MUSIC)) {
-        backgroundMusicOn = !backgroundMusicOn;
+        musicOn = !musicOn;
     }
 
-    if(backgroundMusicOn) {
-        playMusic(g_sounds.backgroundMusic2);
-    }else {
-        pauseMusic(g_sounds.backgroundMusic2)
+    if (eatKey(KEY_SOUND)) {
+        soundOn = !soundOn;
     }
 }
 
@@ -119,6 +118,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
 	paths.render(ctx);
+    formation.render(ctx);
     entityManager.render(ctx);
     userInterface.render(ctx);
 
@@ -134,27 +134,29 @@ const g_images = {};
 
 function requestPreloads() {
 
+
     const requiredSounds = {
         bulletFire: "sounds/bulletFire.ogg",
         bulletZapped: "sounds/bulletZapped.ogg",
         backgroundMusic: "sounds/backgroundMusic.ogg",
         backgroundMusic2: "sounds/backgroundMusic2.ogg",
         backgroundMusic3: "sounds/music.ogg",
-        asteroidHit : "sounds/asteroidHit.ogg"
+        enemyHit : "sounds/enemyHit.ogg",
+        rockSplit : "sounds/rockSplit.ogg",
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        purpleRock: "img/purpleRock.png",
-        greenRock: "img/greenRock.png",
-        yellowRock: "img/yellowRock.png",
         ship   : "images/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         heart  : "img/heart_full_32x32.png",
         bullet : "images/bullet.png",
         bee : "images/bee.png",
         enemyBullet : "images/enemyBullet.png",
+        purpleRock: "img/purpleRock.png",
+        greenRock: "img/greenRock.png",
+        yellowRock: "img/yellowRock.png",
         //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
@@ -171,29 +173,40 @@ function preloadSoundsDone() {
 }
 
 function preloadImagesDone() {
+    //ships
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
+    g_sprites.galagaShip = new Sprite(g_images.galagaShip);
+
+    //power ups
+    g_sprites.purpleRock = new Sprite(g_images.purpleRock);
+    g_sprites.greenRock = new Sprite(g_images.greenRock);
+    g_sprites.yellowRock = new Sprite(g_images.yellowRock);
+
+    //enemies
     g_sprites.bee = new Sprite(g_images.bee);
     g_sprites.bee.scale = 0.5;
-    g_sprites.bullet = new Sprite(g_images.bullet);
-    g_sprites.bullet.scale = 0.5;
-    g_sprites.enemyBullet = new Sprite(g_images.enemyBullet);
-    g_sprites.enemyBullet.scale = 0.5;
-	g_sprites.heart = new Sprite(g_images.heart);
     g_sprites.butterfly = new Sprite(g_images.butterfly);
     g_sprites.boss = new Sprite(g_images.boss);
     g_sprites.purpleBoss = new Sprite(g_images.purpleBoss);
 
-    g_sprites.purpleRock = new Sprite(g_images.purpleRock);
-    g_sprites.greenRock = new Sprite(g_images.greenRock);
-    g_sprites.yellowRock = new Sprite(g_images.yellowRock);
+    //bullets
+    g_sprites.bullet = new Sprite(g_images.bullet);
+    g_sprites.bullet.scale = 0.5;
+    g_sprites.enemyBullet = new Sprite(g_images.enemyBullet);
+    g_sprites.enemyBullet.scale = 0.5;
+
+    //other
+	g_sprites.heart = new Sprite(g_images.heart);
 
     playGame();
 }
 
 function playGame(){
-    paths.init();
-    levelManager.init();
+
+	paths.init();
+    formation.init();
+	levelManager.init();
     entityManager.init();
     createInitialShips();
 

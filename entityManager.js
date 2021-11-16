@@ -117,38 +117,23 @@ const entityManager = {
 
     maybeGeneratePowerUp: function () {
         const chance = util.randRange(0, 1000);
-        if (chance < 5) {
-            const num = Math.round(util.randRange(1, 10));
+        if (chance < 10) {
+            const num = util.randRange(0, 10);
+            let s;
 
-            switch (num) {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    entityManager.generatePowerUp({
-                        sprite: g_sprites.purpleRock
-                    });
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                    entityManager.generatePowerUp({
-                        sprite: g_sprites.greenRock
-                    });
-                    break;
-                case 9:
-                case 10:
-                    entityManager.generatePowerUp({
-                        sprite: g_sprites.yellowRock
-                    });
-                    break;
-                default:
-                    entityManager.generatePowerUp({
-                        sprite: g_sprites.purpleRock
-                    });
-                    break;
+            if (num <= 5) {
+                s = g_sprites.purpleRock;
             }
+            else if (num <= 8) {
+                s = g_sprites.greenRock;
+            }
+            else {
+                s = g_sprites.yellowRock;
+            }
+
+            entityManager.generatePowerUp({
+                sprite: s
+            });
         }
     },
 

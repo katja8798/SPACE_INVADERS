@@ -23,7 +23,7 @@ function Ship(descr) {
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.ship;
     
-    // Set normal drawing scale, and warp state off
+    // Set normal drawing scale
     this._scale = 1;
 
     this.powerUpBullet = false;
@@ -100,17 +100,17 @@ Ship.prototype.maybeFireBullet = function () {
 
         entityManager.fireBullet(
            this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
+           this.velX + relVelX, -5,
            this.rotation);
 
         if(this.powerUpBullet) {
             entityManager.fireBullet(
                 this.cx+this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX + 0.5 + relVelX, this.velY + relVelY,
+                this.velX + 0.5 + relVelX, -5,
                 this.rotation);
             entityManager.fireBullet(
                 this.cx-this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX - 0.5 - relVelX, this.velY + relVelY,
+                this.velX - 0.5 - relVelX, -5,
                 this.rotation);
         }
 
@@ -118,7 +118,7 @@ Ship.prototype.maybeFireBullet = function () {
 };
 
 Ship.prototype.getRadius = function () {
-    return (this.sprite.width / 2) * 0.9;
+    return this._scale*(this.sprite.height / 2) * 0.9;
 };
 
 Ship.prototype.takeBulletHit = function () {
@@ -137,22 +137,11 @@ Ship.prototype.halt = function () {
     this.velY = 0;
 };
 
-/*var NOMINAL_ROTATE_RATE = 0.1;
-
-Ship.prototype.updateRotation = function (du) {
-    if (keys[this.KEY_LEFT]) {
-        this.rotation -= NOMINAL_ROTATE_RATE * du;
-    }
-    if (keys[this.KEY_RIGHT]) {
-        this.rotation += NOMINAL_ROTATE_RATE * du;
-    }
-};*/
-
 Ship.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
-    this.sprite.drawWrappedCentredAt(
+    this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;

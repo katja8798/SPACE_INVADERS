@@ -6,27 +6,27 @@
     <title>SPACE INVADERS!</title>
   </head>
   <body>
-    <div class="content">
+  <div class="mainContainer">
+    <h1>Space Invaders</h1>
+    <div class="gameContent">
       <canvas id="myCanvas" width="600" height="600">
         Sorry, but your browser does not support the HTML5 canvas tag.
       </canvas>
       <div class="text">
-        <h1>Space Invaders</h1>
         <div>
           <h2>Aim of the Game:</h2>
-          <p>Live to the end by avoiding enemies and asteroids.</p>
-          <p>Gain points by shooting enemies and asteroids.</p>
+          <p>Live to the end by avoiding and shooting both enemies and asteroids.</p>
         </div>
         <div>
           <h2>Asteroid Facts:</h2>
           <p class="gold">
-            Golden asteroids provide extra minerals and energy, allowing us to make more bullets to fire
+            Gold asteroids provide extra minerals and energy, allowing us to make more bullets to fire.
           </p>
           <p class="purple">
-            Purple asteroids contain similar organic material to the enemies, letting us increase our score
+            Purple asteroids contain similar organic material to the enemies, letting us increase our score.
           </p>
           <p class="green">
-            Green asteroids hold material which we can use to repair our ships hull and equipment
+            Green asteroids hold material which we can use to repair our ships hull and equipment.
           </p>
         </div>
         <div>
@@ -36,12 +36,13 @@
           <p>Shoot: Space key</p>
         </div>
         <div>
-          <h2>Miscellaneous Controls</h2>
+          <h2>Miscellaneous Controls:</h2>
           <h3>Toggleable</h3>
           <p>Music: N key</p>
-          <p>Sound effects: </p>
+          <p>Sound effects: K key</p>
         </div>
       </div>
+    </div>
     </div>
     <div id="output"></div>
     <script src="globals.js"></script>
@@ -52,9 +53,10 @@
 
     <script src="spatialManager.js"></script>
     <script src="entityManager.js"></script>
-	<script src="userInterface.js"></script>
-	<script src="levelManager.js"></script>
-	<script src="paths.js"></script>
+	  <script src="userInterface.js"></script>
+	  <script src="levelManager.js"></script>
+	  <script src="paths.js"></script>
+    <script src="formation.js"></script>
 
 
     <script src="Sprite.js"></script>
@@ -62,7 +64,7 @@
     <script src="Entity.js"></script>
     <script src="Bullet.js"></script>
     <script src="Ship.js"></script>
-	<script src="Enemy.js"></script>
+  	<script src="Enemy.js"></script>
     <script src="PowerUp.js"></script>
     <script src="EnemyBullet.js"></script>
 

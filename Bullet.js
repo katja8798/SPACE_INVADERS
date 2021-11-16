@@ -52,7 +52,7 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    this.rotation += 1 * du;
+    //this.rotation += 1 * du;
 
     //
     // Handle collisions
@@ -80,7 +80,7 @@ Bullet.prototype.takeBulletHit = function () {
 
 Bullet.prototype.render = function (ctx) {
     g_sprites.bullet.drawCentredAt(
-        ctx, this.cx, this.cy, //this.rotation
+        ctx, this.cx, this.cy, this.rotation
     );
 
     ctx.globalAlpha = 1;

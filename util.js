@@ -80,50 +80,70 @@ const util = {
 // CANVAS OPS
 // ==========
 
-    clearCanvas: function (ctx) {
-        const prevfillStyle = ctx.fillStyle;
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        ctx.fillStyle = prevfillStyle;
-    },
+clearCanvas: function (ctx) {
+    const prevfillStyle = ctx.fillStyle;
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    ctx.fillStyle = prevfillStyle;
+},
 
-    strokeCircle: function (ctx, x, y, r) {
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.stroke();
-    },
+strokeCircle: function (ctx, x, y, r) {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.stroke();
+},
 
-    fillCircle: function (ctx, x, y, r, style) {
-        const prevFillStyle = ctx.fillStyle;
-        ctx.fillStyle = style;
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.fillStyle = prevFillStyle;
-    },
+fillCircle: function (ctx, x, y, r, style) {
+    const prevFillStyle = ctx.fillStyle;
+    ctx.fillStyle = style;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.fillStyle = prevFillStyle;
+},
 
-    fillBox: function (ctx, x, y, w, h, style) {
-        const oldStyle = ctx.fillStyle;
-        ctx.fillStyle = style;
-        ctx.fillRect(x, y, w, h);
-        ctx.fillStyle = oldStyle;
-    },
+fillBox: function (ctx, x, y, w, h, style) {
+    const oldStyle = ctx.fillStyle;
+    ctx.fillStyle = style;
+    ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = oldStyle;
+},
+    
+strokeBox : function (ctx, x, y, w, h, style) {
+	var oldStyle = ctx.strokeStyle;
+	ctx.strokeStyle = style;
+	ctx.strokeRect(x, y, w, h);
+	ctx.strokeStyle = oldStyle;
+},
 
-    out: function (/* args */) {
-        const args = arguments;
-        console.log.apply(console, args);
+renderText : function (ctx, str, x, y, lineWidth, fillStyle, strokeStyle) {
+	ctx.save();
+	ctx.font = "12px bold Verdana";
+	ctx.lineWidth = lineWidth;
+	ctx.strokeStyle = strokeStyle;
+	ctx.fillStyle = fillStyle;
+	
+	let s = str;
+	let textWidth = ctx.measureText(str).width;
+	ctx.fillText(str, x, y);
+	ctx.strokeText(str, x, y);
+	ctx.restore();
+},
 
-        const strs = [];
-        for (let i = 0; i < args.length; ++i) {
-            let thing = args[i];
-            if (typeof (thing) === "object") {
-                thing = JSON.stringify(thing);
-            }
-            strs.push(thing);
+out: function (/* args */) {
+    const args = arguments;
+    console.log.apply(console, args);
+
+    const strs = [];
+    for (let i = 0; i < args.length; ++i) {
+        let thing = args[i];
+        if (typeof (thing) === "object") {
+            thing = JSON.stringify(thing);
+        }
+        strs.push(thing);
         }
         const line = strs.join(" ") + "<br/>";
 
         document.getElementById("output").innerHTML += line;
     }
-
 };

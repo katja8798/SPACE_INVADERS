@@ -74,10 +74,11 @@ _spawnEnemies: function() {
 		for (let j = 0; j < n; j++) {
 			entityManager.generateEnemies({
 				_numberInLine : j,
-				_spawnPoint : l-1,
-				_type : t,
-				_path : m
-			});
+				_spawnPoint : l - 1,
+				_type : t ,
+				_manoeuvre : m - 1,
+				}
+			);
 		}
 
 		this._enemiesAlive += n;
@@ -148,6 +149,13 @@ init: function() {
 // LEVELS
 
 _levels : [
+
+	// enemySquad:
+	// [N, L, T, M] where:
+	// N = Number of enemies
+	// L = Spawning Location
+	// T = Type of enemy
+	// M = Manoeuvre (which path of L they take)
 	
 	// LEVEL 1
 	{
@@ -155,11 +163,11 @@ _levels : [
 		_numSquadsAtT: [2,2,2,2],
 		_enemySquad: [
 			[4,1,1,1],
-			[4,2,1,2],
+			[4,2,1,1],
 			[4,3,1,1],
 			[4,4,1,1],
 			[4,1,1,1],
-			[4,2,1,2],
+			[4,2,1,1],
 			[4,3,1,1],
 			[4,4,1,1]
 		]
@@ -171,11 +179,11 @@ _levels : [
 		_numSquadsAtT: [2,2,2,2],
 		_enemySquad: [
 			[2,1,1,1],
-			[2,2,1,2],
+			[2,2,1,1],
 			[2,3,1,1],
 			[2,4,1,1],
 			[1,1,1,1],
-			[1,2,1,2],
+			[1,2,1,1],
 			[3,3,1,1],
 			[3,4,1,1]
 		]
