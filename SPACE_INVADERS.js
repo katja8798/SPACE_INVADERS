@@ -148,7 +148,7 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        ship   : "images/galagaship.png",
+        galagaShip   : "images/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         heart  : "img/heart_full_32x32.png",
         bullet : "images/bullet.png",
@@ -174,9 +174,8 @@ function preloadSoundsDone() {
 
 function preloadImagesDone() {
     //ships
-    g_sprites.ship  = new Sprite(g_images.ship);
+    g_sprites.galagaShip  = new Sprite(g_images.galagaShip);
     g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.galagaShip = new Sprite(g_images.galagaShip);
 
     //power ups
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);

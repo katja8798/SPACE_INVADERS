@@ -21,7 +21,7 @@ function Ship(descr) {
     this.rememberResets();
     
     // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.ship;
+    this.sprite = this.sprite || g_sprites.galagaShip;
     
     // Set normal drawing scale
     this._scale = 1;
