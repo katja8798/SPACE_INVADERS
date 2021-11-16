@@ -19,7 +19,7 @@
 function createInitialShips() {
     entityManager.generateShip({
         cx : g_canvas.width/2,
-        cy : g_canvas.height-g_sprites.ship.height/2-userInterface.height
+        cy : g_canvas.height-g_sprites.galagaShip.height/2-userInterface.height
     });
 }
 
@@ -145,8 +145,9 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        ship: "img/galagaship.png",
+        ship: "img/ship.png",
         ship2: "img/ship_2.png",
+        galagaShip: "img/galagaShip.png",
         heart: "img/heart_full_32x32.png",
         bullet: "img/bullet.png",
         bee: "images/bee.png",
@@ -165,27 +166,31 @@ function preloadSoundsDone() {
 }
 
 function preloadImagesDone() {
+    //ships
     g_sprites.ship  = new Sprite(g_images.ship);
     g_sprites.ship2 = new Sprite(g_images.ship2);
+    g_sprites.galagaShip = new Sprite(g_images.galagaShip);
 
-
+    //power ups
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
     g_sprites.greenRock = new Sprite(g_images.greenRock);
     g_sprites.yellowRock = new Sprite(g_images.yellowRock);
+
+    //enemies
+    g_sprites.bee = new Sprite(g_images.bee);
+    g_sprites.bee.scale = 0.5;
+
+    //bullets
+    g_sprites.bullet = new Sprite(g_images.bullet);
+    g_sprites.bullet.scale = 0.5;
+
+    //other
+    g_sprites.heart = new Sprite(g_images.heart);
 
     playGame();
 }
 
 function playGame(){
-    paths.init();
-    levelManager.init();
-    g_sprites.bee = new Sprite(g_images.bee);
-    g_sprites.bee.scale = 0.5;
-    
-    g_sprites.bullet = new Sprite(g_images.bullet);
-    g_sprites.bullet.scale = 0.5;
-
-	g_sprites.heart = new Sprite(g_images.heart);
 
 	paths.init();
     formation.init();

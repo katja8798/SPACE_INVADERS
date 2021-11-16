@@ -23,7 +23,7 @@ function Ship(descr) {
     // Default sprite, if not otherwise specified
     this.sprite = this.sprite || g_sprites.ship;
     
-    // Set normal drawing scale, and warp state off
+    // Set normal drawing scale
     this._scale = 1;
 
     this.powerUpBullet = false;
@@ -115,7 +115,7 @@ Ship.prototype.maybeFireBullet = function () {
 };
 
 Ship.prototype.getRadius = function () {
-    return (this.sprite.width / 2) * 0.9;
+    return this._scale*(this.sprite.height / 2) * 0.9;
 };
 
 Ship.prototype.takeBulletHit = function () {
