@@ -15,7 +15,7 @@ Background.prototype = new Entity();
 
 Background.prototype.update = function (du){
 
-    this.cy += du;
+    //this.cy += du;
 
     this.wrapPosition();
 }
@@ -27,4 +27,6 @@ Background.prototype.render = function (ctx){
         ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
+
+    stars.render(ctx);
 }

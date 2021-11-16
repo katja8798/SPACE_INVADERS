@@ -133,7 +133,14 @@ let nPoints = this._pointsPerCurve;
 	sp1.push(s1p1);
 
 	// Path 2
-	
+	let s1p2 = [];
+	s1p2.push(this._bezierCurve(nPoints,{x:200,y:0},{x:400,y:150},{x:0,y:150},{x:200,y:300}));
+	s1p2.push(this._bezierCurve(nPoints,{x:200,y:300},{x:400,y:450},{x:0,y:450},{x:200,y:600}));
+	s1p2.push(this._bezierCurve(nPoints,{x:200,y:600},{x:250,y:700},{x:350,y:700},{x:400,y:600}));
+	s1p2.push(this._bezierCurve(nPoints,{x:400,y:600},{x:600,y:450},{x:200,y:450},{x:400,y:300}));
+	s1p2.push(this._bezierCurve(nPoints,{x:400,y:300},{x:600,y:150},{x:200,y:150},{x:400,y:0}));
+	sp1.push(s1p2);
+
 // Spawn point 2 (x:400, y:0)
 	let sp2 = [];
 	this._paths.push(sp2);
@@ -145,7 +152,13 @@ let nPoints = this._pointsPerCurve;
 	sp2.push(s2p1);
 	
 	// Path 2
-
+	s2p2 = [];
+	s2p2.push(this._bezierCurve(nPoints,{x:400,y:0},{x:200,y:150},{x:600,y:150},{x:400,y:300}));
+	s2p2.push(this._bezierCurve(nPoints,{x:400,y:300},{x:200,y:450},{x:600,y:450},{x:400,y:600}));
+	s2p2.push(this._bezierCurve(nPoints,{x:400,y:600},{x:350,y:700},{x:250,y:700},{x:200,y:600}));
+	s2p2.push(this._bezierCurve(nPoints,{x:200,y:600},{x:0,y:450},{x:400,y:450},{x:200,y:300}));
+	s2p2.push(this._bezierCurve(nPoints,{x:200,y:300},{x:0,y:150},{x:400,y:150},{x:200,y:0}));
+	sp2.push(s2p2);
 
 // Spawn point 3 (x:0, y: 400)
 	let sp3 = [];

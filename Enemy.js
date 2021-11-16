@@ -37,8 +37,6 @@ function Enemy(descr) {
 	// Formation related
 	this._myCell = 0;
 
-	this._formation = true;
-
 	this._inFormation = false;
 
 }
@@ -47,7 +45,7 @@ Enemy.prototype = new Entity();
 
 // Initial, inheritable, default values
 Enemy.prototype.rotation = Math.PI;
-Enemy.prototype.cx = -10;
+Enemy.prototype.cx = 300;
 Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
 Enemy.prototype.velY = 0;
@@ -94,6 +92,7 @@ Enemy.prototype.update = function (du) {
 
 		this.cx += this.velX * du;
 		this.cy += -this.velY * du;
+		this.outOfBounds(this.cx, this.cy);
 	}
 	//Þarf að útfæra betur
 	//this.maybeShootBullet();
@@ -158,6 +157,7 @@ Enemy.prototype.takeBulletHit = function () {
     this.kill();
 	userInterface.score +=100;
 	playSound(g_sounds.enemyHit);
+	levelManager.enemyKilled();
 };
 
 // Increase enemy velocity if too low
@@ -261,6 +261,7 @@ Enemy.prototype.outOfBounds = function (x, y) {
 		y < -200 || y > g_canvas.width + 200) {
 
 		this.kill();
+		levelManager.enemyKilled();
 	}
 };
 

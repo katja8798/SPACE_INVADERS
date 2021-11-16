@@ -124,11 +124,10 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    stars.render(ctx);
-	paths.render(ctx);
     formation.render(ctx);
     entityManager.render(ctx);
     userInterface.render(ctx);
+    levelManager.render(ctx);
 
     if (g_renderSpatialDebug) spatialManager.render(ctx);
 }
@@ -169,7 +168,7 @@ function requestPreloads() {
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
         purpleBoss : "images/purpleboss.png",
-        gameBackground : "img/gameBackground.jpg"
+        gameBackground : "img/background_vala_ver1.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);

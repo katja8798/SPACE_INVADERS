@@ -182,6 +182,7 @@ const entityManager = {
             }
             debugY += 10;
         }
+        paths.render(ctx);
     }
 
 };
