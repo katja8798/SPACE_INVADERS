@@ -26,7 +26,7 @@ with suitable 'data' and 'methods'.
 const entityManager = {
 
 // "PRIVATE" DATA
-
+    _background: [],
     _bullets: [],
     _ships: [],
     _enemies: [],
@@ -79,7 +79,14 @@ const entityManager = {
 // i.e. thing which need `this` to be defined.
 //
     deferredSetup: function () {
-        this._categories = [this._bullets, this._ships, this._enemies, this._powerUps, this._enemyBullets];
+        this._categories = [
+            this._background,
+            this._bullets,
+            this._ships,
+            this._enemies,
+            this._powerUps,
+            this._enemyBullets
+        ];
     },
 
     fireBullet: function (cx, cy, velX, velY, rotation) {
@@ -102,9 +109,8 @@ const entityManager = {
         }));
     },
 
-
-    generatePowerUp: function (descr) {
-        this._powerUps.push(new PowerUp(descr));
+    generateBackground: function (descr) {
+        this._background.push(new Background(descr));
     },
 
     generateShip: function (descr) {
@@ -113,6 +119,10 @@ const entityManager = {
 
     generateEnemies: function (descr) {
         this._enemies.push(new Enemy(descr));
+    },
+
+    generatePowerUp: function (descr) {
+        this._powerUps.push(new PowerUp(descr));
     },
 
     maybeGeneratePowerUp: function () {
