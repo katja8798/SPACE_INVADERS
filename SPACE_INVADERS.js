@@ -23,6 +23,12 @@ function createInitialShips() {
     });
 }
 
+function createBackground() {
+    entityManager.generateBackground({
+        sprite : g_sprites.gameBackground
+    });
+}
+
 // =============
 // GATHER INPUTS
 // =============
@@ -162,7 +168,8 @@ function requestPreloads() {
         //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
-        purpleBoss : "images/purpleboss.png"
+        purpleBoss : "images/purpleboss.png",
+        gameBackground : "img/gameBackground.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -199,6 +206,8 @@ function preloadImagesDone() {
 
     //other
 	g_sprites.heart = new Sprite(g_images.heart);
+    g_sprites.gameBackground = new Sprite(g_images.gameBackground);
+
 
     playGame();
 }
@@ -210,6 +219,7 @@ function playGame(){
     stars.init();
 	levelManager.init();
     entityManager.init();
+    createBackground();
     createInitialShips();
 
     main.init();
