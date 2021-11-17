@@ -8,6 +8,10 @@ function Enemy(descr) {
 
 	this._scale = .5;
 
+	this.sprite = g_sprites.bee;
+
+	this.width = g_sprites.bee.width;
+
 	this._health = 1;
 
 	this.initialize(this._numberInLine, this._spawnPoint, this._type);
@@ -222,10 +226,6 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this._scale = g_sprites.boss.scale;
 		this.width = g_sprites.boss.width;
 		this._health = 2;
-	}
-	else {
-		this.sprite = g_sprites.bee;
-		this.width = g_sprites.bee.width;
 	}
 
 	let offset = number * g_sprites.ship2.width + 16;

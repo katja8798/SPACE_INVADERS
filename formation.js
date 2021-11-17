@@ -36,44 +36,44 @@ _velX : .8,
 // Enemy calls to reserve a cell in the array.
 // Returns cellID which enemy uses to get coordinates
 getEmptyCell : function (type) {
-	
+	let r = 0;
+	let c = 0;
+
 	if (type === 1) {
-		for (var i = 3; i < 5; i++) {
-			for (var j = 0; j < 10; j++) {
-			
-				if (this._formationArray[i][j] === 0) {
-					let cellID = {
-						row : i,
-						col : j
-					}
-					this._formationArray[i][j] = 1;
-					return cellID;
-				}
-			}
-		}
-		// Return special value if there are no
-		// empty cells for this enemy type.
-		return 0;
+		r = 3;
+		c = 5;
+	} else if (type === 2) {
+		r = 1;
+		c = 3;
+	} else {
+		r = 0;
+		c = 1;
 	}
 
-	else if (type === 2) {
-		for (var i = 1; i < 3; i++) {
-			for (var j = 0; j < 10; j++) {
-			
-				if (this._formationArray[i][j] === 0) {
-					let cellID = {
-						row : i,
-						col : j
-					}
-					this._formationArray[i][j] = 1;
-					return cellID;
-				}
+	let cellID = {
+		row : 0,
+		col : 0
+	}
+	
+	for (var i = r; i < c; i++) {
+		for (var j = 4; j >= 0; j--) {
+			if (this._formationArray[i][j] === 0) {
+				cellID.row = i;
+				cellID.col = j;
+				this._formationArray[i][j] = 1;
+				return cellID;
+			}
+			else if (this._formationArray[i][9 - j] === 0) {
+				cellID.row = i;
+				cellID.col = 9 - j;
+				this._formationArray[i][9 - j] = 1;
+				return cellID;
 			}
 		}
-		// Return special value if there are no
-		// empty cells for this enemy type.
-		return 0;
 	}
+	// Return special value if there are no
+	// empty cells for this enemy type.
+	return 0;
 },
 
 getCellCoordinates : function (id) {

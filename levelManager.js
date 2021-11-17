@@ -281,11 +281,12 @@ _levels : [
 	
 	// LEVEL 3
 	{
-		_enemiesSpawnAtT: [3, 8, 12, 18],
-		_numSquadsAtT: [2,2,2,2],
+		_enemiesSpawnAtT: [3, 5, 8, 12, 18],
+		_numSquadsAtT: [2,1,2,2,2],
 		_enemySquad: [
 			[4,1,1,1,true],
 			[4,2,1,1,true],
+			[3,3,3,1,true],
 			[4,3,1,1,true],
 			[4,4,1,1,true],
 			[4,1,1,1,true],
