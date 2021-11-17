@@ -4,25 +4,17 @@
 
 function Enemy(descr) {
 
+	this.entityType = "enemy"
+
 	this.setup(descr);
 
-    this.initialize(this._numberInLine, this._spawnPoint, this._type);
+	this._scale = .5;
 
-	//this._type = type;
+	this._health = 1;
 
-	this.sprite = g_sprites.bee;
-	
-	this.width = g_sprites.bee.width;
-
-	this._scale = 0.5;
+	this.initialize(this._numberInLine, this._spawnPoint, this._type);
 
 	// Path related
-
-	//this._numberInLine = number;
-
-	//this._spawnPoint = spawnLocation - 1;
-
-	//this._manoeuvre = manoeuvre - 1;
 
 	this._pointsMax = paths.getPointsPerCurve();
 
@@ -57,6 +49,7 @@ Enemy.prototype._type = null;
 Enemy.prototype._numberInLine = null;
 Enemy.prototype._spawnPoint = null;
 Enemy.prototype._manoeuvre = null;
+
 
 Enemy.prototype.update = function (du) {
 	
@@ -156,10 +149,17 @@ Enemy.prototype.followPath = function(du) {
 };
 
 Enemy.prototype.takeBulletHit = function () {
-    this.kill();
-	userInterface.score +=100;
-	playSound(g_sounds.enemyHit);
-	levelManager.enemyKilled();
+	this._health--;
+
+	if (this._health <= 0) {
+		this.kill();
+		userInterface.score += 100 + this._type * 20;
+		playSound(g_sounds.enemyHit);
+		levelManager.enemyKilled();
+	}
+	else if (this._type === 3) {
+		this.sprite = g_sprites.purpleBoss;
+	}
 };
 
 // Increase enemy velocity if too low
@@ -210,16 +210,29 @@ Enemy.prototype.goToFormation = function (cellID, du) {
 	}
 };
 
+// Adjust various variables based on spawn point & type
 Enemy.prototype.initialize = function (number, spawnLocation, type) {
 	this._type = type;
-	if (this._type === 2) this.sprite = g_sprites.butterfly;
-	else if (this.type === 3) {
+
+	if (type === 2) {
+		this.sprite = g_sprites.butterfly;
+		this.width = g_sprites.butterfly.width;
+		this._scale = g_sprites.butterfly.scale;
+	} 
+
+	else if (type === 3) {
 		this.sprite = g_sprites.boss;
 		this._scale = g_sprites.boss.scale;
+		this.width = g_sprites.boss.width;
+		this._health = 2;
+	}
+	else {
+		this.sprite = g_sprites.bee;
+		this.width = g_sprites.bee.width;
 	}
 
 	let offset = number * g_sprites.ship2.width + 16;
-	this.waitT = this.waitT * number;
+	this.waitT = this.waitT * number * type;
 
 	
 	switch (spawnLocation) {
@@ -247,7 +260,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 			this.cy = 400;
 			this.velX = -4;
 			this.velY = 0;
-			if (this._manoeuvre === 1) this.waitT * 3;
+			if (this._manoeuvre === 1) this.waitT *= 3;
 			break;
 		case 4:
 			this.cx = 0 - offset;
@@ -292,7 +305,7 @@ Enemy.prototype.maybeShootBullet = function() {
 		//var cy = util.randRange(10,400);
 		if (fire<20){
 			if (levelManager.canFireBullet() && this.cy < 500) {
-				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
 				levelManager.shotFired();
 			}
 		}

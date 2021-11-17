@@ -17,6 +17,7 @@ function Bullet(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    this.sprite = this.sprite || g_sprites.bullet;
 
     // Make a noise when I am created (i.e. fired)
     playSound(g_sounds.bulletFire);
@@ -32,11 +33,11 @@ function Bullet(descr) {
 Bullet.prototype = new Entity();
     
 // Initial, inheritable, default values
-Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
 Bullet.prototype.velX = 5;
 Bullet.prototype.velY = 5;
+Bullet.prototype.entityType = "bullet";
 
 Bullet.prototype.update = function (du) {
 
@@ -52,18 +53,18 @@ Bullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
 
-    //this.rotation += 1 * du;
-
     //
     // Handle collisions
     //
-    var hitEntity = this.findHitEntity();
-    if (hitEntity) {
-        var canTakeHit = hitEntity.takeBulletHit;
-        if (canTakeHit) canTakeHit.call(hitEntity); 
+    const hitEntity = this.findHitEntity();
+
+    if ((hitEntity.entityType === "enemy" && this.sprite === g_sprites.bullet) ||//ship shoots enemy
+        (hitEntity.entityType === "powerUp" && this.sprite === g_sprites.bullet) ||//ship shoot power up
+        (hitEntity.entityType === "ship" && this.sprite === g_sprites.enemyBullet)) {//enemy shoots ship
+        const canTakeHit = hitEntity.takeBulletHit;
+        if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
     }
-
     spatialManager.register(this);
 };
 
@@ -79,8 +80,8 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-    g_sprites.bullet.drawCentredAt(
-        ctx, this.cx, this.cy, this.rotation
+    this.sprite.drawCentredAt(
+        ctx, this.cx, this.cy, 0
     );
 
     ctx.globalAlpha = 1;

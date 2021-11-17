@@ -36,7 +36,7 @@ _waitForLastKill : false,
 _totalEnemies : 0,
 
 // Enemy bullet stuff
-_shotsPerPeriod : 2,
+_shotsPerPeriod : 1,
 
 _shotsFired : 0,
 
@@ -129,8 +129,8 @@ _loadLevel: function(levelNumber) {
 	for(var i=0; i < squads.length; i++) {
 		this._totalEnemies += squads[i][0];
 	}
-	console.dir(this._currentLevel);
 	
+	this._shotsPerPeriod = levelNumber + 1;
 	this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
 	this._nextLevel++;
 },
@@ -264,15 +264,17 @@ _levels : [
 	
 	// LEVEL 2
 	{
-		_enemiesSpawnAtT: [3, 8, 12, 18],
-		_numSquadsAtT: [2,2,2,2],
+		_enemiesSpawnAtT: [3, 5, 12, 18, 22, 25],
+		_numSquadsAtT: [1,1,2,2,2,2],
 		_enemySquad: [
+			[5,3,2,2,false],
+			[5,6,2,2,false],
 			[5,1,1,1,true],
 			[5,2,1,1,true],
 			[3,3,1,1,true],
 			[3,4,1,1,true],
-			[1,1,1,1,true],
-			[1,2,1,1,true],
+			[4,1,1,2,false],
+			[4,2,1,2,false],
 			[3,3,1,1,true],
 			[4,4,1,1,true]
 		]
