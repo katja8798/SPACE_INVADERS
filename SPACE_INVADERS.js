@@ -57,7 +57,7 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
-    if((gameState.states[0] || gameState.states[2]) === gameState.currState){
+    if(gameState.states[0] === gameState.currState){
         gameState.update(du)
     }
     else if(gameState.states[1] === gameState.currState){
@@ -72,6 +72,12 @@ function updateSimulation(dt, du) {
 
         // Prevent perpetual firing!
         eatKey(Ship.prototype.KEY_FIRE);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.update(du)
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.update(du)
     }
 }
 
@@ -132,7 +138,7 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    if((gameState.states[0] || gameState.states[2]) === gameState.currState){
+    if(gameState.states[0] === gameState.currState){
         gameState.render(ctx);
     }
     else if(gameState.states[1] === gameState.currState){
@@ -142,6 +148,12 @@ function renderSimulation(ctx) {
         levelManager.render(ctx);
 
         if (g_renderSpatialDebug) spatialManager.render(ctx);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.render(ctx);
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.render(ctx);
     }
 }
 

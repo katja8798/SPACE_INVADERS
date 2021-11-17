@@ -17,7 +17,7 @@ e.g. starting, playing or ending.
 */
 
 const gameState = {
-    states : ["start", "play","end"],
+    states : ["start", "play","winEnd", "loseEnd"],
     currState : "start",
     _continueKey : ' '.charCodeAt(0),//enter key
     _texts : [
@@ -30,40 +30,39 @@ const gameState = {
 
     // PUBLIC METHODS
     update : function (du){
-        //check if already playing
-        if(this.currState !== this.states[1]) {
+        if(this.currState === this.states[0]) {
             if (eatKey(this._continueKey)) {
-                //start to play
                 if (this.currState === this.states[0]) {
-                    this.currState = this.states[1];
-                }
-                //end to play
-                if (this.currState === this.states[2]) {
                     this.currState = this.states[1];
                 }
             }
         }
-        else {
+        else if(this.currState === this.states[2] ||
+            this.currState === this.states[3]){
             //levels, score, life and set text accordingly in gameState
 
-            //lose state
-            if(userInterface.player_health === 0) {
-                //reset everything
-                levelManager.resetGame();
-                this.currState = this.states[2]
+            //win state, happens if we have didnt die
+            if(this.currState === this.states[2]) {
                 this._currText[0] = this._texts[2];
                 this._currText[1] = this._texts[4];
             }
 
-            //win state
-            /*if (?) {
-                //reset everything
-                levelManager.resetGame();
-                this._currState = this._states[2]
+            //lose state
+            if (this.currState === this.states[3]) {
                 this._currText[0] = this._texts[3];
                 this._currText[1] = this._texts[4];
+            }
 
-            }*/
+            levelManager.resetGame();
+
+            if (eatKey(this._continueKey)) {
+                if (this.currState === this.states[2]) {
+                    this.currState = this.states[1];
+                }
+                if (this.currState === this.states[3]) {
+                    this.currState = this.states[1];
+                }
+            }
         }
     },
 
@@ -71,7 +70,7 @@ const gameState = {
         ctx.save();
 
 
-        let gapX = 50,
+        let gapX = 20,
             gapY = 190;
 
         util.fillBox(ctx, gapX, gapY,

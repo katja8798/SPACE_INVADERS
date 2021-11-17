@@ -88,8 +88,13 @@ _spawnEnemies: function() {
 },
 
 _levelFinished: function() {
-	this._resetCurrentLevel();
-	this._loadLevel(this._nextLevel);
+	if (this._nextLevel < this._levels.length) {
+		this._resetCurrentLevel();
+		this._loadLevel(this._nextLevel);
+	}
+	else {
+		gameState.currState = gameState.states[2];
+	}
 },
 
 _resetCurrentLevel: function() {
@@ -195,7 +200,7 @@ init: function() {
 resetGame : function(){
 	userInterface.gameOver();
 	this._resetCurrentLevel();
-	this.init();
+	this._loadLevel(0);
 },
 
 

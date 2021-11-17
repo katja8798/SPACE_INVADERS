@@ -13,9 +13,8 @@ var userInterface = {
 		
 		this.player_health -= 1;
 
-		//TODO change gameState to state = end
 		if (this.player_health === 0) {
-			gameState.currState = gameState.states[2];
+			gameState.currState = gameState.states[3];
 		}
 	},
 
