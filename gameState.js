@@ -46,6 +46,25 @@ const gameState = {
         else {
             //TODO when game ends, either by winning or losing reset everything
             //levels, score, life and set text accordingly in gameState
+
+            //lost state
+            if(userInterface.player_health === 0) {
+                //reset everything
+                userInterface.gameOver();
+                this._currState = this._states[2]
+                this._currText[0] = this._texts[2];
+                this._currText[1] = this._texts[4];
+            }
+
+            //win state
+            /*if (?){
+            //reset everything
+            userInterface.gameOver();
+            this._currState = this._states[2]
+                this._currText[0] = this._texts[3];
+                this._currText[1] = this._texts[4];
+
+             */
         }
     },
 

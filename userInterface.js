@@ -12,8 +12,11 @@ var userInterface = {
 	loseHealth : function () {
 		
 		this.player_health -= 1;
-		
-		if (this.player_health === 0) this.gameOver();
+
+		//TODO change gameState to state = end
+		if (this.player_health === 0) {
+			this.gameOver();
+		}
 	},
 
 	gainHealth : function () {
