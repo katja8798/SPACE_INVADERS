@@ -155,7 +155,7 @@ Enemy.prototype.takeBulletHit = function () {
 		levelManager.enemyKilled();
 	}
 	else if (this._type === 3) {
-		this.sprite = g_sprites.purpleboss;
+		this.sprite = g_sprites.purpleBoss;
 	}
 };
 

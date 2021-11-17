@@ -31,7 +31,6 @@ const entityManager = {
     _ships: [],
     _enemies: [],
     _powerUps: [],
-    _enemyBullets: [],
 
 
 // "PRIVATE" METHODS
@@ -86,8 +85,7 @@ const entityManager = {
             this._bullets,
             this._ships,
             this._enemies,
-            this._powerUps,
-            this._enemyBullets
+            this._powerUps
         ];
     },
 
@@ -103,7 +101,7 @@ const entityManager = {
     },
 
     fireEnemyBullet: function(cx, cy, velX, velY) {
-        this._enemyBullets.push(new EnemyBullet({
+        this._bullets.push(new Bullet({
             cx: cx,
             cy: cy,
             velX: velX,
