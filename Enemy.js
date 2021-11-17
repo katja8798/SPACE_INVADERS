@@ -41,16 +41,13 @@ function Enemy(descr) {
 
 	this._inFormation = false;
 
-	// Bullet related
-	this._bulletT = 0;
-
 }
 
 Enemy.prototype = new Entity();
 
 // Initial, inheritable, default values
 Enemy.prototype.rotation = Math.PI;
-Enemy.prototype.cx = -10;
+Enemy.prototype.cx = 300;
 Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
 Enemy.prototype.velY = 0;
@@ -97,8 +94,9 @@ Enemy.prototype.update = function (du) {
 
 		this.cx += this.velX * du;
 		this.cy += -this.velY * du;
+		this.outOfBounds(this.cx, this.cy);
 	}
-	//Þarf að útfæra betur
+	
 	this.maybeShootBullet();
 	spatialManager.register(this);
 };
@@ -158,10 +156,10 @@ Enemy.prototype.followPath = function(du) {
 };
 
 Enemy.prototype.takeBulletHit = function () {
-	this.kill();
-	userInterface.score += 100;
+    this.kill();
+	userInterface.score +=100;
 	playSound(g_sounds.enemyHit);
-
+	levelManager.enemyKilled();
 };
 
 // Increase enemy velocity if too low
@@ -169,8 +167,14 @@ Enemy.prototype.adjustSpeed = function () {
 	if (this.velX < -6 || this.velX > 6) {
 		this.velX /= 3;
 	}
+	else if (this.velX > -2 && this.velX < 2){
+		this.velX *= 2;
+	}
 	if (this.velY < -6 || this.velY > 6) {
 		this.velY /= 3;
+	}
+	else if (this.velY > -2 && this.velY < 2) {
+		this.velY *= 2;
 	}
 };
 
@@ -211,27 +215,41 @@ Enemy.prototype.initialize = function (number, spawnLocation) {
 	this.waitT = this.waitT * number;
 	
 	switch (spawnLocation) {
-		case 1:
+		case 0:
 			this.cx = 200;
 			this.cy = 0 - offset;
 			this.velX = 0;
 			this.velY = 4;
 			break;
-		case 2:
+		case 1:
 			this.cx = 400;
 			this.cy = 0 - offset;
 			this.velX = 0;
 			this.velY = 4;
 			break;
-		case 3:
+		case 2:
 			this.cx = 0 - offset;
 			this.cy = 400;
 			this.velX = 4;
 			this.velY = 0;
+			if (this._manoeuvre === 1) this.waitT *= 2;
 			break;
-		case 4:
+		case 3:
 			this.cx = g_canvas.width + offset;
 			this.cy = 400;
+			this.velX = -4;
+			this.velY = 0;
+			if (this._manoeuvre === 1) this.waitT * 2;
+			break;
+		case 4:
+			this.cx = 0 - offset;
+			this.cy = 200;
+			this.velX = 4;
+			this.velY = 0;
+			break;
+		case 5:
+			this.cx = g_canvas.width + offset;
+			this.cy = 200;
 			this.velX = -4;
 			this.velY = 0;
 	}
@@ -249,31 +267,26 @@ Enemy.prototype.render = function (ctx) {
 // Kill enemies that have 'fled' too far away
 Enemy.prototype.outOfBounds = function (x, y) {
 
-	if (x < -200 || x > g_canvas.width + 200 ||
-		y < -200 || y > g_canvas.width + 200) {
+	if (x < -400 || x > g_canvas.width + 400 ||
+		y < -400 || y > g_canvas.width + 400) {
 
 		this.kill();
+		levelManager.enemyKilled();
 	}
 };
 
 //TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
-//Hafa firingRate mismunandi eftir levelum
-//
 Enemy.prototype.maybeShootBullet = function() {
 
-	if (this._bulletT < 5000) {
-
-		if (!this._isDeadNow) {
-			var fire = util.randRange(1,100);
-			//var cx = util.randRange(10,400);
-			//var cy = util.randRange(10,400);
-			if (fire<20){
-				if (levelManager.canFireBullet()) {
-					entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+	if (!this._isDeadNow) {
+		var fire = util.randRange(1,100);
+		//var cx = util.randRange(10,400);
+		//var cy = util.randRange(10,400);
+		if (fire<20){
+			if (levelManager.canFireBullet() && this.cy < 500) {
+				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
 				levelManager.shotFired();
-				}
 			}
-	
 		}
 	}
 };

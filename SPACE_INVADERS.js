@@ -57,17 +57,28 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
+    if(gameState.states[0] === gameState.currState){
+        gameState.update(du)
+    }
+    else if(gameState.states[1] === gameState.currState){
+        levelManager.update(dt);
 
-	levelManager.update(dt);
+        formation.update(du);
+        stars.update(du);
 
-    formation.update(du);
+        entityManager.update(du);
 
-    entityManager.update(du);
+        entityManager.maybeGeneratePowerUp();
 
-    entityManager.maybeGeneratePowerUp();
-
-    // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+        // Prevent perpetual firing!
+        eatKey(Ship.prototype.KEY_FIRE);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.update(du)
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.update(du)
+    }
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -81,6 +92,8 @@ const KEY_AVE_VEL = keyCode('V');
 const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
+
+const KEY_SKIP = keyCode('L');
 
 
 
@@ -96,6 +109,8 @@ function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
+
+    if(eatKey(KEY_SKIP)) entityManager.killAllEnemies();
 
     if (eatKey(KEY_MUSIC)) {
         musicOn = !musicOn;
@@ -123,12 +138,23 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-	paths.render(ctx);
-    formation.render(ctx);
-    entityManager.render(ctx);
-    userInterface.render(ctx);
+    if(gameState.states[0] === gameState.currState){
+        gameState.render(ctx);
+    }
+    else if(gameState.states[1] === gameState.currState){
+        formation.render(ctx);
+        entityManager.render(ctx);
+        userInterface.render(ctx);
+        levelManager.render(ctx);
 
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
+        if (g_renderSpatialDebug) spatialManager.render(ctx);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.render(ctx);
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.render(ctx);
+    }
 }
 
 
@@ -214,6 +240,7 @@ function playGame(){
 
 	paths.init();
     formation.init();
+    stars.init();
 	levelManager.init();
     entityManager.init();
     createBackground();

@@ -18,6 +18,13 @@ var TOGGLE_RENDER = 'R'.charCodeAt(0);
 var TOGGLE_PATHS = 'I'.charCodeAt(0);
 var TOGGLE_FORMATION = 'J'.charCodeAt(0);
 
+var TOGGLE_S1 = '1'.charCodeAt(0);
+var TOGGLE_S2 = '2'.charCodeAt(0);
+var TOGGLE_S3 = '3'.charCodeAt(0);
+var TOGGLE_S4 = '4'.charCodeAt(0);
+var TOGGLE_S5 = '5'.charCodeAt(0);
+var TOGGLE_S6 = '6'.charCodeAt(0);
+
 function render(ctx) {
     
     // Process various option toggles
@@ -29,7 +36,16 @@ function render(ctx) {
     if (eatKey(TOGGLE_RENDER)) g_doRender = !g_doRender;
 	if (eatKey(TOGGLE_PATHS)) g_doPaths = !g_doPaths;
     if (eatKey(TOGGLE_FORMATION)) g_doFormation = !g_doFormation;
-    
+
+    // Path toggles 
+    if (eatKey(TOGGLE_S1)) paths.drawPathsForSP(0);
+    if (eatKey(TOGGLE_S2)) paths.drawPathsForSP(1);
+    if (eatKey(TOGGLE_S3)) paths.drawPathsForSP(2);
+    if (eatKey(TOGGLE_S4)) paths.drawPathsForSP(3);
+    if (eatKey(TOGGLE_S5)) paths.drawPathsForSP(4);
+    if (eatKey(TOGGLE_S6)) paths.drawPathsForSP(5);
+
+
     // I've pulled the clear out of `renderSimulation()` and into
     // here, so that it becomes part of our "diagnostic" wrappers
     //
