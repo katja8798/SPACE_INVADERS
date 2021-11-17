@@ -12,17 +12,17 @@ var userInterface = {
 	loseHealth : function () {
 		
 		this.player_health -= 1;
-		
-		if (this.player_health === 0) this.gameOver();
+
+		if (this.player_health === 0) {
+			gameState.currState = gameState.states[3];
+		}
 	},
 
 	gainHealth : function () {
 		//Does not gain health if it's 5 or over
-		if(this.player_health == 5) {
-			this.player_health = this.player_health;
+		if(this.player_health < 5) {
+			this.player_health += 1;
 		}
-		else {
-		this.player_health += 1;}
 		//restrict health? have max health be 5?
 	},
 

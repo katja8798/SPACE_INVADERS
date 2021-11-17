@@ -157,6 +157,13 @@ const entityManager = {
 
     },
 
+    killAllEnemies: function () {
+        for (let e = 0; e < this._enemies.length; e++) {
+            this._enemies[e].kill();
+        }
+        levelManager.skipLevel();
+    },
+
     update: function (du) {
         for (let c = 0; c < this._categories.length; ++c) {
             const aCategory = this._categories[c];
@@ -184,13 +191,7 @@ const entityManager = {
             }
             debugY += 10;
         }
-    },
-
-    renderBackground: function (ctx) {
-        const aCategory = this._categories[0];//background should be first in categories
-        for (let i = 0; i < aCategory.length; ++i) {
-            aCategory[i].render(ctx);
-        }
+        paths.render(ctx);
     }
 
 };

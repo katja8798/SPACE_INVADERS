@@ -17,35 +17,52 @@ e.g. starting, playing or ending.
 */
 
 const gameState = {
-    _states : ["start", "play","end"],
+    states : ["start", "play","winEnd", "loseEnd"],
+    currState : "start",
     _continueKey : ' '.charCodeAt(0),//enter key
-    _currState : "start",
     _texts : [
         "WELCOME PILOT",
-        "PRESS ENTER TO PLAY",
+        "PRESS SPACE TO PLAY",
         "YOU WON",
         "YOU LOSE",
-        "PRESS ENTER TO PLAY AGAIN"],
-    _currText : ["WELCOME PILOT","PRESS ENTER TO PLAY"],
+        "PRESS SPACE TO PLAY AGAIN"],
+    _currText : ["WELCOME PILOT","PRESS SPACE TO PLAY"],
 
     // PUBLIC METHODS
     update : function (du){
-        //check if already playing
-        if(this._currState !== this._states[1]) {
+        if(this.currState === this.states[0]) {
             if (eatKey(this._continueKey)) {
-                //start to play
-                if (this._currState === this._states[0]) {
-                    this._currState = this._states[1];
-                }
-                //end to play
-                if (this._currState === this._states[2]) {
-                    this._currState = this._states[1];
+                if (this.currState === this.states[0]) {
+                    this.currState = this.states[1];
                 }
             }
         }
-        else {
-            //TODO when game ends, either by winning or losing reset everything
+        else if(this.currState === this.states[2] ||
+            this.currState === this.states[3]){
             //levels, score, life and set text accordingly in gameState
+
+            //win state, happens if we have didnt die
+            if(this.currState === this.states[2]) {
+                this._currText[0] = this._texts[2];
+                this._currText[1] = this._texts[4];
+            }
+
+            //lose state
+            if (this.currState === this.states[3]) {
+                this._currText[0] = this._texts[3];
+                this._currText[1] = this._texts[4];
+            }
+
+            levelManager.resetGame();
+
+            if (eatKey(this._continueKey)) {
+                if (this.currState === this.states[2]) {
+                    this.currState = this.states[1];
+                }
+                if (this.currState === this.states[3]) {
+                    this.currState = this.states[1];
+                }
+            }
         }
     },
 
@@ -53,7 +70,7 @@ const gameState = {
         ctx.save();
 
 
-        let gapX = 50,
+        let gapX = 20,
             gapY = 190;
 
         util.fillBox(ctx, gapX, gapY,
