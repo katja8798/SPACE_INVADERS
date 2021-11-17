@@ -22,10 +22,10 @@ const gameState = {
     _currState : "start",
     _texts : [
         "WELCOME PILOT",
-        "PRESS ENTER TO PLAY",
+        "PRESS SPACE TO PLAY",
         "YOU WON",
         "YOU LOSE",
-        "PRESS ENTER TO PLAY AGAIN"],
+        "PRESS SPACE TO PLAY AGAIN"],
     _currText : ["WELCOME PILOT","PRESS ENTER TO PLAY"],
 
     // PUBLIC METHODS
