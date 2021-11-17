@@ -230,18 +230,14 @@ Enemy.prototype.initialize = function (number, spawnLocation) {
 			this.cy = 400;
 			this.velX = 4;
 			this.velY = 0;
-			if (this._manoeuvre === 1) {
-				s = "T adjusted from " + this.waitT;
-				this.waitT *= 2;
-				console.log(s + " to " + this.waitT);
-			}
+			if (this._manoeuvre === 1) this.waitT *= 3;
 			break;
 		case 3:
 			this.cx = g_canvas.width + offset;
 			this.cy = 400;
 			this.velX = -4;
 			this.velY = 0;
-			if (this._manoeuvre === 1) this.waitT * 10;
+			if (this._manoeuvre === 1) this.waitT * 3;
 			break;
 		case 4:
 			this.cx = 0 - offset;
