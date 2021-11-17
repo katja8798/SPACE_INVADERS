@@ -58,10 +58,9 @@ Bullet.prototype.update = function (du) {
     //
     const hitEntity = this.findHitEntity();
 
-    //ship shoots enemy
-    if ((hitEntity.entityType === "enemy" && this.sprite === g_sprites.bullet) ||
-        (hitEntity.entityType === "powerUp" && this.sprite === g_sprites.bullet) ||
-        (hitEntity.entityType === "ship" && this.sprite === g_sprites.enemyBullet)) {
+    if ((hitEntity.entityType === "enemy" && this.sprite === g_sprites.bullet) ||//ship shoots enemy
+        (hitEntity.entityType === "powerUp" && this.sprite === g_sprites.bullet) ||//ship shoot power up
+        (hitEntity.entityType === "ship" && this.sprite === g_sprites.enemyBullet)) {//enemy shoots ship
         const canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
