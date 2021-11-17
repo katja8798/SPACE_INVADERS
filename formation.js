@@ -56,7 +56,7 @@ getEmptyCell : function (type) {
 		return 0;
 	}
 
-	if (type === 2) {
+	else if (type === 2) {
 		for (var i = 1; i < 3; i++) {
 			for (var j = 0; j < 10; j++) {
 			

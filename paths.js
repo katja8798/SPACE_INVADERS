@@ -222,9 +222,19 @@ let nPoints = this._pointsPerCurve;
 	s5p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:350,y:0},{x:550,y:0},{x:600,y:200}));
 	s5p1.push(this._bezierCurve(nPoints,{x:600,y:200},{x:550,y:400},{x:350,y:400},{x:300,y:200}));
 	s5p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:150,y:100},{x:50,y:250},{x:200,y:270}));
-
 	sp5.push(s5p1);
 
+	// Path 2 (A PASS THROUGH)
+	s5p2 = [];
+	s5p2.push(this._bezierCurve(nPoints,{x:0,y:200},{x:100,y:50},{x:150,y:50},{x:200,y:100}));
+	s5p2.push(this._bezierCurve(nPoints,{x:200,y:100},{x:270,y:180},{x:330,y:180},{x:400,y:100}));
+	s5p2.push(this._bezierCurve(nPoints,{x:400,y:100},{x:450,y:50},{x:500,y:50},{x:600,y:200}));
+	s5p2.push(this._bezierCurve(nPoints,{x:600,y:200},{x:650,y:450},{x:850,y:300},{x:600,y:200}));
+		// Same curve backwards
+	s5p2.push(this._bezierCurve(nPoints,{x:600,y:200},{x:500,y:50},{x:450,y:50},{x:400,y:100}));
+	s5p2.push(this._bezierCurve(nPoints,{x:400,y:100},{x:330,y:180},{x:270,y:180},{x:200,y:100}));
+	s5p2.push(this._bezierCurve(nPoints,{x:200,y:100},{x:150,y:50},{x:100,y:50},{x:-200,y:500}));
+	sp5.push(s5p2);
 
 
 // Spawn point 6 (x:canvas.width, y:200)
@@ -237,8 +247,19 @@ let nPoints = this._pointsPerCurve;
 	s6p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:250,y:0},{x:50,y:0},{x:0,y:200}));
 	s6p1.push(this._bezierCurve(nPoints,{x:0,y:200},{x:50,y:400},{x:250,y:400},{x:300,y:200}));
 	s6p1.push(this._bezierCurve(nPoints,{x:300,y:200},{x:450,y:100},{x:550,y:250},{x:400,y:270}));
-
 	sp6.push(s6p1);
+
+	// Path 2 (A PASS THROUGH)
+	s6p2 = [];
+	s6p2.push(this._bezierCurve(nPoints,{x:600,y:200},{x:500,y:50},{x:450,y:50},{x:400,y:100}));
+	s6p2.push(this._bezierCurve(nPoints,{x:400,y:100},{x:330,y:180},{x:270,y:180},{x:200,y:100}));
+	s6p2.push(this._bezierCurve(nPoints,{x:200,y:100},{x:150,y:50},{x:100,y:50},{x:0,y:200}));
+	s6p2.push(this._bezierCurve(nPoints,{x:0,y:200},{x:-50,y:450},{x:-250,y:300},{x:0,y:200}));
+		// Same curve backwards
+	s6p2.push(this._bezierCurve(nPoints,{x:0,y:200},{x:100,y:50},{x:150,y:50},{x:200,y:100}));
+	s6p2.push(this._bezierCurve(nPoints,{x:200,y:100},{x:270,y:180},{x:330,y:180},{x:400,y:100}));
+	s6p2.push(this._bezierCurve(nPoints,{x:400,y:100},{x:450,y:50},{x:500,y:50},{x:800,y:500}));
+	sp6.push(s6p2);
 }
 
 }
