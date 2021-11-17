@@ -51,7 +51,7 @@ PowerUp.prototype.update = function (du) {
         if (this.lifeSpan < 0 ) {
             //only big yellow spawns can change bullet type
             if (this.sprite === g_sprites.yellowRock && this._scale > 0.5) {
-                const ship = entityManager._findNearestShip(0, 0).theShip;
+                const ship = entityManager._findNearestShip(0, 0);
                 if (ship.powerUpBullet) {
                     ship.powerUpBullet = false;
                 }
