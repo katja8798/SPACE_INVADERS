@@ -68,6 +68,7 @@ EnemyBullet.prototype.update = function (du) {
         //Ef player á bara 1 líf eftir-drepa skipið
         //annars bara minnka lífin
         if(userInterface.player_health===1) {
+            console.log("ahah");
             return entityManager.KILL_ME_NOW;
         }
         else{
