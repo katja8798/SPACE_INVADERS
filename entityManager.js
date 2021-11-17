@@ -155,6 +155,13 @@ const entityManager = {
 
     },
 
+    killAllEnemies: function () {
+        for (let e = 0; e < this._enemies.length; e++) {
+            this._enemies[e].kill();
+        }
+        levelManager.skipLevel();
+    },
+
     update: function (du) {
         for (let c = 0; c < this._categories.length; ++c) {
             const aCategory = this._categories[c];

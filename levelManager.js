@@ -144,6 +144,10 @@ enemyKilled : function() {
 	this._totalEnemies--;
 },
 
+skipLevel : function() {
+	this._levelFinished();
+},
+
 // Important: update function uses real time passed for accurate timing
 // 			  See changes in update.js
 update: function(dt) {

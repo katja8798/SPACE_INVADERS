@@ -83,6 +83,8 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
+const KEY_SKIP = keyCode('L');
+
 
 
 const g_sounds = {};
@@ -97,6 +99,8 @@ function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
+
+    if(eatKey(KEY_SKIP)) entityManager.killAllEnemies();
 
     if (eatKey(KEY_MUSIC)) {
         musicOn = !musicOn;
