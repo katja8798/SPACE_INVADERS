@@ -226,7 +226,8 @@ canFireBullet: function() {
 resetGame : function(){
 	userInterface.gameOver();
 	this._resetCurrentLevel();
-	this._loadLevel(0);
+	this._nextLevel = 0;
+	this._loadLevel(this._nextLevel);
 },
 
 
