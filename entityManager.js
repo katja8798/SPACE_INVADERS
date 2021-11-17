@@ -182,6 +182,13 @@ const entityManager = {
             }
             debugY += 10;
         }
+    },
+
+    renderBackground: function (ctx) {
+        const aCategory = this._categories[0];//background should be first in categories
+        for (let i = 0; i < aCategory.length; ++i) {
+            aCategory[i].render(ctx);
+        }
     }
 
 };
