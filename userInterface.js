@@ -15,17 +15,15 @@ var userInterface = {
 
 		//TODO change gameState to state = end
 		if (this.player_health === 0) {
-			this.gameOver();
+			gameState.currState = gameState._states[2];
 		}
 	},
 
 	gainHealth : function () {
 		//Does not gain health if it's 5 or over
-		if(this.player_health == 5) {
-			this.player_health = this.player_health;
+		if(this.player_health < 5) {
+			this.player_health += 1;
 		}
-		else {
-		this.player_health += 1;}
 		//restrict health? have max health be 5?
 	},
 

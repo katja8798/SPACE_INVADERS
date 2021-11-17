@@ -26,7 +26,7 @@ const gameState = {
         "YOU WON",
         "YOU LOSE",
         "PRESS SPACE TO PLAY AGAIN"],
-    _currText : ["WELCOME PILOT","PRESS ENTER TO PLAY"],
+    _currText : ["WELCOME PILOT","PRESS SPACE TO PLAY"],
 
     // PUBLIC METHODS
     update : function (du){
@@ -47,24 +47,24 @@ const gameState = {
             //TODO when game ends, either by winning or losing reset everything
             //levels, score, life and set text accordingly in gameState
 
-            //lost state
+            //lose state
             if(userInterface.player_health === 0) {
                 //reset everything
-                userInterface.gameOver();
+                levelManager.resetGame();
                 this._currState = this._states[2]
                 this._currText[0] = this._texts[2];
                 this._currText[1] = this._texts[4];
             }
 
             //win state
-            /*if (?){
-            //reset everything
-            userInterface.gameOver();
-            this._currState = this._states[2]
+            /*if (?) {
+                //reset everything
+                levelManager.resetGame();
+                this._currState = this._states[2]
                 this._currText[0] = this._texts[3];
                 this._currText[1] = this._texts[4];
 
-             */
+            }*/
         }
     },
 

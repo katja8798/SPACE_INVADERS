@@ -144,6 +144,12 @@ init: function() {
 	this._loadLevel(this._nextLevel);
 },
 
+resetGame : function(){
+	userInterface.gameOver();
+	this._resetCurrentLevel();
+	this.init();
+},
+
 
 
 // LEVELS
