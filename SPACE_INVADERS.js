@@ -164,9 +164,9 @@ function requestPreloads() {
         greenRock: "img/greenRock.png",
         yellowRock: "img/yellowRock.png",
         //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
-        butterfly : "images/butterfly.png",
-        boss : "images/boss.png",
-        purpleBoss : "images/purpleboss.png",
+        butterfly : "images/butterfly_single.png",
+        boss : "images/boss_single.png",
+        purpleBoss : "images/purpleboss_single.png",
         gameBackground : "img/gameBackground.jpg"
     };
 
