@@ -33,7 +33,7 @@ _nextSquadNumber : 0,
 // Next level starts when all enemies are dead
 _waitForLastKill : false,
 
-_enemiesAlive : 0,
+_totalEnemies : 0,
 
 
 // PRIVATE METHODS
@@ -65,11 +65,12 @@ _spawnEnemies: function() {
 	let length = this._enemyWave.length;
 	
 	for (let i = 0; i < length; i++) {
-		let squad = this._enemyWave[i],
-		n = squad[0],
-		l = squad[1],
-		t = squad[2],
+		let squad = this._enemyWave[i];
+		n = squad[0];
+		l = squad[1];
+		t = squad[2];
 		m = squad[3];
+		f = squad[4];
 		
 		for (let j = 0; j < n; j++) {
 			entityManager.generateEnemies({
@@ -77,20 +78,29 @@ _spawnEnemies: function() {
 				_spawnPoint : l - 1,
 				_type : t ,
 				_manoeuvre : m - 1,
+				_formation : f
 				}
 			);
 		}
-
-		this._enemiesAlive += n;
 	}
 	
 	this._enemyWave = [];
 },
 
 _levelFinished: function() {
-	this._waitForLastKill = false;
 	this._resetCurrentLevel();
 	this._loadLevel(this._nextLevel);
+},
+
+_resetCurrentLevel: function() {
+	this._currentLevel._enemiesSpawnAtT = [];
+	this._currentLevel._numSquadsAtT = [];
+	this._currentLevel._enemySquad = [];
+	this._nextWaveT = 0;
+	this._nextWaveNumber = 0;
+	this._nextSquadNumber = 0;
+	this._waitForLastKill = false;
+	this._dt = 0;
 },
 
 _loadLevel: function(levelNumber) {
@@ -102,6 +112,12 @@ _loadLevel: function(levelNumber) {
 					 this._currentLevel._numSquadsAtT);
 	this._copyProperties(requestedLevel._enemySquad, 
 					 this._currentLevel._enemySquad);
+	
+	let squads = this._currentLevel._enemySquad;
+	for(var i=0; i < squads.length; i++) {
+		this._totalEnemies += squads[i][0];
+	}
+	console.dir(this._currentLevel);
 	
 	this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
 	this._nextLevel++;
@@ -121,14 +137,16 @@ _copyProperties: function(copyFrom, copyTo) {
 	}
 },
 
-_resetCurrentLevel: function() {
-	this._currentLevel._enemiesSpawnAtT = [];
-	this._currentLevel._numSquadsAtT = [];
-	this._currentLevel._enemySquad = [];
-},
-
 
 // PUBLIC METHODS
+
+enemyKilled : function() {
+	this._totalEnemies--;
+},
+
+skipLevel : function() {
+	this._levelFinished();
+},
 
 // Important: update function uses real time passed for accurate timing
 // 			  See changes in update.js
@@ -137,6 +155,36 @@ update: function(dt) {
 	
 	if (this._dt >= this._nextWaveT && !this._waitForLastKill) {
 		this._generateWave();
+	}
+
+	if (this._waitForLastKill && this._totalEnemies === 0) {
+		this._levelFinished();
+	}
+},
+
+render: function(ctx) {
+
+	//let s = "Enemies left: " + this._totalEnemies.toString();
+	//util.renderText(ctx, s, 10, 10, .5, 'white', 'white');
+
+	if (this._dt < 3000) {
+		let tSize = Math.floor(300 - this._dt/10);
+		let font = tSize.toString() + "px";
+
+		ctx.save();
+		ctx.font = font + " bold Helvetica";
+		ctx.lineWidth = 1;
+		ctx.strokeStyle = 'white';
+		ctx.fillStyle = 'white';
+
+		let text = 'Level ' + (this._nextLevel).toString();
+		let textWidth = ctx.measureText(text).width;
+
+		let x = g_canvas.width/2 - textWidth/2;
+		let y = g_canvas.height/2;
+		ctx.strokeText(text, x, y);
+		ctx.fillText(text, x, y);
+		ctx.restore();
 	}
 },
 
@@ -157,25 +205,28 @@ resetGame : function(){
 _levels : [
 
 	// enemySquad:
-	// [N, L, T, M] where:
+	// [N, L, T, M, F] where:
 	// N = Number of enemies
 	// L = Spawning Location
 	// T = Type of enemy
 	// M = Manoeuvre (which path of L they take)
+	// F = Formation (does this squad go to formation?)
 	
 	// LEVEL 1
 	{
-		_enemiesSpawnAtT: [3, 8, 12, 18],
-		_numSquadsAtT: [2,2,2,2],
+		_enemiesSpawnAtT: [3, 8, 14, 18, 24, 28],
+		_numSquadsAtT: [2,2,2,1,2,1],
 		_enemySquad: [
-			[4,1,1,1],
-			[4,2,1,1],
-			[4,3,1,1],
-			[4,4,1,1],
-			[4,1,1,1],
-			[4,2,1,1],
-			[4,3,1,1],
-			[4,4,1,1]
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,1,1,2,false],
+			[4,2,1,2,false],
+			[4,5,1,1,true],
+			[4,6,1,1,true],
+			[4,3,1,2,false],
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,4,1,2,false]
 		]
 	},
 	
@@ -184,14 +235,14 @@ _levels : [
 		_enemiesSpawnAtT: [3, 8, 12, 18],
 		_numSquadsAtT: [2,2,2,2],
 		_enemySquad: [
-			[2,1,1,1],
-			[2,2,1,1],
-			[2,3,1,1],
-			[2,4,1,1],
-			[1,1,1,1],
-			[1,2,1,1],
-			[3,3,1,1],
-			[3,4,1,1]
+			[5,1,1,1,true],
+			[5,2,1,1,true],
+			[3,3,1,1,true],
+			[3,4,1,1,true],
+			[1,1,1,1,true],
+			[1,2,1,1,true],
+			[3,3,1,1,true],
+			[4,4,1,1,true]
 		]
 	},
 	
@@ -200,14 +251,14 @@ _levels : [
 		_enemiesSpawnAtT: [3, 8, 12, 18],
 		_numSquadsAtT: [2,2,2,2],
 		_enemySquad: [
-			[4,1,1,1],
-			[4,2,1,2],
-			[4,3,1,1],
-			[4,4,1,1],
-			[4,1,1,1],
-			[4,2,1,2],
-			[4,3,1,1],
-			[4,4,1,1]
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,3,1,1,true],
+			[4,4,1,1,true],
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,3,1,1,true],
+			[4,4,1,1,true]
 		]
 	},
 	
@@ -216,14 +267,14 @@ _levels : [
 		_enemiesSpawnAtT: [3, 8, 12, 18],
 		_numSquadsAtT: [2,2,2,2],
 		_enemySquad: [
-			[4,1,1,1],
-			[4,2,1,2],
-			[4,3,1,1],
-			[4,4,1,1],
-			[4,1,1,1],
-			[4,2,1,2],
-			[4,3,1,1],
-			[4,4,1,1]
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,3,1,1,true],
+			[4,4,1,1,true],
+			[4,1,1,1,true],
+			[4,2,1,1,true],
+			[4,3,1,1,true],
+			[4,4,1,1,true]
 		]
 	},
 ]	

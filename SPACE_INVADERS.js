@@ -64,6 +64,7 @@ function updateSimulation(dt, du) {
         levelManager.update(dt);
 
         formation.update(du);
+        stars.update(du);
 
         entityManager.update(du);
 
@@ -86,6 +87,8 @@ const KEY_SPATIAL = keyCode('X');
 
 const KEY_RESET = keyCode('R');
 
+const KEY_SKIP = keyCode('L');
+
 
 
 const g_sounds = {};
@@ -100,6 +103,8 @@ function processDiagnostics() {
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     if (eatKey(KEY_RESET)) entityManager.resetShips();
+
+    if(eatKey(KEY_SKIP)) entityManager.killAllEnemies();
 
     if (eatKey(KEY_MUSIC)) {
         musicOn = !musicOn;
@@ -128,14 +133,13 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
 
     if((gameState.states[0] || gameState.states[2]) === gameState.currState){
-        entityManager.renderBackground(ctx);
         gameState.render(ctx);
     }
     else if(gameState.states[1] === gameState.currState){
-        paths.render(ctx);
         formation.render(ctx);
         entityManager.render(ctx);
         userInterface.render(ctx);
+        levelManager.render(ctx);
 
         if (g_renderSpatialDebug) spatialManager.render(ctx);
     }
@@ -177,7 +181,7 @@ function requestPreloads() {
         butterfly : "images/butterfly.png",
         boss : "images/boss.png",
         purpleBoss : "images/purpleboss.png",
-        gameBackground : "img/gameBackground.jpg"
+        gameBackground : "img/background_vala_ver1.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -224,6 +228,7 @@ function playGame(){
 
 	paths.init();
     formation.init();
+    stars.init();
 	levelManager.init();
     entityManager.init();
     createBackground();
