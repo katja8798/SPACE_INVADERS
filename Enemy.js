@@ -41,6 +41,9 @@ function Enemy(descr) {
 
 	this._inFormation = false;
 
+	// Bullet related
+	this._bulletT = 0;
+
 }
 
 Enemy.prototype = new Entity();
@@ -257,13 +260,20 @@ Enemy.prototype.outOfBounds = function (x, y) {
 //Hafa firingRate mismunandi eftir levelum
 //
 Enemy.prototype.maybeShootBullet = function() {
-	if (!this._isDeadNow) {
-		var fire = util.randRange(1,100);
-		//var cx = util.randRange(10,400);
-		//var cy = util.randRange(10,400);
-		if (fire<50){
-			entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
-		}
 
+	if (this._bulletT < 5000) {
+
+		if (!this._isDeadNow) {
+			var fire = util.randRange(1,100);
+			//var cx = util.randRange(10,400);
+			//var cy = util.randRange(10,400);
+			if (fire<20){
+				if (levelManager.canFireBullet()) {
+					entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+				levelManager.shotFired();
+				}
+			}
+	
+		}
 	}
 };

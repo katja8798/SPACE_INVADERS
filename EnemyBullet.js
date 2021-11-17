@@ -50,8 +50,8 @@ EnemyBullet.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    this.cx += this.velX * du;
-    this.cy += this.velY * du;
+    this.cx += 0 * du;
+    this.cy += 5 * du;
 
 
     //

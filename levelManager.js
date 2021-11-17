@@ -35,6 +35,13 @@ _waitForLastKill : false,
 
 _enemiesAlive : 0,
 
+// Enemy bullet stuff
+_shotsPerPeriod : 2,
+
+_shotsFired : 0,
+
+_bulletT : 0,
+
 
 // PRIVATE METHODS
 
@@ -134,6 +141,12 @@ _resetCurrentLevel: function() {
 // 			  See changes in update.js
 update: function(dt) {
 	this._dt += dt;
+	this._bulletT += dt;
+
+	if (this._bulletT > 5000) {
+		this._bulletT = 0;
+		this._shotsFired = 0;
+	}
 	
 	if (this._dt >= this._nextWaveT && !this._waitForLastKill) {
 		this._generateWave();
@@ -142,6 +155,19 @@ update: function(dt) {
 
 init: function() {
 	this._loadLevel(this._nextLevel);
+},
+
+shotFired: function() {
+	this._shotsFired++;
+},
+
+canFireBullet: function() {
+	if (this._shotsFired < this._shotsPerPeriod) {
+		return true;
+	}
+	else {
+		return false;
+	}
 },
 
 
