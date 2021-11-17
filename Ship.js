@@ -14,6 +14,7 @@
 
 // A generic constructor which accepts an arbitrary descriptor object
 function Ship(descr) {
+    this.entityType = "ship";
 
     // Common inherited setup logic from Entity
     this.setup(descr);

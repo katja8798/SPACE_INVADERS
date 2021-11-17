@@ -89,14 +89,12 @@ const entityManager = {
         ];
     },
 
-    fireBullet: function (cx, cy, velX, velY, rotation) {
+    fireBullet: function (cx, cy, velX, velY) {
         this._bullets.push(new Bullet({
             cx: cx,
             cy: cy,
             velX: velX,
             velY: velY,
-
-            rotation: rotation
         }));
     },
 
@@ -105,7 +103,8 @@ const entityManager = {
             cx: cx,
             cy: cy,
             velX: velX,
-            velY: velY
+            velY: velY,
+            sprite: g_sprites.enemyBullet
         }));
     },
 

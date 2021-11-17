@@ -3,6 +3,7 @@
 // ==========
 
 function PowerUp(descr) {
+    this.entityType = "powerUp";
 
     this.setup(descr);
     this.sprite = this.sprite || g_sprites.purpleRock;
@@ -162,7 +163,7 @@ PowerUp.prototype.purple = function() {
 };
 
 PowerUp.prototype.yellow = function() {
-    const ship = entityManager._findNearestShip(0, 0).theShip;
+    const ship = entityManager._findNearestShip(0, 0);
     if (!ship.powerUpBullet) {
         ship.powerUpBullet = true;
     }

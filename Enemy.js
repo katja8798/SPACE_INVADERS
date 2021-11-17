@@ -4,6 +4,8 @@
 
 function Enemy(descr) {
 
+	this.entityType = "enemy"
+
 	this.setup(descr);
 
 	this._scale = .5;
@@ -47,6 +49,7 @@ Enemy.prototype._type = null;
 Enemy.prototype._numberInLine = null;
 Enemy.prototype._spawnPoint = null;
 Enemy.prototype._manoeuvre = null;
+
 
 Enemy.prototype.update = function (du) {
 	
@@ -257,7 +260,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 			this.cy = 400;
 			this.velX = -4;
 			this.velY = 0;
-			if (this._manoeuvre === 1) this.waitT * 3;
+			if (this._manoeuvre === 1) this.waitT *= 3;
 			break;
 		case 4:
 			this.cx = 0 - offset;
@@ -302,7 +305,7 @@ Enemy.prototype.maybeShootBullet = function() {
 		//var cy = util.randRange(10,400);
 		if (fire<20){
 			if (levelManager.canFireBullet() && this.cy < 500) {
-				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
 				levelManager.shotFired();
 			}
 		}

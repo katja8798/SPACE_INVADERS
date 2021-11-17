@@ -66,21 +66,7 @@ const spatialManager = {
         }
         return false;
     },
-        /*findShipInRange: function (posX, posY, radius) {
-            for (let id in entityManager._ships) {
-                let entity = entityManager._ships[id];
-                if (entity) {
-                    let ePosX = entity.posX,
-                        ePosY = entity.posY,
-                        eRad = entity.radius;
-                    if (Math.sqrt(Math.pow(posX - ePosX, 2) + Math.pow(posY - ePosY, 2)) <
-                        radius + eRad) {
-                        return entity;
-                    }
-                }
-            }
-            return false;
-        },*/
+
     render: function (ctx) {
         const oldStyle = ctx.strokeStyle;
         ctx.strokeStyle = "red";
