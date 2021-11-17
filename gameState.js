@@ -17,9 +17,9 @@ e.g. starting, playing or ending.
 */
 
 const gameState = {
-    _states : ["start", "play","end"],
+    states : ["start", "play","end"],
+    currState : "start",
     _continueKey : ' '.charCodeAt(0),//enter key
-    _currState : "start",
     _texts : [
         "WELCOME PILOT",
         "PRESS SPACE TO PLAY",
@@ -31,27 +31,26 @@ const gameState = {
     // PUBLIC METHODS
     update : function (du){
         //check if already playing
-        if(this._currState !== this._states[1]) {
+        if(this.currState !== this.states[1]) {
             if (eatKey(this._continueKey)) {
                 //start to play
-                if (this._currState === this._states[0]) {
-                    this._currState = this._states[1];
+                if (this.currState === this.states[0]) {
+                    this.currState = this.states[1];
                 }
                 //end to play
-                if (this._currState === this._states[2]) {
-                    this._currState = this._states[1];
+                if (this.currState === this.states[2]) {
+                    this.currState = this.states[1];
                 }
             }
         }
         else {
-            //TODO when game ends, either by winning or losing reset everything
             //levels, score, life and set text accordingly in gameState
 
             //lose state
             if(userInterface.player_health === 0) {
                 //reset everything
                 levelManager.resetGame();
-                this._currState = this._states[2]
+                this.currState = this.states[2]
                 this._currText[0] = this._texts[2];
                 this._currText[1] = this._texts[4];
             }

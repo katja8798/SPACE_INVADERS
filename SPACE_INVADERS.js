@@ -57,10 +57,10 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
-    if((gameState._states[0] || gameState._states[2]) === gameState._currState){
+    if((gameState.states[0] || gameState.states[2]) === gameState.currState){
         gameState.update(du)
     }
-    else if(gameState._states[1] === gameState._currState){
+    else if(gameState.states[1] === gameState.currState){
         levelManager.update(dt);
 
         formation.update(du);
@@ -127,11 +127,11 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    if((gameState._states[0] || gameState._states[2]) === gameState._currState){
+    if((gameState.states[0] || gameState.states[2]) === gameState.currState){
         entityManager.renderBackground(ctx);
         gameState.render(ctx);
     }
-    else if(gameState._states[1] === gameState._currState){
+    else if(gameState.states[1] === gameState.currState){
         paths.render(ctx);
         formation.render(ctx);
         entityManager.render(ctx);
