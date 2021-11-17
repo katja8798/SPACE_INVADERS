@@ -57,17 +57,21 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
+    if((gameState._states[0] || gameState._states[2]) === gameState._currState){
+        gameState.update(du)
+    }
+    else if(gameState._states[1] === gameState._currState){
+        levelManager.update(dt);
 
-	levelManager.update(dt);
+        formation.update(du);
 
-    formation.update(du);
+        entityManager.update(du);
 
-    entityManager.update(du);
+        entityManager.maybeGeneratePowerUp();
 
-    entityManager.maybeGeneratePowerUp();
-
-    // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+        // Prevent perpetual firing!
+        eatKey(Ship.prototype.KEY_FIRE);
+    }
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -123,12 +127,18 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-	paths.render(ctx);
-    formation.render(ctx);
-    entityManager.render(ctx);
-    userInterface.render(ctx);
+    if((gameState._states[0] || gameState._states[2]) === gameState._currState){
+        entityManager.renderBackground(ctx);
+        gameState.render(ctx);
+    }
+    else if(gameState._states[1] === gameState._currState){
+        paths.render(ctx);
+        formation.render(ctx);
+        entityManager.render(ctx);
+        userInterface.render(ctx);
 
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
+        if (g_renderSpatialDebug) spatialManager.render(ctx);
+    }
 }
 
 
