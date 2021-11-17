@@ -6,7 +6,7 @@ function Enemy(descr) {
 
 	this.setup(descr);
 
-    this.initialize(this._numberInLine, this._spawnPoint);
+    this.initialize(this._numberInLine, this._spawnPoint, this._type);
 
 	//this._type = type;
 
@@ -36,6 +36,8 @@ function Enemy(descr) {
 
 	// Formation related
 	this._myCell = 0;
+
+	this._formation = true;
 
 	this._inFormation = false;
 
@@ -94,8 +96,8 @@ Enemy.prototype.update = function (du) {
 		this.cy += -this.velY * du;
 		this.outOfBounds(this.cx, this.cy);
 	}
-	//Þarf að útfæra betur
-	//this.maybeShootBullet();
+	
+	this.maybeShootBullet();
 	spatialManager.register(this);
 };
 
@@ -164,7 +166,7 @@ Enemy.prototype.takeBulletHit = function () {
 Enemy.prototype.adjustSpeed = function () {
 	if (this.velX < -6 || this.velX > 6) {
 		this.velX /= 3;
-	} 
+	}
 	else if (this.velX > -2 && this.velX < 2){
 		this.velX *= 2;
 	}
@@ -208,9 +210,17 @@ Enemy.prototype.goToFormation = function (cellID, du) {
 	}
 };
 
-Enemy.prototype.initialize = function (number, spawnLocation) {
+Enemy.prototype.initialize = function (number, spawnLocation, type) {
+	this._type = type;
+	if (this._type === 2) this.sprite = g_sprites.butterfly;
+	else if (this.type === 3) {
+		this.sprite = g_sprites.boss;
+		this._scale = g_sprites.boss.scale;
+	}
+
 	let offset = number * g_sprites.ship2.width + 16;
 	this.waitT = this.waitT * number;
+
 	
 	switch (spawnLocation) {
 		case 0:
@@ -275,11 +285,16 @@ Enemy.prototype.outOfBounds = function (x, y) {
 
 //TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
 Enemy.prototype.maybeShootBullet = function() {
-	if (!this._isDeadNow) {
-		let chance = Math.random();
-		if (chance < 0.33) {
-			entityManager.fireEnemyBullet(this.cx, this.cy, this.velX, this.velY);
-		}
 
+	if (!this._isDeadNow) {
+		var fire = util.randRange(1,100);
+		//var cx = util.randRange(10,400);
+		//var cy = util.randRange(10,400);
+		if (fire<20){
+			if (levelManager.canFireBullet() && this.cy < 500) {
+				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+				levelManager.shotFired();
+			}
+		}
 	}
 };

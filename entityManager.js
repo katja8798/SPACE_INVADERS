@@ -56,10 +56,12 @@ const entityManager = {
                 closestSq = distSq;
             }
         }
-        return {
+        return closestShip;
+
+        /*{
             theShip: closestShip,
             theIndex: closestIndex
-        };
+        };*/
     },
 
     _forEachOf: function (aCategory, fn) {
@@ -168,13 +170,13 @@ const entityManager = {
             let i = 0;
             while (i < aCategory.length) {
                 const status = aCategory[i].update(du);
-                if (status === this.KILL_ME_NOW) {
-                    // remove the dead guy, and shuffle the others down to
-                    // prevent a confusing gap from appearing in the array
-                    aCategory.splice(i, 1);
-                } else {
-                    ++i;
-                }
+                    if (status === this.KILL_ME_NOW) {
+                        // remove the dead guy, and shuffle the others down to
+                        // prevent a confusing gap from appearing in the array
+                        aCategory.splice(i, 1);
+                    } else {
+                        ++i;
+                    }
             }
         }
     },

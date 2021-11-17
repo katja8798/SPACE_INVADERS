@@ -35,6 +35,13 @@ _waitForLastKill : false,
 
 _totalEnemies : 0,
 
+// Enemy bullet stuff
+_shotsPerPeriod : 2,
+
+_shotsFired : 0,
+
+_bulletT : 0,
+
 
 // PRIVATE METHODS
 
@@ -88,8 +95,13 @@ _spawnEnemies: function() {
 },
 
 _levelFinished: function() {
-	this._resetCurrentLevel();
-	this._loadLevel(this._nextLevel);
+	if (this._nextLevel < this._levels.length) {
+		this._resetCurrentLevel();
+		this._loadLevel(this._nextLevel);
+	}
+	else {
+		gameState.currState = gameState.states[2];
+	}
 },
 
 _resetCurrentLevel: function() {
@@ -152,6 +164,12 @@ skipLevel : function() {
 // 			  See changes in update.js
 update: function(dt) {
 	this._dt += dt;
+	this._bulletT += dt;
+
+	if (this._bulletT > 5000) {
+		this._bulletT = 0;
+		this._shotsFired = 0;
+	}
 	
 	if (this._dt >= this._nextWaveT && !this._waitForLastKill) {
 		this._generateWave();
@@ -192,6 +210,25 @@ init: function() {
 	this._loadLevel(this._nextLevel);
 },
 
+shotFired: function() {
+	this._shotsFired++;
+},
+
+canFireBullet: function() {
+	if (this._shotsFired < this._shotsPerPeriod) {
+		return true;
+	}
+	else {
+		return false;
+	}
+},
+
+resetGame : function(){
+	userInterface.gameOver();
+	this._resetCurrentLevel();
+	this._loadLevel(0);
+},
+
 
 
 // LEVELS
@@ -215,8 +252,8 @@ _levels : [
 			[4,2,1,1,true],
 			[4,1,1,2,false],
 			[4,2,1,2,false],
-			[4,5,1,1,true],
-			[4,6,1,1,true],
+			[4,5,2,1,true],
+			[4,6,2,1,true],
 			[4,3,1,2,false],
 			[4,1,1,1,true],
 			[4,2,1,1,true],

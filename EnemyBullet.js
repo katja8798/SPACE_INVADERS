@@ -50,19 +50,29 @@ EnemyBullet.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    this.cx += this.velX * du;
-    this.cy += this.velY * du;
+    this.cx += 0 * du;
+    this.cy += 5 * du;
 
 
     //
     // Handle collisions
     //TODO: Breyta þannig að enemies deyja ekki við sínar eigin bullets!
     //
-    var hitEntity = this.findHitEntity();
+    //ER að collide-a við skipið?
+    //Ef já -drepa skipið
+    //Ef nei - gera ekkert
+    var hitEntity = this.isHittingShip();
     if (hitEntity) {
-         var canTakeHit = hitEntity.takeBulletHit;
-         if (canTakeHit) canTakeHit.call(hitEntity);
-         return entityManager.KILL_ME_NOW;
+        var canTakeHit = hitEntity.takeBulletHit;
+        if (canTakeHit) canTakeHit.call(hitEntity);
+        //Ef player á bara 1 líf eftir-drepa skipið
+        //annars bara minnka lífin
+        if(userInterface.player_health===1) {
+            return entityManager.KILL_ME_NOW;
+        }
+        else{
+            userInterface.player_health -=1;
+        }
     }
 
     spatialManager.register(this);
@@ -85,4 +95,31 @@ EnemyBullet.prototype.render = function (ctx) {
     );
 
     ctx.globalAlpha = 1;
+};
+
+//Fall sem er í samræmi við findHitEntity en á ss bara að finna skipið
+EnemyBullet.prototype.isHittingShip = function(){
+    let pos = this.getPos();
+    return this.findShipInRange(
+        pos.posX, pos.posY, this.getRadius()
+    );
+
+};
+
+//Fall í samræmi við findEntityInRange en veit ekkki hvort þetta þurfi
+//Eða hvort er hægt að nota _findNearestShip?
+EnemyBullet.prototype.findShipInRange = function(posX, posY, radius) {
+    for (let id in entityManager._ships) {
+        let entity = entityManager._ships[id];
+        if (entity) {
+            let ePosX = entity.posX,
+                ePosY = entity.posY,
+                eRad = entity.radius;
+            if (Math.sqrt(Math.pow(posX - ePosX, 2) + Math.pow(posY - ePosY, 2)) <
+                radius + eRad) {
+                return entity;
+            }
+        }
+    }
+    return false;
 };

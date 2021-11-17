@@ -55,6 +55,25 @@ getEmptyCell : function (type) {
 		// empty cells for this enemy type.
 		return 0;
 	}
+
+	if (type === 2) {
+		for (var i = 1; i < 3; i++) {
+			for (var j = 0; j < 10; j++) {
+			
+				if (this._formationArray[i][j] === 0) {
+					let cellID = {
+						row : i,
+						col : j
+					}
+					this._formationArray[i][j] = 1;
+					return cellID;
+				}
+			}
+		}
+		// Return special value if there are no
+		// empty cells for this enemy type.
+		return 0;
+	}
 },
 
 getCellCoordinates : function (id) {

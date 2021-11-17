@@ -57,18 +57,28 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
+    if(gameState.states[0] === gameState.currState){
+        gameState.update(du)
+    }
+    else if(gameState.states[1] === gameState.currState){
+        levelManager.update(dt);
 
-	levelManager.update(dt);
+        formation.update(du);
+        stars.update(du);
 
-    formation.update(du);
-    stars.update(du);
+        entityManager.update(du);
 
-    entityManager.update(du);
+        entityManager.maybeGeneratePowerUp();
 
-    entityManager.maybeGeneratePowerUp();
-
-    // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+        // Prevent perpetual firing!
+        eatKey(Ship.prototype.KEY_FIRE);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.update(du)
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.update(du)
+    }
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -128,12 +138,23 @@ function processDiagnostics() {
 
 function renderSimulation(ctx) {
 
-    formation.render(ctx);
-    entityManager.render(ctx);
-    userInterface.render(ctx);
-    levelManager.render(ctx);
+    if(gameState.states[0] === gameState.currState){
+        gameState.render(ctx);
+    }
+    else if(gameState.states[1] === gameState.currState){
+        formation.render(ctx);
+        entityManager.render(ctx);
+        userInterface.render(ctx);
+        levelManager.render(ctx);
 
-    if (g_renderSpatialDebug) spatialManager.render(ctx);
+        if (g_renderSpatialDebug) spatialManager.render(ctx);
+    }
+    if(gameState.states[2] === gameState.currState){
+        gameState.render(ctx);
+    }
+    if(gameState.states[3] === gameState.currState){
+        gameState.render(ctx);
+    }
 }
 
 
@@ -169,10 +190,11 @@ function requestPreloads() {
         greenRock: "img/greenRock.png",
         yellowRock: "img/yellowRock.png",
         //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
-        butterfly : "images/butterfly.png",
-        boss : "images/boss.png",
-        purpleBoss : "images/purpleboss.png",
+        butterfly : "images/butterfly_single.png",
+        boss : "images/boss_single.png",
+        purpleBoss : "images/purpleboss_single.png",
         gameBackground : "img/background_vala_ver1.png"
+        //gameBackground : "img/gameBackground.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
