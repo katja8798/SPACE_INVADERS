@@ -194,7 +194,8 @@ function requestPreloads() {
         butterfly : "img/butterfly_single.png",
         boss : "img/boss_single.png",
         purpleBoss : "img/purpleboss_single.png",
-        gameBackground : "img/background_vala_ver1.png"
+        gameBackground : "img/longBackground.jpg"
+        //gameBackground : "img/background_vala_ver1.png"
         //gameBackground : "img/gameBackground.jpg"
     };
 
