@@ -170,6 +170,25 @@ const entityManager = {
         levelManager.skipLevel();
     },
 
+    //bullets and power ups
+    /*killExtra: function () {
+        for (let e = 0; e < this._bullets; e++) {
+            this._bullets[e].kill();
+        }
+        for (let e = 0; e < this._powerUps; e++) {
+            this._powerUps[e].kill();
+        }
+    },*/
+
+    powerUpOff: function (){
+        /*TODO finna leið til að eyða almennilega svo ekkert annað en skipið er hjá nýju level
+        for (let e = 0; e < this._powerUps; e++) {
+            return this._powerUps[e].KILL_ME_NOW;
+        }*/
+        const ship = entityManager._findNearestShip(0, 0);
+        ship.powerUpBullet = false;
+    },
+
     update: function (du) {
         for (let c = 0; c < this._categories.length; ++c) {
             const aCategory = this._categories[c];

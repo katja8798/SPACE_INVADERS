@@ -112,6 +112,8 @@ const levelManager = {
 		this._waitForLastKill = false;
 		this._dt = 0;
 		this._totalEnemies = 0;
+		//makes screen be empty
+		entityManager.powerUpOff();
 	},
 
 	_loadLevel: function (levelNumber) {
