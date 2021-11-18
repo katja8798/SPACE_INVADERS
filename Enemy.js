@@ -16,7 +16,7 @@ function Enemy(descr) {
 
 	this._health = 1;
 
-	this.initialize(this._numberInLine, this._spawnPoint, this._type);
+	this.initialize(this._numberInLine, this._spawnPoint, this._type, this._formation);
 
 	// Path related
 
@@ -33,10 +33,17 @@ function Enemy(descr) {
 	// Formation related
 	this._myCell = 0;
 
-	this._formation = true;
-
 	this._inFormation = false;
 
+	// Attack related
+	this._shootAttemptT = 0;
+
+	// Boss specific
+	this._volleyTiming = 0;
+
+	this._bossVolley = 0;
+
+	this._firingVolley = false;
 }
 
 Enemy.prototype = new Entity();
@@ -78,8 +85,8 @@ Enemy.prototype.update = function (du) {
 		this.followPath(du);
 
 		if(this._onPath) {
-			this.velX = oldX - this.cx;
-			this.velY = oldY - this.cy;
+			this.velX = this.cx - oldX;
+			this.velY = this.cy - oldY;
 		}
 	}
 
@@ -90,11 +97,16 @@ Enemy.prototype.update = function (du) {
 	if (!this._formation) {
 
 		this.cx += this.velX * du;
-		this.cy += -this.velY * du;
+		this.cy += this.velY * du;
 		this.outOfBounds(this.cx, this.cy);
 	}
 	
-	this.maybeShootBullet();
+	if (this._bossVolley) {
+		this.bossBulletVolley();
+	}
+	else if (this.shootOrPause()){
+		this.maybeShootBullet();
+	}
 
 	spatialManager.register(this);
 };
@@ -323,18 +335,64 @@ Enemy.prototype.outOfBounds = function (x, y) {
 	}
 };
 
-//TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
 Enemy.prototype.maybeShootBullet = function() {
 
 	if (!this._isDeadNow) {
 		var fire = util.randRange(1,100);
-		//var cx = util.randRange(10,400);
-		//var cy = util.randRange(10,400);
-		if (fire<20){
-			if (levelManager.canFireBullet() && this.cy < 500) {
-				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
-				levelManager.shotFired();
+
+		if (fire<10){
+			if (levelManager.canFireBullet() && this.cy < 450) {
+				if (this._type > 2) this.bossBulletVolley();
+				else {
+					entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+					levelManager.shotFired();
+				}
 			}
 		}
+	}
+};
+
+// Makes boss type fire a volley of three evenly spaced shots
+Enemy.prototype.bossBulletVolley = function () {
+	this._volleyTiming++;
+
+	if (this._bossVolley >= 3) {
+		this._firingVolley = false;
+		this._volleyTiming = 0;
+		this._bossVolley = 0;
+		levelManager.shotFired();
+	}
+
+	else if (!this._firingVolley) {
+		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+		this._firingVolley = true;
+		this._bossVolley++;
+		this._volleyTiming++;
+	}
+
+	else if (this._volleyTiming > 61) {
+		this._volleyTiming = 0;
+		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+		this._bossVolley++;
+	}
+};
+
+// Limits the number of attempted shots to once every 'pauseLength'
+Enemy.prototype.shootOrPause = function () {
+	// Every .5 seconds
+	let pauseLength = 500;
+
+	if (this._shootAttemptT === 0) {
+		this._shootAttemptT = levelManager.getTimeNow();
+	}
+
+	let timeNow = levelManager.getTimeNow();
+	let timePassed = timeNow - this._shootAttemptT;
+
+	if (timePassed > pauseLength) {
+		this._shootAttemptT = timeNow;
+		return true;
+	} else {
+		return false;
 	}
 };

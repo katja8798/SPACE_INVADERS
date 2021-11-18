@@ -10,8 +10,9 @@ const userInterface = {
 	// Decrement player life pool and start over
 	// if it reaches zero
 	loseHealth: function () {
-
-		this.player_health -= 1;
+		if (!g_playerInvincibility) {
+			this.player_health -= 1;
+		}
 
 		if (this.player_health === 0) {
 			gameState.currState = gameState.states[3];

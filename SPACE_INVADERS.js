@@ -86,6 +86,7 @@ function updateSimulation(dt, du) {
 let g_allowMixedActions = true;
 let g_useAveVel = true;
 let g_renderSpatialDebug = false;
+let g_playerInvincibility = false;
 
 const KEY_MIXED = keyCode('M');
 const KEY_AVE_VEL = keyCode('V');
@@ -94,6 +95,8 @@ const KEY_SPATIAL = keyCode('X');
 const KEY_RESET = keyCode('R');
 
 const KEY_SKIP = keyCode('L');
+
+const KEY_INVINCIBLE = keyCode('T');
 
 
 
@@ -111,6 +114,8 @@ function processDiagnostics() {
     if (eatKey(KEY_RESET)) entityManager.resetShips();
 
     if(eatKey(KEY_SKIP)) entityManager.killAllEnemies();
+
+    if(eatKey(KEY_INVINCIBLE)) g_playerInvincibility = !g_playerInvincibility;
 
     if (eatKey(KEY_MUSIC)) {
         musicOn = !musicOn;

@@ -160,8 +160,12 @@ _bulletT : 0,
 		this._levelFinished();
 	},
 
-// Important: update function uses real time passed for accurate timing
-// 			  See changes in update.js
+	getTimeNow: function () {
+		return this._dt;
+	},
+
+// Update function uses real time passed for accurate timing
+// See changes in update.js
 	update: function (dt) {
 		this._dt += dt;
 		this._bulletT += dt;
@@ -218,7 +222,6 @@ _bulletT : 0,
 		return this._shotsFired < this._shotsPerPeriod;
 	},
 
-
 	resetGame: function () {
 		userInterface.gameOver();
 		entityManager.killAllEnemies();
@@ -243,18 +246,17 @@ _bulletT : 0,
 	// LEVEL 1
 	{
 		_enemiesSpawnAtT: [3, 8, 14, 18, 24, 28],
-		_numSquadsAtT: [2,2,2,1,2,1],
+		_numSquadsAtT: [2,1,2,1,2,1],
 		_enemySquad: [
 			[4,1,1,1,true],
 			[4,2,1,1,true],
-			[4,1,1,2,false],
-			[4,2,1,2,false],
+			[6,1,1,2,false],
 			[4,5,2,1,true],
 			[4,6,2,1,true],
 			[4,3,1,2,false],
 			[4,1,1,1,true],
 			[4,2,1,1,true],
-			[4,4,1,2,false]
+			[6,4,1,2,false]
 		]
 	},
 	
@@ -278,18 +280,21 @@ _bulletT : 0,
 	
 	// LEVEL 3
 	{
-		_enemiesSpawnAtT: [3, 5, 8, 12, 18],
-		_numSquadsAtT: [2,1,2,2,2],
+		_enemiesSpawnAtT: [3, 5, 9, 14, 20, 25, 26],
+		_numSquadsAtT: [2,2,2,2,2,1,1],
 		_enemySquad: [
+			[6,1,1,2,false],
+			[6,2,1,2,false],
+			[1,3,3,1,true],
+			[1,4,3,1,true],
+			[4,3,2,1,true],
+			[4,4,2,1,true],
 			[4,1,1,1,true],
 			[4,2,1,1,true],
-			[3,3,3,1,true],
 			[4,3,1,1,true],
 			[4,4,1,1,true],
-			[4,1,1,1,true],
-			[4,2,1,1,true],
-			[4,3,1,1,true],
-			[4,4,1,1,true]
+			[6,6,2,2,false],
+			[8,3,1,2,false]
 		]
 	},
 	
