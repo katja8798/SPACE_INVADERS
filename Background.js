@@ -15,7 +15,7 @@ Background.prototype = new Entity();
 
 Background.prototype.update = function (du){
 
-    //this.cy += du;
+    this.cy += du;
 
     this.wrapPosition();
 }

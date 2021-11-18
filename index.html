@@ -13,33 +13,74 @@
         Sorry, but your browser does not support the HTML5 canvas tag.
       </canvas>
       <div class="text">
-        <div>
-          <h2>Aim of the Game:</h2>
-          <p>Live to the end by avoiding and shooting both enemies and asteroids.</p>
+        <h2>Hover to gain knowledge</h2>
+        <div class="dropdown">
+          <h2 >Aim of the Game</h2>
+          <div class="dropdown-content">
+            <p>Live to the end by avoiding and shooting both enemies and asteroids.</p>
+          </div>
         </div>
-        <div>
-          <h2>Asteroid Facts:</h2>
-          <p class="gold">
-            Gold asteroids provide extra minerals and energy, allowing us to make more bullets to fire.
-          </p>
-          <p class="purple">
-            Purple asteroids contain similar organic material to the enemies, letting us increase our score.
-          </p>
-          <p class="green">
-            Green asteroids hold material which we can use to repair our ships hull and equipment.
-          </p>
+        <div class="dropdown">
+          <h2>Asteroid Facts</h2>
+          <div class="dropdown-content">
+            <p class="gold">
+              Gold asteroids provide extra minerals and energy, allowing us to make more bullets to fire.
+            </p>
+            <p class="purple">
+              Purple asteroids contain similar organic material to the enemies, letting us increase our score.
+            </p>
+            <p class="green">
+              Green asteroids hold material which we can use to repair our ships hull and equipment.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2>Ship Controls:</h2>
-          <p>Move Left: A key or left arrow key</p>
-          <p>Move Right: D key or right arrow key</p>
-          <p>Shoot: Space key</p>
+        <div class="dropdown">
+          <h2>Ship Controls</h2>
+          <div class="dropdown-content">
+            <p>Move Left: A key or left arrow key</p>
+            <p>Move Right: D key or right arrow key</p>
+            <p>Shoot: Space key</p>
+          </div>
         </div>
-        <div>
-          <h2>Miscellaneous Controls:</h2>
-          <h3>Toggleable</h3>
-          <p>Music: N key</p>
-          <p>Sound effects: K key</p>
+        <div class="dropdown">
+          <h2>Sound Controls</h2>
+          <div class="dropdown-content">
+            <p>Music: N key</p>
+            <p>Sound effects: K key</p>
+          </div>
+        </div>
+        <div class="dropdown">
+          <h2>Toggleable keys</h2>
+          <div class="dropdown-content">
+            <p>Show Timer: T key</p>
+            <p>Clear: C key</p>
+            <p>Box: B key</p>
+            <p>Undo Box: U key</p>
+            <p>Flip flop box: F key</p>
+            <p>Render: R key</p>
+            <p>Formation: J key</p>
+            <p>Paths: I key</p>
+            <span>Path key must be toggled to see paths</span>
+            <p>Path 1: 1 key</p>
+            <p>Path 2: 2 key</p>
+            <p>Path 3: 3 key</p>
+            <p>Path 4: 4 key</p>
+            <p>Path 5: 5 key</p>
+            <p>Path 6: 6 key</p>
+            <p>AVE_VEL: V key</p>
+            <p>Mixed: M key</p>
+            <p>Spatial Render: X key</p>
+            <p>Reset: R key</p>
+            <p>PAUSE: P key</p>
+            <p>Step: O key</p>
+          </div>
+        </div>
+        <div class="dropdown">
+          <h2>Non-Toggleable Keys</h2>
+          <div class="dropdown-content">
+            <p>Quit: Q</p>
+            <p>Skip Level: L key</p>
+          </div>
         </div>
       </div>
     </div>
@@ -68,7 +109,7 @@
     <script src="Ship.js"></script>
   	<script src="Enemy.js"></script>
     <script src="PowerUp.js"></script>
-    <script src="EnemyBullet.js"></script>
+    <script src="Spawn.js"></script>
     <script src="stars.js"></script>
 
     <script src="update.js"></script>

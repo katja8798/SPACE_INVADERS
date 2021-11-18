@@ -175,24 +175,25 @@ function requestPreloads() {
         backgroundMusic3: "sounds/music.ogg",
         enemyHit : "sounds/enemyHit.ogg",
         rockSplit : "sounds/rockSplit.ogg",
+        shipColliding : "sounds/shipColliding.flac"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        galagaShip   : "images/galagaship.png",
+        galagaShip   : "img/galagaship.png",
         ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         heart  : "img/heart_full_32x32.png",
-        bullet : "images/bullet.png",
-        bee : "images/bee.png",
-        enemyBullet : "images/enemyBullet.png",
+        bullet : "img/bullet.png",
+        bee : "img/bee.png",
+        enemyBullet : "img/enemyBullet.png",
         purpleRock: "img/purpleRock.png",
         greenRock: "img/greenRock.png",
         yellowRock: "img/yellowRock.png",
         //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
-        butterfly : "images/butterfly_single.png",
-        boss : "images/boss_single.png",
-        purpleBoss : "images/purpleboss_single.png",
+        butterfly : "img/butterfly_single.png",
+        boss : "img/boss_single.png",
+        purpleBoss : "img/purpleboss_single.png",
         gameBackground : "img/background_vala_ver1.png"
         //gameBackground : "img/gameBackground.jpg"
     };

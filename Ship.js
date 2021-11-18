@@ -14,6 +14,7 @@
 
 // A generic constructor which accepts an arbitrary descriptor object
 function Ship(descr) {
+    this.entityType = "ship";
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -79,9 +80,13 @@ Ship.prototype.update = function (du) {
     this.maybeFireBullet();
 
     if(this.isColliding()) {
-        //this.warp();
-    }
-    else {
+        const hitEntity = this.findHitEntity();
+        const canTakeHit = hitEntity.collision;
+        if (canTakeHit) {
+            userInterface.loseHealth();
+            canTakeHit.call(hitEntity);
+        }
+    }else {
         spatialManager.register(this);
     }
 };
@@ -122,8 +127,7 @@ Ship.prototype.getRadius = function () {
 };
 
 Ship.prototype.takeBulletHit = function () {
-    userInterface.player_health -=1;
-
+    userInterface.loseHealth();
 };
 
 Ship.prototype.reset = function () {

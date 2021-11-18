@@ -31,7 +31,7 @@ const entityManager = {
     _ships: [],
     _enemies: [],
     _powerUps: [],
-    _enemyBullets: [],
+    _spawns: [],
 
 
 // "PRIVATE" METHODS
@@ -87,27 +87,26 @@ const entityManager = {
             this._ships,
             this._enemies,
             this._powerUps,
-            this._enemyBullets
+            this._spawns
         ];
     },
 
-    fireBullet: function (cx, cy, velX, velY, rotation) {
+    fireBullet: function (cx, cy, velX, velY) {
         this._bullets.push(new Bullet({
             cx: cx,
             cy: cy,
             velX: velX,
             velY: velY,
-
-            rotation: rotation
         }));
     },
 
     fireEnemyBullet: function(cx, cy, velX, velY) {
-        this._enemyBullets.push(new EnemyBullet({
+        this._bullets.push(new Bullet({
             cx: cx,
             cy: cy,
             velX: velX,
-            velY: velY
+            velY: velY,
+            sprite: g_sprites.enemyBullet
         }));
     },
 
@@ -121,6 +120,13 @@ const entityManager = {
 
     generateEnemies: function (descr) {
         this._enemies.push(new Enemy(descr));
+    },
+
+    generateSpawn: function (descr) {
+        const n = Math.round(util.randRange(4, 7));
+        for (let i = 0; i < n; i++) {
+            this._spawns.push(new Spawn(descr));
+        }
     },
 
     generatePowerUp: function (descr) {
@@ -162,6 +168,25 @@ const entityManager = {
             this._enemies[e].kill();
         }
         levelManager.skipLevel();
+    },
+
+    //bullets and power ups
+    /*killExtra: function () {
+        for (let e = 0; e < this._bullets; e++) {
+            this._bullets[e].kill();
+        }
+        for (let e = 0; e < this._powerUps; e++) {
+            this._powerUps[e].kill();
+        }
+    },*/
+
+    powerUpOff: function (){
+        /*TODO finna leið til að eyða almennilega svo ekkert annað en skipið er hjá nýju level
+        for (let e = 0; e < this._powerUps; e++) {
+            return this._powerUps[e].KILL_ME_NOW;
+        }*/
+        const ship = entityManager._findNearestShip(0, 0);
+        ship.powerUpBullet = false;
     },
 
     update: function (du) {

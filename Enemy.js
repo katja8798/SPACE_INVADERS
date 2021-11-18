@@ -4,6 +4,8 @@
 
 function Enemy(descr) {
 
+	this.entityType = "enemy"
+
 	this.setup(descr);
 
 	this._scale = .5;
@@ -52,6 +54,7 @@ Enemy.prototype._numberInLine = null;
 Enemy.prototype._spawnPoint = null;
 Enemy.prototype._manoeuvre = null;
 
+
 Enemy.prototype.update = function (du) {
 	
 	let oldX = this.cx;
@@ -92,6 +95,7 @@ Enemy.prototype.update = function (du) {
 	}
 	
 	this.maybeShootBullet();
+
 	spatialManager.register(this);
 };
 
@@ -149,17 +153,32 @@ Enemy.prototype.followPath = function(du) {
 	}
 };
 
+Enemy.prototype.collision = function () {
+	playSound(g_sounds.enemyHit);
+	entityManager.generateSpawn({
+		cx : this.cx,
+		cy : this.cy,
+		_scale : this._scale/2,
+		sprite : this.sprite
+	});
+	this.kill();
+	levelManager.enemyKilled();
+};
+
 Enemy.prototype.takeBulletHit = function () {
 	this._health--;
+	playSound(g_sounds.enemyHit);
 
 	if (this._health <= 0) {
+		entityManager.generateSpawn({
+			cx : this.cx,
+			cy : this.cy,
+			_scale : this._scale/2,
+			sprite : this.sprite
+		});
 		this.kill();
-		userInterface.score += 100 + this._type * 20;
-		playSound(g_sounds.enemyHit);
+		userInterface.increaseScore(this._type);
 		levelManager.enemyKilled();
-	}
-	else if (this._type === 3) {
-		this.sprite = g_sprites.purpleboss;
 	}
 };
 
@@ -228,6 +247,17 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this._health = 2;
 	}
 
+	else if (type === 4) {
+		this.sprite = g_sprites.purpleBoss;
+		this._scale = g_sprites.purpleBoss.scale;
+		this.width = g_sprites.purpleBoss.width;
+		this._health = 3;
+	}
+	else {
+		this.sprite = g_sprites.bee;
+		this.width = g_sprites.bee.width;
+	}
+
 	let offset = number * g_sprites.ship2.width + 16;
 	this.waitT = this.waitT * number * type;
 
@@ -257,7 +287,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 			this.cy = 400;
 			this.velX = -4;
 			this.velY = 0;
-			if (this._manoeuvre === 1) this.waitT * 3;
+			if (this._manoeuvre === 1) this.waitT *= 3;
 			break;
 		case 4:
 			this.cx = 0 - offset;
@@ -302,7 +332,7 @@ Enemy.prototype.maybeShootBullet = function() {
 		//var cy = util.randRange(10,400);
 		if (fire<20){
 			if (levelManager.canFireBullet() && this.cy < 500) {
-				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, -this.velY);
+				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
 				levelManager.shotFired();
 			}
 		}
