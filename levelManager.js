@@ -2,7 +2,7 @@
 // LEVEL STUFF
 // ==========
 
-var levelManager = {
+const levelManager = {
 	
 _nextLevel : 0,
 	
@@ -45,196 +45,192 @@ _bulletT : 0,
 
 // PRIVATE METHODS
 
-_generateWave: function() {
-	let level = this._currentLevel;
-	let wave = this._nextWaveNumber;
-	let squad = this._nextSquadNumber;
-	let numSquads = level._numSquadsAtT[wave];
-	
-	for (var i = squad; i < numSquads + squad; i++) {
-		this._enemyWave.push(level._enemySquad[i]);
-	}
-	
-	let nextWave = wave + 1;
-	if (nextWave >= level._enemiesSpawnAtT.length) {
-		this._waitForLastKill = true;
-	}
-	else {
-		this._nextWaveT = level._enemiesSpawnAtT[nextWave] * 1000;
-		this._nextWaveNumber = nextWave;
-		this._nextSquadNumber += numSquads;
-	}
-	
-	this._spawnEnemies();
-},
+	_generateWave: function () {
+		let level = this._currentLevel;
+		let wave = this._nextWaveNumber;
+		let squad = this._nextSquadNumber;
+		let numSquads = level._numSquadsAtT[wave];
 
-_spawnEnemies: function() {
-	let length = this._enemyWave.length;
-	
-	for (let i = 0; i < length; i++) {
-		let squad = this._enemyWave[i];
-		n = squad[0];
-		l = squad[1];
-		t = squad[2];
-		m = squad[3];
-		f = squad[4];
-		
-		for (let j = 0; j < n; j++) {
-			entityManager.generateEnemies({
-				_numberInLine : j,
-				_spawnPoint : l - 1,
-				_type : t ,
-				_manoeuvre : m - 1,
-				_formation : f
-				}
-			);
+		for (let i = squad; i < numSquads + squad; i++) {
+			this._enemyWave.push(level._enemySquad[i]);
 		}
-	}
-	
-	this._enemyWave = [];
-},
 
-_levelFinished: function() {
-	if (this._nextLevel < this._levels.length) {
-		this._resetCurrentLevel();
-		this._loadLevel(this._nextLevel);
-	}
-	else {
-		gameState.currState = gameState.states[2];
-	}
-},
+		let nextWave = wave + 1;
+		if (nextWave >= level._enemiesSpawnAtT.length) {
+			this._waitForLastKill = true;
+		} else {
+			this._nextWaveT = level._enemiesSpawnAtT[nextWave] * 1000;
+			this._nextWaveNumber = nextWave;
+			this._nextSquadNumber += numSquads;
+		}
 
-_resetCurrentLevel: function() {
-	this._currentLevel._enemiesSpawnAtT = [];
-	this._currentLevel._numSquadsAtT = [];
-	this._currentLevel._enemySquad = [];
-	this._nextWaveT = 0;
-	this._nextWaveNumber = 0;
-	this._nextSquadNumber = 0;
-	this._waitForLastKill = false;
-	this._dt = 0;
-},
+		this._spawnEnemies();
+	},
 
-_loadLevel: function(levelNumber) {
-	let requestedLevel = this._levels[levelNumber];
-	
-	this._copyProperties(requestedLevel._enemiesSpawnAtT, 
-					 this._currentLevel._enemiesSpawnAtT);
-	this._copyProperties(requestedLevel._numSquadsAtT, 
-					 this._currentLevel._numSquadsAtT);
-	this._copyProperties(requestedLevel._enemySquad, 
-					 this._currentLevel._enemySquad);
-	
-	let squads = this._currentLevel._enemySquad;
-	for(var i=0; i < squads.length; i++) {
-		this._totalEnemies += squads[i][0];
-	}
-	
-	this._shotsPerPeriod = levelNumber + 1;
-	this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
-	this._nextLevel++;
-},
+	_spawnEnemies: function () {
+		let length = this._enemyWave.length;
 
-_copyProperties: function(copyFrom, copyTo) {
-	for (var i=0; i < copyFrom.length; i++) {
-		if (copyFrom[i].length > 1) {
-			copyTo.push([]);
-			for (var j=0; j < copyFrom[i].length; j++) {
-				copyTo[i].push(copyFrom[i][j]);
+		for (let i = 0; i < length; i++) {
+			let squad = this._enemyWave[i],
+				n = squad[0],
+				l = squad[1],
+				t = squad[2],
+				m = squad[3],
+				f = squad[4];
+
+			for (let j = 0; j < n; j++) {
+				entityManager.generateEnemies({
+						_numberInLine: j,
+						_spawnPoint: l - 1,
+						_type: t,
+						_manoeuvre: m - 1,
+						_formation: f
+					}
+				);
 			}
-		}	
-		else {
-			copyTo.push(copyFrom[i]);
 		}
-	}
-},
+
+		this._enemyWave = [];
+	},
+
+	_levelFinished: function () {
+		if (this._nextLevel < this._levels.length) {
+			this._resetCurrentLevel();
+			this._loadLevel(this._nextLevel);
+		} else {
+			gameState.currState = gameState.states[2];
+		}
+	},
+
+	_resetCurrentLevel: function () {
+		this._currentLevel._enemiesSpawnAtT = [];
+		this._currentLevel._numSquadsAtT = [];
+		this._currentLevel._enemySquad = [];
+		this._nextWaveT = 0;
+		this._nextWaveNumber = 0;
+		this._nextSquadNumber = 0;
+		this._waitForLastKill = false;
+		this._dt = 0;
+		this._totalEnemies = 0;
+		//makes screen be empty
+		entityManager.powerUpOff();
+	},
+
+	_loadLevel: function (levelNumber) {
+		let requestedLevel = this._levels[levelNumber];
+
+		this._copyProperties(requestedLevel._enemiesSpawnAtT,
+			this._currentLevel._enemiesSpawnAtT);
+		this._copyProperties(requestedLevel._numSquadsAtT,
+			this._currentLevel._numSquadsAtT);
+		this._copyProperties(requestedLevel._enemySquad,
+			this._currentLevel._enemySquad);
+
+		let squads = this._currentLevel._enemySquad;
+		for (let i = 0; i < squads.length; i++) {
+			this._totalEnemies += squads[i][0];
+		}
+
+		this._shotsPerPeriod = levelNumber + 1;
+		this._nextWaveT = this._currentLevel._enemiesSpawnAtT[0] * 1000;
+		this._nextLevel++;
+	},
+
+	_copyProperties: function (copyFrom, copyTo) {
+		for (let i = 0; i < copyFrom.length; i++) {
+			if (copyFrom[i].length > 1) {
+				copyTo.push([]);
+				for (let j = 0; j < copyFrom[i].length; j++) {
+					copyTo[i].push(copyFrom[i][j]);
+				}
+			} else {
+				copyTo.push(copyFrom[i]);
+			}
+		}
+	},
 
 
 // PUBLIC METHODS
 
-enemyKilled : function() {
-	this._totalEnemies--;
-},
+	enemyKilled: function () {
+		this._totalEnemies--;
+	},
 
-skipLevel : function() {
-	this._levelFinished();
-},
+	skipLevel: function () {
+		this._levelFinished();
+	},
 
 // Important: update function uses real time passed for accurate timing
 // 			  See changes in update.js
-update: function(dt) {
-	this._dt += dt;
-	this._bulletT += dt;
+	update: function (dt) {
+		this._dt += dt;
+		this._bulletT += dt;
 
-	if (this._bulletT > 5000) {
-		this._bulletT = 0;
-		this._shotsFired = 0;
-	}
-	
-	if (this._dt >= this._nextWaveT && !this._waitForLastKill) {
-		this._generateWave();
-	}
+		if (this._bulletT > 5000) {
+			this._bulletT = 0;
+			this._shotsFired = 0;
+		}
 
-	if (this._waitForLastKill && this._totalEnemies === 0) {
-		this._levelFinished();
-	}
-},
+		if (this._dt >= this._nextWaveT && !this._waitForLastKill) {
+			this._generateWave();
+		}
 
-render: function(ctx) {
+		if (this._waitForLastKill && this._totalEnemies === 0) {
+			this._levelFinished();
+		}
+	},
 
-	//let s = "Enemies left: " + this._totalEnemies.toString();
-	//util.renderText(ctx, s, 10, 10, .5, 'white', 'white');
+	render: function (ctx) {
 
-	if (this._dt < 3000) {
-		let tSize = Math.floor(300 - this._dt/10);
-		let font = tSize.toString() + "px";
+		let s = "Enemies left: " + this._totalEnemies.toString();
+		util.renderText(ctx, s, 10, 10, .5, 'white', 'white');
 
-		ctx.save();
-		ctx.font = font + " bold Helvetica";
-		ctx.lineWidth = 1;
-		ctx.strokeStyle = 'white';
-		ctx.fillStyle = 'white';
+		if (this._dt < 3000) {
+			let tSize = Math.floor(300 - this._dt / 10);
+			let font = tSize.toString() + "px";
 
-		let text = 'Level ' + (this._nextLevel).toString();
-		let textWidth = ctx.measureText(text).width;
+			ctx.save();
+			ctx.font = font + " bold Consolas";
+			ctx.lineWidth = 1;
+			ctx.strokeStyle = 'white';
+			ctx.fillStyle = 'white';
 
-		let x = g_canvas.width/2 - textWidth/2;
-		let y = g_canvas.height/2;
-		ctx.strokeText(text, x, y);
-		ctx.fillText(text, x, y);
-		ctx.restore();
-	}
-},
+			let text = 'Level ' + (this._nextLevel).toString();
+			let textWidth = ctx.measureText(text).width;
 
-init: function() {
-	this._loadLevel(this._nextLevel);
-},
+			let x = g_canvas.width / 2 - textWidth / 2;
+			let y = g_canvas.height / 2;
+			ctx.strokeText(text, x, y);
+			ctx.fillText(text, x, y);
+			ctx.restore();
+		}
+	},
 
-shotFired: function() {
-	this._shotsFired++;
-},
+	init: function () {
+		this._loadLevel(this._nextLevel);
+	},
 
-canFireBullet: function() {
-	if (this._shotsFired < this._shotsPerPeriod) {
-		return true;
-	}
-	else {
-		return false;
-	}
-},
+	shotFired: function () {
+		this._shotsFired++;
+	},
 
-resetGame : function(){
-	userInterface.gameOver();
-	this._resetCurrentLevel();
-	this._nextLevel = 0;
-	this._loadLevel(this._nextLevel);
-},
+	canFireBullet: function () {
+		return this._shotsFired < this._shotsPerPeriod;
+	},
 
+
+	resetGame: function () {
+		userInterface.gameOver();
+		entityManager.killAllEnemies();
+		this._resetCurrentLevel();
+		this._nextLevel = 0;
+		this.init();
+	},
 
 
 // LEVELS
 
-_levels : [
+	_levels: [
 
 	// enemySquad:
 	// [N, L, T, M, F] where:
