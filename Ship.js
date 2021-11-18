@@ -128,6 +128,13 @@ Ship.prototype.getRadius = function () {
 
 Ship.prototype.takeBulletHit = function () {
     userInterface.loseHealth();
+    entityManager.generateSpawn({
+        cx : this.cx,
+        cy : this.cy,
+        _scale : this._scale/2,
+        sprite : this.sprite
+    });
+    playSound(g_sounds.shipColliding);
 };
 
 Ship.prototype.reset = function () {

@@ -2,6 +2,7 @@
 // ENEMY STUFF
 // ==========
 
+// A generic constructor which accepts an arbitrary descriptor object
 function Enemy(descr) {
 
 	this.entityType = "enemy"
@@ -42,7 +43,7 @@ function Enemy(descr) {
 Enemy.prototype = new Entity();
 
 // Initial, inheritable, default values
-Enemy.prototype.rotation = Math.PI;
+Enemy.prototype.rotation = 0;
 Enemy.prototype.cx = 300;
 Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
@@ -102,9 +103,7 @@ Enemy.prototype.update = function (du) {
 Enemy.prototype.getRadius = function() {
 	return this._scale*(this.sprite.width / 2) * 0.9;
 }
-
-// TODO: this._pointN must be set equal to number of points generated
-// 		 for this implementation to work. FIX!
+//Makes the Enemy follow the given path
 Enemy.prototype.followPath = function(du) {
 
 	if (this.waitT <= 0) this._wait = false;
@@ -199,7 +198,6 @@ Enemy.prototype.adjustSpeed = function () {
 };
 
 // Seek coordinates of reserved cell in formation
-// TODO: Make it change velocity gradually!
 Enemy.prototype.goToFormation = function (cellID, du) {
 	let cellCoordinates = formation.getCellCoordinates(cellID);
 	let targetX = cellCoordinates.cx;
@@ -323,14 +321,12 @@ Enemy.prototype.outOfBounds = function (x, y) {
 	}
 };
 
-//TODO: á í rauninni eftir að útfæra þetta alveg heh þarf ehv annað en chance útfærsluna
+
 Enemy.prototype.maybeShootBullet = function() {
 
 	if (!this._isDeadNow) {
 		var fire = util.randRange(1,100);
-		//var cx = util.randRange(10,400);
-		//var cy = util.randRange(10,400);
-		if (fire<20){
+		if (fire<40){
 			if (levelManager.canFireBullet() && this.cy < 500) {
 				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
 				levelManager.shotFired();

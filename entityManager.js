@@ -57,11 +57,6 @@ const entityManager = {
             }
         }
         return closestShip;
-
-        /*{
-            theShip: closestShip,
-            theIndex: closestIndex
-        };*/
     },
 
     _forEachOf: function (aCategory, fn) {

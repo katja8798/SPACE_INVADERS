@@ -190,7 +190,6 @@ function requestPreloads() {
         purpleRock: "img/purpleRock.png",
         greenRock: "img/greenRock.png",
         yellowRock: "img/yellowRock.png",
-        //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
         butterfly : "img/butterfly_single.png",
         boss : "img/boss_single.png",
         purpleBoss : "img/purpleboss_single.png",
