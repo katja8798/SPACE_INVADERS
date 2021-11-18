@@ -151,6 +151,12 @@ Enemy.prototype.followPath = function(du) {
 
 Enemy.prototype.collision = function () {
 	playSound(g_sounds.enemyHit);
+	entityManager.generateSpawn({
+		cx : this.cx,
+		cy : this.cy,
+		_scale : this._scale/2,
+		sprite : this.sprite
+	});
 	this.kill();
 	levelManager.enemyKilled();
 };
@@ -160,6 +166,12 @@ Enemy.prototype.takeBulletHit = function () {
 	playSound(g_sounds.enemyHit);
 
 	if (this._health <= 0) {
+		entityManager.generateSpawn({
+			cx : this.cx,
+			cy : this.cy,
+			_scale : this._scale/2,
+			sprite : this.sprite
+		});
 		this.kill();
 		userInterface.increaseScore(this._type);
 		levelManager.enemyKilled();

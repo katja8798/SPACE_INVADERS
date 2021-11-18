@@ -13,7 +13,7 @@ function Spawn(descr) {
 }
 
 Spawn.prototype = new Entity();
-Spawn.prototype.lifeSpan = 1000 / NOMINAL_UPDATE_INTERVAL;
+Spawn.prototype.lifeSpan = 500 / NOMINAL_UPDATE_INTERVAL;
 
 Spawn.prototype.update = function (du) {
 
@@ -25,6 +25,9 @@ Spawn.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
+    this.rotation += 1 * this.velRot;
+    this.rotation = util.wrapRange(this.rotation,
+        0, consts.FULL_CIRCLE);
 };
 
 

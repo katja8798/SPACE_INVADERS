@@ -64,7 +64,6 @@ PowerUp.prototype.getRadius = function() {
 }
 
 PowerUp.prototype.collision = function () {
-    this.kill();
     playSound(g_sounds.shipColliding);
     entityManager.generateSpawn({
         cx : this.cx,
@@ -72,6 +71,7 @@ PowerUp.prototype.collision = function () {
         _scale : this._scale/2,
         sprite : this.sprite
     });
+    this.kill();
 }
 
 
