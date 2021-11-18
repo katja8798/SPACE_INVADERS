@@ -24,6 +24,7 @@ _y0 : 100,
 
 // Formation movement (Find a good value)
 _velX : .8,
+_velY : 0,
 
 
 // PRIVATE METHODS
@@ -93,6 +94,14 @@ returnCell : function (id) {
 	let col = id.col;
 
 	this._formationArray[row][col] = 0;
+},
+
+// TODO
+// TODO
+// TODO		Láta levelManager kalla á þetta eftir dt > ákveðinn tíma
+// TODO
+chargePlayer : function () {
+
 },
 
 update : function (du) {
