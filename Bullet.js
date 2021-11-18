@@ -64,8 +64,9 @@ Bullet.prototype.update = function (du) {
         const canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) canTakeHit.call(hitEntity);
         return entityManager.KILL_ME_NOW;
+    }else {
+        spatialManager.register(this);
     }
-    spatialManager.register(this);
 };
 
 Bullet.prototype.getRadius = function () {

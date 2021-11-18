@@ -53,15 +53,12 @@ const gameState = {
                 this._currText[1] = this._texts[4];
             }
 
-            levelManager.resetGame();
-
             if (eatKey(this._continueKey)) {
-                if (this.currState === this.states[2]) {
+                if ((this.currState === this.states[2]) ||
+                    (this.currState === this.states[3])) {
                     this.currState = this.states[1];
                 }
-                if (this.currState === this.states[3]) {
-                    this.currState = this.states[1];
-                }
+                levelManager.resetGame();
             }
         }
     },

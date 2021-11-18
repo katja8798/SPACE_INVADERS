@@ -91,6 +91,7 @@ Enemy.prototype.update = function (du) {
 	}
 	
 	this.maybeShootBullet();
+
 	spatialManager.register(this);
 };
 
@@ -148,17 +149,20 @@ Enemy.prototype.followPath = function(du) {
 	}
 };
 
+Enemy.prototype.collision = function () {
+	playSound(g_sounds.enemyHit);
+	this.kill();
+	levelManager.enemyKilled();
+};
+
 Enemy.prototype.takeBulletHit = function () {
 	this._health--;
+	playSound(g_sounds.enemyHit);
 
 	if (this._health <= 0) {
 		this.kill();
-		userInterface.score += 100 + this._type * 20;
-		playSound(g_sounds.enemyHit);
+		userInterface.increaseScore(this._type);
 		levelManager.enemyKilled();
-	}
-	else if (this._type === 3) {
-		this.sprite = g_sprites.purpleBoss;
 	}
 };
 
@@ -225,6 +229,13 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this._scale = g_sprites.boss.scale;
 		this.width = g_sprites.boss.width;
 		this._health = 2;
+	}
+
+	else if (type === 4) {
+		this.sprite = g_sprites.purpleBoss;
+		this._scale = g_sprites.purpleBoss.scale;
+		this.width = g_sprites.purpleBoss.width;
+		this._health = 3;
 	}
 	else {
 		this.sprite = g_sprites.bee;

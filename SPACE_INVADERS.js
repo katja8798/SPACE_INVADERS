@@ -175,6 +175,7 @@ function requestPreloads() {
         backgroundMusic3: "sounds/music.ogg",
         enemyHit : "sounds/enemyHit.ogg",
         rockSplit : "sounds/rockSplit.ogg",
+        shipColliding : "sounds/shipColliding.flac"
     };
 
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
