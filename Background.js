@@ -3,8 +3,8 @@ function Background(descr) {
     this.setup(descr);
     this.sprite = this.sprite || g_sprites.background;
 
-    this.cx = g_canvas.width/2;
-    this.cy = g_canvas.height/2;
+    this.cx = 0;
+    this.cy = this.sprite.height;
     this.rotation = 0;
     this._scale = 1;
 
@@ -12,21 +12,27 @@ function Background(descr) {
 
 Background.prototype = new Entity();
 
-
 Background.prototype.update = function (du){
 
-    this.cy += du;
+    if (this.cy <= this.sprite.height) {
+        this.cy += du;
+    }
+    else {
+        this.cy += du - this.sprite.height;
+    }
 
-    this.wrapPosition();
 }
 
 Background.prototype.render = function (ctx){
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
-    this.sprite.drawWrappedCentredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );
-    this.sprite.scale = origScale;
 
+    this.sprite.drawAt(ctx, this.cx, this.cy, this.rotation);
+
+    var sh = g_canvas.height;
+    this.sprite.drawAt(ctx, this.cx, this.cy - this.sprite.height, this.rotation);
+    //this.sprite.drawAt(ctx, this.cx, this.cy + sh, this.rotation);
+
+    this.sprite.scale = origScale;
     stars.render(ctx);
 }
