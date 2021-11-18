@@ -297,12 +297,12 @@ const levelManager = {
 			_enemySquad: [
 				[4, 1, 2, 1, true],
 				[4, 2, 1, 1, true],
-				[4, 3, 3, 1, true],
+				[4, 3, 2, 1, true],
 				[4, 4, 2, 1, true],
-				[4, 1, 3, 1, true],
-				[4, 2, 3, 1, true],
-				[4, 3, 3, 1, true],
-				[4, 4, 3, 1, true]
+				[4, 1, 2, 1, true],
+				[4, 2, 2, 1, true],
+				[4, 3, 2, 1, true],
+				[4, 4, 2, 1, true]
 			]
 		},
 	]
