@@ -88,11 +88,11 @@ const userInterface = {
 
 		ctx.save();
 
-		ctx.font = '20px bold Consolas';
+		ctx.font = 'bold 20px Consolas';
 		ctx.lineWidth = .5;
 		ctx.fillStyle = '#FFFFFF';
 
-		let scoreText = "Score " + this.score.toString();
+		let scoreText = "Score: " + this.score.toString();
 		let textWidth = ctx.measureText(scoreText).width + 5;
 
 		ctx.fillText(scoreText, g_canvas.width - textWidth, 20);
