@@ -57,11 +57,6 @@ const entityManager = {
             }
         }
         return closestShip;
-
-        /*{
-            theShip: closestShip,
-            theIndex: closestIndex
-        };*/
     },
 
     _forEachOf: function (aCategory, fn) {
@@ -181,10 +176,6 @@ const entityManager = {
     },*/
 
     powerUpOff: function (){
-        /*TODO finna leið til að eyða almennilega svo ekkert annað en skipið er hjá nýju level
-        for (let e = 0; e < this._powerUps; e++) {
-            return this._powerUps[e].KILL_ME_NOW;
-        }*/
         const ship = entityManager._findNearestShip(0, 0);
         ship.powerUpBullet = false;
     },

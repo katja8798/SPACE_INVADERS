@@ -30,11 +30,11 @@ function Entity() {
     console.dir(this);
 */
 
-};
+}
 
 Entity.prototype.setup = function (descr) {
 
-    // Apply all setup properies from the (optional) descriptor
+    // Apply all setup properties from the (optional) descriptor
     for (var property in descr) {
         this[property] = descr[property];
     }
