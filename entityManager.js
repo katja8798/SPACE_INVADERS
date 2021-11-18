@@ -31,6 +31,7 @@ const entityManager = {
     _ships: [],
     _enemies: [],
     _powerUps: [],
+    _spawns: [],
 
 
 // "PRIVATE" METHODS
@@ -85,7 +86,8 @@ const entityManager = {
             this._bullets,
             this._ships,
             this._enemies,
-            this._powerUps
+            this._powerUps,
+            this._spawns
         ];
     },
 
@@ -118,6 +120,13 @@ const entityManager = {
 
     generateEnemies: function (descr) {
         this._enemies.push(new Enemy(descr));
+    },
+
+    generateSpawn: function (descr) {
+        const n = Math.round(util.randRange(4, 7));
+        for (let i = 0; i < n; i++) {
+            this._spawns.push(new Spawn(descr));
+        }
     },
 
     generatePowerUp: function (descr) {

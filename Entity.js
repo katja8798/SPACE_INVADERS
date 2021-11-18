@@ -87,10 +87,6 @@ Entity.prototype.wrapPosition = function () {
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
 };
 
-Entity.prototype.spawn = function (descr) {
-    entityManager.generatePowerUp(descr);
-};
-
 Entity.prototype.randomisePosition = function () {
     let chance = Math.random(),
         x,
