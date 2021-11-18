@@ -113,6 +113,7 @@ _bulletT : 0,
 		this._dt = 0;
 		this._totalEnemies = 0;
 		//makes screen be empty
+		entityManager.killExtra();
 		entityManager.powerUpOff();
 	},
 
