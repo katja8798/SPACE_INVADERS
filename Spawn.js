@@ -13,7 +13,7 @@ function Spawn(descr) {
 }
 
 Spawn.prototype = new Entity();
-Spawn.prototype.lifeSpan = 500 / NOMINAL_UPDATE_INTERVAL;
+Spawn.prototype.lifeSpan = 400 / NOMINAL_UPDATE_INTERVAL;
 
 Spawn.prototype.update = function (du) {
 
@@ -34,11 +34,11 @@ Spawn.prototype.update = function (du) {
 
 Spawn.prototype.render = function (ctx) {
     ctx.save();
-    let fadeThresh = Spawn.prototype.lifeSpan/3;
 
-    if(fadeThresh > this.lifeSpan) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
-    }
+    let fadeThresh = Spawn.prototype.lifeSpan/2;
+
+    ctx.globalAlpha = this.lifeSpan / fadeThresh;
+
 
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
