@@ -32,6 +32,8 @@ function Enemy(descr) {
 	// Formation related
 	this._myCell = 0;
 
+	this._formation = true;
+
 	this._inFormation = false;
 
 	// Attack related
@@ -100,6 +102,8 @@ Enemy.prototype.update = function (du) {
 		if(this._onPath) {
 			this.velX = this.cx - oldX;
 			this.velY = this.cy - oldY;
+			/*this.velX = oldX - this.cx;
+			this.velY = oldY - this.cy;*/
 		}
 	}
 
@@ -107,7 +111,7 @@ Enemy.prototype.update = function (du) {
 		this.goToFormation(this._myCell, du);
 	}
 
-	if (!this._formation) {
+	else if (!this._formation) {
 
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
@@ -127,9 +131,7 @@ Enemy.prototype.update = function (du) {
 Enemy.prototype.getRadius = function() {
 	return this._scale*(this.sprite.width / 2) * 0.9;
 }
-
-// TODO: this._pointN must be set equal to number of points generated
-// 		 for this implementation to work. FIX!
+//Makes the Enemy follow the given path
 Enemy.prototype.followPath = function(du) {
 
 	if (this.waitT <= 0) this._wait = false;
@@ -224,7 +226,6 @@ Enemy.prototype.adjustSpeed = function () {
 };
 
 // Seek coordinates of reserved cell in formation
-// TODO: Make it change velocity gradually!
 Enemy.prototype.goToFormation = function (cellID, du) {
 	let cellCoordinates = formation.getCellCoordinates(cellID);
 	let targetX = cellCoordinates.cx;
@@ -354,7 +355,7 @@ Enemy.prototype.outOfBounds = function (x, y) {
 Enemy.prototype.maybeShootBullet = function() {
 
 	if (!this._isDeadNow) {
-		var fire = util.randRange(1,100);
+		const fire = util.randRange(1, 100);
 
 		if (fire<10){
 			if (levelManager.canFireBullet() && this.cy < 450) {

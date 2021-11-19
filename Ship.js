@@ -55,7 +55,7 @@ Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
-Ship.prototype.launchVel = 3.5;
+Ship.prototype.launchVel = 3.3;
 
 const NOMINAL_MOVEMENT = 5;
 
@@ -68,13 +68,15 @@ Ship.prototype.update = function (du) {
 
 
     if (keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) {
-        this.cx -= NOMINAL_MOVEMENT*du;
+        if (this.cx-this.sprite.width/2 > 0) {
+            this.cx -= NOMINAL_MOVEMENT * du;
+        }
     }
     if (keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) {
-        this.cx += NOMINAL_MOVEMENT*du;
+        if (this.cx+this.sprite.width/2 < g_canvas.width) {
+            this.cx += NOMINAL_MOVEMENT * du;
+        }
     }
-    // Ensure ship stays on screen
-    this.wrapPosition();
 
     // Handle firing
     this.maybeFireBullet();
