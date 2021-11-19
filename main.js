@@ -23,11 +23,11 @@ haven't adopted it here.
 */
 
 
-var main = {
-    
+const main = {
+
     // "Frame Time" is a (potentially high-precision) frame-clock for animations
-    _frameTime_ms : null,
-    _frameTimeDelta_ms : null,
+    _frameTime_ms: null,
+    _frameTimeDelta_ms: null,
 
 };
 
@@ -83,7 +83,8 @@ main.gameOver = function () {
 
 // Simple voluntary quit mechanism
 //
-var KEY_QUIT = 'Q'.charCodeAt(0);
+const KEY_QUIT = 'Q'.charCodeAt(0);
+
 function requestedQuit() {
     return keys[KEY_QUIT];
 }
@@ -105,7 +106,7 @@ main._requestNextIteration = function () {
 
 // Mainloop-level debug-rendering
 
-var TOGGLE_TIMER_SHOW = 'T'.charCodeAt(0);
+const TOGGLE_TIMER_SHOW = 'T'.charCodeAt(0);
 
 main._doTimerShow = false;
 
@@ -114,8 +115,8 @@ main._debugRender = function (ctx) {
     if (eatKey(TOGGLE_TIMER_SHOW)) this._doTimerShow = !this._doTimerShow;
     
     if (!this._doTimerShow) return;
-    
-    var y = 350;
+
+    const y = 350;
     ctx.fillText('FT ' + this._frameTime_ms, 50, y+10);
     ctx.fillText('FD ' + this._frameTimeDelta_ms, 50, y+20);
     ctx.fillText('UU ' + g_prevUpdateDu, 50, y+30); 

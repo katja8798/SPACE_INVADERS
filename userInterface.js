@@ -7,8 +7,7 @@ const userInterface = {
 	player_health: 3,
 	score: 0,
 
-	// Decrement player life pool and start over
-	// if it reaches zero
+	// Decrement player life pool
 	loseHealth: function () {
 		this.player_health -= 1;
 	},

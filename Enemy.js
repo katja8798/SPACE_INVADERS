@@ -324,7 +324,7 @@ Enemy.prototype.outOfBounds = function (x, y) {
 
 Enemy.prototype.maybeShootBullet = function() {
 	if (!this._isDeadNow) {
-		var fire = util.randRange(1,100);
+		const fire = util.randRange(1, 100);
 		if (fire<40){
 			if (levelManager.canFireBullet() && this.cy < 500) {
 				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);

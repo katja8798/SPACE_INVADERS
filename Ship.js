@@ -55,10 +55,10 @@ Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
-Ship.prototype.launchVel = 2;
+Ship.prototype.launchVel = 3.5;
 
-var NOMINAL_MOVEMENT = 5;
-    
+const NOMINAL_MOVEMENT = 5;
+
 Ship.prototype.update = function (du) {
     
     spatialManager.unregister(this);
@@ -94,28 +94,28 @@ Ship.prototype.update = function (du) {
 Ship.prototype.maybeFireBullet = function () {
 
     if (keys[this.KEY_FIRE]) {
-    
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
-        
-        var relVel = this.launchVel;
-        var relVelX = dX * relVel;
-        var relVelY = dY * relVel;
+
+        const dX = +Math.sin(this.rotation);
+        const dY = -Math.cos(this.rotation);
+        const launchDist = this.getRadius() * 1.2;
+
+        const relVel = this.launchVel;
+        const relVelX = dX * relVel;
+        const relVelY = dY * relVel;
 
         entityManager.fireBullet(
            this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, -5,
+           this.velX + relVelX, relVelY,
            this.rotation);
 
         if(this.powerUpBullet) {
             entityManager.fireBullet(
                 this.cx+this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX + 0.5 + relVelX, -5,
+                this.velX + 0.5 + relVelX, relVelY,
                 this.rotation);
             entityManager.fireBullet(
                 this.cx-this.getRadius() + dX * launchDist, this.cy + dY * launchDist,
-                this.velX - 0.5 - relVelX, -5,
+                this.velX - 0.5 - relVelX, relVelY,
                 this.rotation);
         }
 
@@ -149,7 +149,7 @@ Ship.prototype.halt = function () {
 };
 
 Ship.prototype.render = function (ctx) {
-    var origScale = this.sprite.scale;
+    const origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
     this.sprite.drawCentredAt(

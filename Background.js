@@ -35,7 +35,6 @@ Background.prototype.render = function (ctx){
 
     //top wrapper
     this.sprite.drawAt(ctx, this.cx, this.cy - this.sprite.height, this.rotation);
-    //this.sprite.drawAt(ctx, this.cx, this.cy + sh, this.rotation);
 
     this.sprite.scale = origScale;
 }

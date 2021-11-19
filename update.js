@@ -48,10 +48,10 @@ function update(dt) {
     g_isUpdateOdd = !g_isUpdateOdd;
 }
 
-// Togglable Pause Mode
+// Toggleable Pause Mode
 //
-var KEY_PAUSE = 'P'.charCodeAt(0);
-var KEY_STEP  = 'O'.charCodeAt(0);
+const KEY_PAUSE = 'P'.charCodeAt(0);
+const KEY_STEP = 'O'.charCodeAt(0);
 
 var g_isUpdatePaused = false;
 

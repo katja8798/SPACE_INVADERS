@@ -25,7 +25,7 @@ const gameState = {
         "WELCOME PILOT",
         "PRESS SPACE TO PLAY",
         "YOU COMPLETED YOUR MISSION",
-        "YOU DIED ON YOUR MISSION",
+        "YOU FAILED YOUR MISSION",
         "FINAL SCORE: ",
         "PRESS SPACE TO CONTINUE"
     ],
@@ -122,7 +122,7 @@ const gameState = {
 
 function writeTxt(ctx,txt, pos) {
     const s = 40;
-    ctx.font = 'bold 40px consolas';
+    ctx.font = 'bold '+s+'px consolas';
 
     ctx.fillStyle = '#FFFFFF';
     const w = ctx.measureText(txt).width + 5;

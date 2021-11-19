@@ -110,15 +110,15 @@ fillBox: function (ctx, x, y, w, h, style) {
 },
     
 strokeBox : function (ctx, x, y, w, h, style) {
-	var oldStyle = ctx.strokeStyle;
-	ctx.strokeStyle = style;
+    const oldStyle = ctx.strokeStyle;
+    ctx.strokeStyle = style;
 	ctx.strokeRect(x, y, w, h);
 	ctx.strokeStyle = oldStyle;
 },
 
 renderText : function (ctx, str, x, y, lineWidth, fillStyle, strokeStyle) {
 	ctx.save();
-	ctx.font = "12px bold Verdana";
+	ctx.font = "12px bold Consolas";
 	ctx.lineWidth = lineWidth;
 	ctx.strokeStyle = strokeStyle;
 	ctx.fillStyle = fillStyle;

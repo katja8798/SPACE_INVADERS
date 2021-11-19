@@ -33,7 +33,7 @@ Image.prototype.asyncLoad = function(src, asyncCallback) {
     //
     // It *may* happen immediately (on some browsers) if the image is already
     // in-cache, but will most likely happen some time later when the load has
-    // occurred and the resulting event is processesd in the queue.
+    // occurred and the resulting event is processed in the queue.
     
     console.log("requesting image src of ", src);
     this.src = src;
@@ -46,7 +46,7 @@ Image.prototype.asyncLoad = function(src, asyncCallback) {
 // in the browser...
 //
 // It requires setting-up a bunch of handler callbacks and then waiting for them
-// *all* to be exectued before finally triggering our own `completionCallback`.
+// *all* to be executed before finally triggering our own `completionCallback`.
 //
 // Makes use of "closures" to handle the necessary state-tracking between the
 // intermediate callback handlers without resorting to global variables.
