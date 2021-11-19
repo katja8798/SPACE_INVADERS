@@ -226,7 +226,6 @@ _bulletT : 0,
 
 
 	resetGame: function () {
-		userInterface.gameOver();
 		entityManager.killAllEnemies();
 		this._resetCurrentLevel();
 		this._nextLevel = 0;

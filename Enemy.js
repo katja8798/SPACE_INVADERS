@@ -167,14 +167,14 @@ Enemy.prototype.collision = function () {
 Enemy.prototype.takeBulletHit = function () {
 	this._health--;
 	playSound(g_sounds.enemyHit);
+	entityManager.generateSpawn({
+		cx : this.cx,
+		cy : this.cy,
+		_scale : this._scale/2,
+		sprite : this.sprite
+	});
 
 	if (this._health <= 0) {
-		entityManager.generateSpawn({
-			cx : this.cx,
-			cy : this.cy,
-			_scale : this._scale/2,
-			sprite : this.sprite
-		});
 		this.kill();
 		userInterface.increaseScore(this._type);
 		levelManager.enemyKilled();
@@ -256,7 +256,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this.width = g_sprites.bee.width;
 	}
 
-	let offset = number * g_sprites.ship2.width + 16;
+	let offset = number * g_sprites.galagaShip.width + 16;
 	this.waitT = this.waitT * number * type;
 
 	
@@ -323,7 +323,6 @@ Enemy.prototype.outOfBounds = function (x, y) {
 
 
 Enemy.prototype.maybeShootBullet = function() {
-
 	if (!this._isDeadNow) {
 		var fire = util.randRange(1,100);
 		if (fire<40){

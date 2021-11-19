@@ -62,6 +62,7 @@ const gameState = {
                 this._currState = this._states[3];
                 entityManager.changeBackground(6);
                 levelManager.resetGame();
+                userInterface.gameOver();
             }
             else if (this._lastLevelIsFinished){
                 this._currState = this._states[2];
@@ -74,6 +75,8 @@ const gameState = {
                 //In start state
                 if (this._currState === this._states[0]) {
                     //Go to play state
+                    //score and life is reset here so we can still render the score
+                    userInterface.gameOver();
                     this._currState = this._states[1];
                     entityManager.changeBackground(1);
 
