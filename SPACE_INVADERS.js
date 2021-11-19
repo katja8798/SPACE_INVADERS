@@ -23,9 +23,27 @@ function createInitialShips() {
     });
 }
 
-function createBackground() {
+function createBackgrounds() {
     entityManager.generateBackground({
-        sprite : g_sprites.gameBackground
+        sprite : g_sprites.bStart
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl1
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl2
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl3
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl4
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bWin
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLose
     });
 }
 
@@ -57,6 +75,8 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
+    entityManager.updateBackground(du);
+
     if(gameState.states[0] === gameState.currState){
         gameState.update(du)
     }
@@ -137,6 +157,7 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
+    entityManager.renderBackground(ctx);
 
     if(gameState.states[0] === gameState.currState){
         gameState.render(ctx);
@@ -193,9 +214,13 @@ function requestPreloads() {
         butterfly : "img/butterfly_single.png",
         boss : "img/boss_single.png",
         purpleBoss : "img/purpleboss_single.png",
-        gameBackground : "img/longBackground.jpg"
-        //gameBackground : "img/background_vala_ver1.png"
-        //gameBackground : "img/gameBackground.jpg"
+        bStart : "img/start.jpg",
+        bLvl1 : "img/longBackground1.png",
+        bLvl2 : "img/longBackground2.jpg",
+        bLvl3 : "img/longBackground3.jpg",
+        bLvl4 : "img/longBackground4.jpg",
+        bWin : "img/win.jpg",
+        bLose : "img/lose.jpg"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -232,7 +257,15 @@ function preloadImagesDone() {
 
     //other
 	g_sprites.heart = new Sprite(g_images.heart);
-    g_sprites.gameBackground = new Sprite(g_images.gameBackground);
+
+    //backgrounds
+    g_sprites.bStart = new Sprite(g_images.bStart);
+    g_sprites.bLvl1 = new Sprite(g_images.bLvl1);
+    g_sprites.bLvl2 = new Sprite(g_images.bLvl2);
+    g_sprites.bLvl3 = new Sprite(g_images.bLvl3);
+    g_sprites.bLvl4 = new Sprite(g_images.bLvl4);
+    g_sprites.bWin = new Sprite(g_images.bWin);
+    g_sprites.bLose = new Sprite(g_images.bLose);
 
 
     playGame();
@@ -245,7 +278,7 @@ function playGame(){
     stars.init();
 	levelManager.init();
     entityManager.init();
-    createBackground();
+    createBackgrounds();
     createInitialShips();
 
     main.init();
