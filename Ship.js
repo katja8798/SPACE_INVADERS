@@ -68,13 +68,24 @@ Ship.prototype.update = function (du) {
 
 
     if (keys[this.KEY_LEFT] || keys[this.KEY_ARROW_LEFT]) {
-        this.cx -= NOMINAL_MOVEMENT*du;
+        if(this.cx  < g_canvas.width-570 ){
+            console.log(g_canvas.width)
+            this.cx = this.cx;
+        }
+        else{
+            this.cx -= NOMINAL_MOVEMENT*du;
+        }
+
     }
     if (keys[this.KEY_RIGHT] || keys[this.KEY_ARROW_RIGHT]) {
-        this.cx += NOMINAL_MOVEMENT*du;
+        if(this.cx > g_canvas.width-30){
+            this.cx = this.cx;
+        }
+        else {
+            this.cx += NOMINAL_MOVEMENT * du;
+        }
+
     }
-    // Ensure ship stays on screen
-    this.wrapPosition();
 
     // Handle firing
     this.maybeFireBullet();
