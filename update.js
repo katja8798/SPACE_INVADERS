@@ -7,15 +7,15 @@
 
 // Dt means "delta time" and is in units of the timer-system (i.e. milliseconds)
 //
-var g_prevUpdateDt = null;
+let g_prevUpdateDt = null;
 
 // Du means "delta u", where u represents time in multiples of our nominal interval
 //
-var g_prevUpdateDu = null;
+let g_prevUpdateDu = null;
 
 // Track odds and evens for diagnostic / illustrative purposes
 //
-var g_isUpdateOdd = false;
+let g_isUpdateOdd = false;
 
 
 function update(dt) {
@@ -26,8 +26,8 @@ function update(dt) {
 
     // Remember this for later
     //
-    var original_dt = dt;
-    
+    const original_dt = dt;
+
     // Warn about very large dt values -- they may lead to error
     //
     if (dt > 200) {
@@ -38,8 +38,8 @@ function update(dt) {
     // If using variable time, divide the actual delta by the "nominal" rate,
     // giving us a conveniently scaled "du" to work with.
     //
-    var du = (dt / NOMINAL_UPDATE_INTERVAL);
-    
+    const du = (dt / NOMINAL_UPDATE_INTERVAL);
+
     updateSimulation(dt, du);
     
     g_prevUpdateDt = original_dt;
@@ -53,7 +53,7 @@ function update(dt) {
 const KEY_PAUSE = 'P'.charCodeAt(0);
 const KEY_STEP = 'O'.charCodeAt(0);
 
-var g_isUpdatePaused = false;
+let g_isUpdatePaused = false;
 
 function shouldSkipUpdate() {
     if (eatKey(KEY_PAUSE)) {
