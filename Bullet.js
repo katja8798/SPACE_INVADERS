@@ -27,6 +27,7 @@ function Bullet(descr) {
     this._bulletProperty = true;
     console.dir(this);
 */
+    this.init();
 
 }
 
@@ -39,6 +40,11 @@ Bullet.prototype.velX = 5;
 Bullet.prototype.velY = 5;
 Bullet.prototype.entityType = "bullet";
 
+// For glow & particle effects
+Bullet.prototype.effects = {};
+Bullet.prototype.type = 0;
+Bullet.prototype.color = consts.COLORS.RED;
+
 Bullet.prototype.update = function (du) {
 
     spatialManager.unregister(this);
@@ -49,6 +55,8 @@ Bullet.prototype.update = function (du) {
     if (this.cy <= 0) {
         return entityManager.KILL_ME_NOW;
     }
+    let oldX = this.cx;
+    let oldY = this.cy;
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
@@ -68,6 +76,7 @@ Bullet.prototype.update = function (du) {
     }else {
         spatialManager.register(this);
     }
+    this.updateEffects(oldX, oldY);
 };
 
 Bullet.prototype.getRadius = function () {
@@ -86,5 +95,38 @@ Bullet.prototype.render = function (ctx) {
         ctx, this.cx, this.cy, 0
     );
 
+    this.renderEffects(ctx);
     ctx.globalAlpha = 1;
+};
+
+Bullet.prototype.init = function() {
+    if (this.type === 1) {
+        this.color = consts.COLORS.BLUE;
+    }
+    else {
+        this.velX = util.getRandomInt(this.velX, -this.velX);
+    }
+
+    this.effects = {
+        eX : this.cx,
+        eY : this.cy
+    }
+};
+
+Bullet.prototype.updateEffects = function(x, y) {
+    this.effects.eX = x;
+    this.effects.eY = y;
+};
+
+Bullet.prototype.renderEffects = function(ctx) {
+    ctx.save();
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = 'rgb(' + this.color + ')';
+    ctx.globalAlpha = 0.4;
+    ctx.fillStyle = 'rgb(' + this.color + ')';
+    ctx.beginPath();
+    ctx.arc(this.effects.eX, this.effects.eY, 5, 0, Math.PI *2);
+    ctx.fill();
+    ctx.restore();
+
 };

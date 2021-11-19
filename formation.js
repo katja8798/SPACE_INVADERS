@@ -101,16 +101,16 @@ const formation = {
 
 	update: function (du) {
 
-		let oldX = this._x0;
-		let nextX = this._x0 + this._velX * du;
+	let nextX = this._x0 + this._velX * du;
 
-		if (nextX < 0 || nextX + this._width > g_canvas.width) {
-			this._velX *= -1;
-			this._x0 = this._x0 + this._velX * du;
-		} else {
-			this._x0 = nextX;
-		}
-	},
+	if (nextX < 0 || nextX + this._width > g_canvas.width) {
+		this._velX *= -1;
+		this._x0 = this._x0 + this._velX * du;
+	}
+	else {
+		this._x0 = nextX;
+	}
+},
 
 // Turn on rendering for formation with Key 'J'
 	render: function (ctx) {

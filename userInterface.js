@@ -9,7 +9,9 @@ const userInterface = {
 
 	// Decrement player life pool
 	loseHealth: function () {
-		this.player_health -= 1;
+		if (!g_playerInvincibility) {
+			this.player_health -= 1;
+		}
 	},
 
 	gainHealth: function () {
@@ -24,12 +26,16 @@ const userInterface = {
 	},
 
 	// Reset all relevant UI data
+	// TODO: Have this function call entityManager
+	// 		 to initiate a reset of level?
 	gameOver: function () {
 		this.score = 0;
 		this.player_health = 3;
 	},
 
 	// Increase score according to type of enemy killed
+	// TODO: Have enemy/entityManager call this function
+	//       when an enemy entity requests deletion
 	increaseScore: function (eType) {
 		this.score += 100 + eType * 20;
 	},

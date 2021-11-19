@@ -2,7 +2,6 @@
 // ENEMY STUFF
 // ==========
 
-// A generic constructor which accepts an arbitrary descriptor object
 function Enemy(descr) {
 
 	this.entityType = "enemy"
@@ -17,7 +16,6 @@ function Enemy(descr) {
 
 	this._health = 1;
 
-	this.initialize(this._numberInLine, this._spawnPoint, this._type);
 
 	// Path related
 
@@ -34,10 +32,19 @@ function Enemy(descr) {
 	// Formation related
 	this._myCell = 0;
 
-	this._formation = true;
-
 	this._inFormation = false;
 
+	// Attack related
+	this._shootAttemptT = 0;
+
+	// Boss specific
+	this._volleyTiming = 0;
+
+	this._bossVolley = 3;
+
+	this._firingVolley = false;
+
+	this.initialize(this._numberInLine, this._spawnPoint, this._type, this._formation);
 }
 
 Enemy.prototype = new Entity();
@@ -69,7 +76,7 @@ Enemy.prototype.update = function (du) {
 		this.flapRate = Enemy.prototype.flapRate;
 	}
 	this.flapRate -=du;
-	
+
 	let oldX = this.cx;
 	let oldY = this.cy;
 
@@ -91,8 +98,8 @@ Enemy.prototype.update = function (du) {
 		this.followPath(du);
 
 		if(this._onPath) {
-			this.velX = oldX - this.cx;
-			this.velY = oldY - this.cy;
+			this.velX = this.cx - oldX;
+			this.velY = this.cy - oldY;
 		}
 	}
 
@@ -103,11 +110,16 @@ Enemy.prototype.update = function (du) {
 	if (!this._formation) {
 
 		this.cx += this.velX * du;
-		this.cy += -this.velY * du;
+		this.cy += this.velY * du;
 		this.outOfBounds(this.cx, this.cy);
 	}
 	
-	this.maybeShootBullet();
+	if (this._firingVolley) {
+		this.bossBulletVolley();
+	}
+	else if (this.shootOrPause()){
+		this.maybeShootBullet();
+	}
 
 	spatialManager.register(this);
 };
@@ -115,7 +127,9 @@ Enemy.prototype.update = function (du) {
 Enemy.prototype.getRadius = function() {
 	return this._scale*(this.sprite.width / 2) * 0.9;
 }
-//Makes the Enemy follow the given path
+
+// TODO: this._pointN must be set equal to number of points generated
+// 		 for this implementation to work. FIX!
 Enemy.prototype.followPath = function(du) {
 
 	if (this.waitT <= 0) this._wait = false;
@@ -210,6 +224,7 @@ Enemy.prototype.adjustSpeed = function () {
 };
 
 // Seek coordinates of reserved cell in formation
+// TODO: Make it change velocity gradually!
 Enemy.prototype.goToFormation = function (cellID, du) {
 	let cellCoordinates = formation.getCellCoordinates(cellID);
 	let targetX = cellCoordinates.cx;
@@ -262,6 +277,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this._scale = g_sprites.purpleBoss.scale;
 		this.width = g_sprites.purpleBoss.width;
 		this._health = 3;
+		this._bossVolley = 5;
 	}
 	else {
 		this.sprite = g_sprites.bee;
@@ -335,15 +351,64 @@ Enemy.prototype.outOfBounds = function (x, y) {
 	}
 };
 
-
 Enemy.prototype.maybeShootBullet = function() {
+
 	if (!this._isDeadNow) {
-		const fire = util.randRange(1, 100);
-		if (fire<40){
-			if (levelManager.canFireBullet() && this.cy < 500) {
-				entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
-				levelManager.shotFired();
+		var fire = util.randRange(1,100);
+
+		if (fire<10){
+			if (levelManager.canFireBullet() && this.cy < 450) {
+				if (this._type > 2) this.bossBulletVolley();
+				else {
+					entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+					levelManager.shotFired();
+				}
 			}
 		}
+	}
+};
+
+// Makes boss type fire a volley of three evenly spaced shots
+Enemy.prototype.bossBulletVolley = function () {
+	this._volleyTiming++;
+
+	if (this._bossVolley <= 0) {
+		this._firingVolley = false;
+		this._volleyTiming = 0;
+		this._bossVolley = 0;
+		levelManager.shotFired();
+	}
+
+	else if (!this._firingVolley) {
+		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+		this._firingVolley = true;
+		this._bossVolley--;
+		this._volleyTiming++;
+	}
+
+	else if (this._volleyTiming > 61) {
+		this._volleyTiming = 0;
+		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
+		this._bossVolley--;
+	}
+};
+
+// Limits the number of attempted shots to once every 'pauseLength'
+Enemy.prototype.shootOrPause = function () {
+	// Every .5 seconds
+	let pauseLength = 500;
+
+	if (this._shootAttemptT === 0) {
+		this._shootAttemptT = levelManager.getTimeNow();
+	}
+
+	let timeNow = levelManager.getTimeNow();
+	let timePassed = timeNow - this._shootAttemptT;
+
+	if (timePassed > pauseLength) {
+		this._shootAttemptT = timeNow;
+		return true;
+	} else {
+		return false;
 	}
 };
