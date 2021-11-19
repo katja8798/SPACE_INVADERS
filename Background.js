@@ -38,5 +38,4 @@ Background.prototype.render = function (ctx){
     //this.sprite.drawAt(ctx, this.cx, this.cy + sh, this.rotation);
 
     this.sprite.scale = origScale;
-    stars.render(ctx);
 }

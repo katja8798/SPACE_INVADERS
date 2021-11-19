@@ -75,29 +75,18 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
+    gameState.update();
     entityManager.updateBackground(du);
 
-    if(gameState.states[0] === gameState.currState){
-        gameState.update(du)
-    }
-    else if(gameState.states[1] === gameState.currState){
+    if(gameState.states[1] === gameState.getCurrState()) {
         levelManager.update(dt);
 
         formation.update(du);
-        stars.update(du);
 
         entityManager.update(du);
 
-        entityManager.maybeGeneratePowerUp();
-
         // Prevent perpetual firing!
         eatKey(Ship.prototype.KEY_FIRE);
-    }
-    if(gameState.states[2] === gameState.currState){
-        gameState.update(du)
-    }
-    if(gameState.states[3] === gameState.currState){
-        gameState.update(du)
     }
 }
 
@@ -159,23 +148,17 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
     entityManager.renderBackground(ctx);
 
-    if(gameState.states[0] === gameState.currState){
-        gameState.render(ctx);
-    }
-    else if(gameState.states[1] === gameState.currState){
+    if(gameState.states[1] === gameState.getCurrState()){
         formation.render(ctx);
         entityManager.render(ctx);
         userInterface.render(ctx);
         levelManager.render(ctx);
 
         if (g_renderSpatialDebug) spatialManager.render(ctx);
-    }
-    if(gameState.states[2] === gameState.currState){
+    } else {
         gameState.render(ctx);
     }
-    if(gameState.states[3] === gameState.currState){
-        gameState.render(ctx);
-    }
+
 }
 
 
@@ -215,12 +198,12 @@ function requestPreloads() {
         boss : "img/boss_single.png",
         purpleBoss : "img/purpleboss_single.png",
         bStart : "img/start.jpg",
-        bLvl1 : "img/longBackground1.png",
+        bLvl1 : "img/longBackground1.jpg",
         bLvl2 : "img/longBackground2.jpg",
         bLvl3 : "img/longBackground3.jpg",
         bLvl4 : "img/longBackground4.jpg",
-        bWin : "img/win.jpg",
-        bLose : "img/lose.jpg"
+        bWin : "img/win.png",
+        bLose : "img/lose.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);

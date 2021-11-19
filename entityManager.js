@@ -195,6 +195,7 @@ const entityManager = {
                     }
             }
         }
+        this.maybeGeneratePowerUp();
     },
 
     render: function (ctx) {
@@ -210,27 +211,22 @@ const entityManager = {
         paths.render(ctx);
     },
 
-    //Separate cause only one should be render/update at any one time
+    //Separate cause only one should be rendered/updated at any one time
     updateBackground: function (du) {
-        if (gameState.currState === gameState.states[0]) {
-            this._backgroundNumber = 0;
-        }
-        else if (gameState.currState === gameState.states[2]){
-            this._backgroundNumber = 5;
-        }
-        else if ((gameState.currState === gameState.states[3]) ||
-            (gameState.currState === gameState.states[3])){
-            this._backgroundNumber = 6;
-        }
-
         this._background[this._backgroundNumber].update(du);
+        stars.update(du);
     },
 
     renderBackground: function (ctx) {
         this._background[this._backgroundNumber].render(ctx);
+        stars.render(ctx);
     },
 
-    changeBackgroundForLvl: function (num){
+    changeBackgroundForLvl: function (lvl){
+        this._backgroundNumber = lvl + 1;
+    },
+
+    changeBackgroundForState: function (num){
         this._backgroundNumber = num;
     }
 };

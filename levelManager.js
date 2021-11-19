@@ -97,9 +97,6 @@ _bulletT : 0,
 		if (this._nextLevel < this._levels.length) {
 			this._resetCurrentLevel();
 			this._loadLevel(this._nextLevel);
-			entityManager.changeBackgroundForLvl(this._nextLevel+1);
-		} else {
-			gameState.changeStateForEnd("won");
 		}
 	},
 
@@ -160,6 +157,14 @@ _bulletT : 0,
 
 	skipLevel: function () {
 		this._levelFinished();
+	},
+
+	getCurrLevel: function () {
+		return this._nextLevel+1;
+	},
+
+	getTotalLevels: function () {
+		return this._levels.length;
 	},
 
 // Important: update function uses real time passed for accurate timing
@@ -227,7 +232,6 @@ _bulletT : 0,
 		this._resetCurrentLevel();
 		this._nextLevel = 0;
 		this.init();
-		entityManager.changeBackgroundForLvl(this._nextLevel+1);
 	},
 
 

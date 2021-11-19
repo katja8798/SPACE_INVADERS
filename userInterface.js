@@ -12,10 +12,6 @@ const userInterface = {
 	loseHealth: function () {
 
 		this.player_health -= 1;
-
-		if (this.player_health === 0) {
-			gameState.changeStateForEnd("lost");
-		}
 	},
 
 	gainHealth: function () {
