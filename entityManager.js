@@ -97,6 +97,7 @@ const entityManager = {
             cy: cy,
             velX: velX,
             velY: velY,
+            type: 1
         }));
     },
 
@@ -106,7 +107,8 @@ const entityManager = {
             cy: cy,
             velX: velX,
             velY: velY,
-            sprite: g_sprites.enemyBullet
+            sprite: g_sprites.enemyBullet,
+            type: 0
         }));
     },
 

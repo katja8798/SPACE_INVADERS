@@ -16,7 +16,6 @@ function Enemy(descr) {
 
 	this._health = 1;
 
-	this.initialize(this._numberInLine, this._spawnPoint, this._type, this._formation);
 
 	// Path related
 
@@ -41,9 +40,11 @@ function Enemy(descr) {
 	// Boss specific
 	this._volleyTiming = 0;
 
-	this._bossVolley = 0;
+	this._bossVolley = 3;
 
 	this._firingVolley = false;
+
+	this.initialize(this._numberInLine, this._spawnPoint, this._type, this._formation);
 }
 
 Enemy.prototype = new Entity();
@@ -101,7 +102,7 @@ Enemy.prototype.update = function (du) {
 		this.outOfBounds(this.cx, this.cy);
 	}
 	
-	if (this._bossVolley) {
+	if (this._firingVolley) {
 		this.bossBulletVolley();
 	}
 	else if (this.shootOrPause()){
@@ -264,6 +265,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this._scale = g_sprites.purpleBoss.scale;
 		this.width = g_sprites.purpleBoss.width;
 		this._health = 3;
+		this._bossVolley = 5;
 	}
 	else {
 		this.sprite = g_sprites.bee;
@@ -356,7 +358,7 @@ Enemy.prototype.maybeShootBullet = function() {
 Enemy.prototype.bossBulletVolley = function () {
 	this._volleyTiming++;
 
-	if (this._bossVolley >= 3) {
+	if (this._bossVolley <= 0) {
 		this._firingVolley = false;
 		this._volleyTiming = 0;
 		this._bossVolley = 0;
@@ -366,14 +368,14 @@ Enemy.prototype.bossBulletVolley = function () {
 	else if (!this._firingVolley) {
 		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
 		this._firingVolley = true;
-		this._bossVolley++;
+		this._bossVolley--;
 		this._volleyTiming++;
 	}
 
 	else if (this._volleyTiming > 61) {
 		this._volleyTiming = 0;
 		entityManager.fireEnemyBullet(this.cx, this.cy, -this.velX, 5);
-		this._bossVolley++;
+		this._bossVolley--;
 	}
 };
 

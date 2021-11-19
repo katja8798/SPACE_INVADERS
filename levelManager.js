@@ -262,8 +262,8 @@ _bulletT : 0,
 	
 	// LEVEL 2
 	{
-		_enemiesSpawnAtT: [3, 5, 12, 18, 22, 25],
-		_numSquadsAtT: [1,1,2,2,2,2],
+		_enemiesSpawnAtT: [3, 5, 12, 18, 22, 25, 27],
+		_numSquadsAtT: [1,1,2,2,2,2,1],
 		_enemySquad: [
 			[5,3,2,2,false],
 			[5,6,2,2,false],
@@ -274,13 +274,14 @@ _bulletT : 0,
 			[4,1,1,2,false],
 			[4,2,1,2,false],
 			[3,3,1,1,true],
-			[4,4,1,1,true]
+			[4,4,1,1,true],
+			[4,2,2,3,false]
 		]
 	},
 	
 	// LEVEL 3
 	{
-		_enemiesSpawnAtT: [3, 5, 9, 14, 20, 25, 26],
+		_enemiesSpawnAtT: [3,5,9,14,20,25,26],
 		_numSquadsAtT: [2,2,2,2,2,1,1],
 		_enemySquad: [
 			[6,1,1,2,false],
@@ -300,17 +301,23 @@ _bulletT : 0,
 	
 	// LEVEL 4
 	{
-		_enemiesSpawnAtT: [3, 8, 12, 18],
-		_numSquadsAtT: [2,2,2,2],
+		_enemiesSpawnAtT: [3,5,7,10,15,17,22,25,26,28,30],
+		_numSquadsAtT: [1,1,2,1,1,2,2,1,1,1,1],
 		_enemySquad: [
-			[4,1,1,1,true],
-			[4,2,1,1,true],
+			[8,1,1,3,false],
+			[4,3,2,2,false],
+			[1,5,3,1,true],
+			[1,6,3,1,true],
+			[8,4,1,1,true],
+			[5,2,2,1,true],
+			[2,1,3,1,true],
+			[1,2,4,1,true],
 			[4,3,1,1,true],
 			[4,4,1,1,true],
-			[4,1,1,1,true],
-			[4,2,1,1,true],
-			[4,3,1,1,true],
-			[4,4,1,1,true]
+			[6,2,2,3,false],
+			[3,4,3,1,true],
+			[6,1,1,2,false],
+			[4,1,2,2,false]
 		]
 	},
 ]	

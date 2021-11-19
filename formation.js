@@ -106,7 +106,6 @@ chargePlayer : function () {
 
 update : function (du) {
 
-	let oldX = this._x0;
 	let nextX = this._x0 + this._velX * du;
 
 	if (nextX < 0 || nextX + this._width > g_canvas.width) {

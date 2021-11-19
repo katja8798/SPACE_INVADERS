@@ -145,7 +145,7 @@ let nPoints = this._pointsPerCurve;
 	s1p2.push(this._bezierCurve(nPoints,{x:400,y:300},{x:600,y:150},{x:200,y:150},{x:400,y:0}));
 	sp1.push(s1p2);
 
-	// PATH 3 (PASS THROUGH PLAYER HEIGHT THEN TO FORMATION)
+	// PATH 3 (PASS THROUGH)
 	let s1p3 = [];
 	s1p3.push(this._bezierCurve(nPoints,{x:200,y:0},{x:200,y:300},{x:450,y:150},{x:550,y:325}));
 	s1p3.push(this._bezierCurve(nPoints,{x:550,y:325},{x:750,y:530},{x:700,y:770},{x:600,y:600}));
@@ -171,6 +171,13 @@ let nPoints = this._pointsPerCurve;
 	s2p2.push(this._bezierCurve(nPoints,{x:200,y:600},{x:0,y:450},{x:400,y:450},{x:200,y:300}));
 	s2p2.push(this._bezierCurve(nPoints,{x:200,y:300},{x:0,y:150},{x:400,y:150},{x:200,y:0}));
 	sp2.push(s2p2);
+
+	// Path 3 (PASS THROUGH)
+	let s2p3 = [];
+	s2p3.push(this._bezierCurve(nPoints,{x:400,y:0},{x:400,y:300},{x:150,y:150},{x:50,y:325}));
+	s2p3.push(this._bezierCurve(nPoints,{x:50,y:325},{x:-150,y:530},{x:-100,y:770},{x:0,y:600}));
+	s2p3.push(this._bezierCurve(nPoints,{x:0,y:600},{x:180,y:500},{x:230,y:250},{x:500,y:550}));
+	sp2.push(s2p3);
 
 // Spawn point 3 (x:0, y: 400)
 	let sp3 = [];
