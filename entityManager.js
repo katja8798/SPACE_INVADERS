@@ -174,7 +174,7 @@ const entityManager = {
             this._powerUps[p].kill();
         }
         for (let s = 0; s < this._spawns.length; s++) {
-            this._powerUps[s].kill();
+            this._spawns[s].kill();
         }
     },
 

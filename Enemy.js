@@ -49,6 +49,8 @@ Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
 Enemy.prototype.velY = 0;
 Enemy.prototype.waitT = 16;
+Enemy.prototype.flapRate = 100/NOMINAL_UPDATE_INTERVAL;
+Enemy.prototype.spriteSheetNum = 0;
 
 Enemy.prototype._type = null;
 Enemy.prototype._numberInLine = null;
@@ -57,6 +59,16 @@ Enemy.prototype._manoeuvre = null;
 
 
 Enemy.prototype.update = function (du) {
+
+	if (this.flapRate <= 0) {
+		if (this.spriteSheetNum === 0) {
+			this.spriteSheetNum = 1;
+		}else {
+			this.spriteSheetNum = 0;
+		}
+		this.flapRate = Enemy.prototype.flapRate;
+	}
+	this.flapRate -=du;
 	
 	let oldX = this.cx;
 	let oldY = this.cy;
@@ -304,9 +316,11 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 Enemy.prototype.render = function (ctx) {
 	let origScale = this.sprite.scale;
 	this.sprite.scale = this._scale;
-	this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-	);
+
+	this.sprite.drawCentredAtForSheet(
+			ctx, this.spriteSheetNum,this.cx, this.cy, this.rotation
+		);
+
 	this.sprite.scale = origScale;
 };
 

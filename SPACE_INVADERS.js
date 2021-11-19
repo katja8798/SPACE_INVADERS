@@ -204,8 +204,8 @@ function requestPreloads() {
         greenRock: "img/puGreenRock.png",
         yellowRock: "img/puYellowRock.png",
 
-        butterfly : "img/enemyTypeButterfly_single.png",
-        boss : "img/enemyTypeBoss_single.png",
+        butterfly : "img/enemyTypeButterfly.png",
+        boss : "img/enemyTypeBoss.png",
         bee : "img/enemyTypeBee.png",
         purpleBoss : "img/enemyTypePurpleBoss_single.png",
     };
