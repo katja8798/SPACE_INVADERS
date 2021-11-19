@@ -199,14 +199,14 @@ const entityManager = {
     },
 
     render: function (ctx) {
-        let debugX = 10, debugY = 100;
+        //let debugX = 10, debugY = 100;
         for (let c = 0; c < this._categories.length; ++c) {
             const aCategory = this._categories[c];
             for (let i = 0; i < aCategory.length; ++i) {
                 aCategory[i].render(ctx);
                 //debug.text(".", debugX + i * 10, debugY);
             }
-            debugY += 10;
+            //debugY += 10;
         }
         paths.render(ctx);
     },
