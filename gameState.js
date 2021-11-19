@@ -30,10 +30,20 @@ const gameState = {
         "PRESS SPACE TO CONTINUE"
     ],
 
+    _lastLevelIsFinished : false,
+
     // PUBLIC METHODS
 
     getCurrState : function () {
         return this._currState;
+    },
+
+    setLastLevelIsFinished : function () {
+      this._lastLevelIsFinished = true;
+    },
+
+    setLastLevelIsNotFinished : function () {
+        this._lastLevelIsFinished = false;
     },
 
     update : function (){
@@ -43,7 +53,7 @@ const gameState = {
                 if (this._currState === this.states[0]) {
                     //Go to play state
                     this._currState = this.states[1];
-                    entityManager.changeBackgroundForState(1);
+                    entityManager.changeBackground(1);
 
                 }
                 //In end state
@@ -52,22 +62,31 @@ const gameState = {
 
                     //go to start state
                     this._currState = this.states[0];
-                    entityManager.changeBackgroundForState(0);
+                    entityManager.changeBackground(0);
                 }
                 levelManager.resetGame();
             }
         }
         else {
-            if (levelManager.getCurrLevel() < levelManager.getTotalLevels()) {
-                entityManager.changeBackgroundForLvl(levelManager.getCurrLevel());
+            if (levelManager.getCurrLevel() === 0) {
+                entityManager.changeBackground(1);
+            }else if (levelManager.getCurrLevel() === 1) {
+                entityManager.changeBackground(2);
+            }else if (levelManager.getCurrLevel() === 2) {
+                entityManager.changeBackground(3);
+            }else if (levelManager.getCurrLevel() === 3) {
+                entityManager.changeBackground(4);
             }
+
             if (userInterface.player_health === 0) {
                 this._currState = this.states[3];
-                entityManager.changeBackgroundForState(6);
+                entityManager.changeBackground(6);
+                levelManager.resetGame();
             }
-            else if (levelManager.getCurrLevel() === levelManager.getTotalLevels()){
+            else if (this._lastLevelIsFinished){
                 this._currState = this.states[2];
-                entityManager.changeBackgroundForState(5);
+                entityManager.changeBackground(5);
+                levelManager.resetGame();
             }
         }
     },

@@ -222,11 +222,7 @@ const entityManager = {
         stars.render(ctx);
     },
 
-    changeBackgroundForLvl: function (lvl){
-        this._backgroundNumber = lvl + 1;
-    },
-
-    changeBackgroundForState: function (num){
+    changeBackground: function (num){
         this._backgroundNumber = num;
     }
 };

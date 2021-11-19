@@ -10,7 +10,6 @@ const userInterface = {
 	// Decrement player life pool and start over
 	// if it reaches zero
 	loseHealth: function () {
-
 		this.player_health -= 1;
 	},
 
@@ -33,20 +32,7 @@ const userInterface = {
 
 	// Increase score according to type of enemy killed
 	increaseScore: function (eType) {
-		switch (eType) {
-			case 1:
-				this.score += 100 + eType * 20;
-				break;
-			case 2:
-				this.score += 100 + eType * 20;
-				break;
-			case 3:
-				this.score += 100 + eType * 20;
-				break;
-			default:
-				this.score += 100 + eType * 20;
-		}
-
+		this.score += 100 + eType * 20;
 	},
 
 	getScore: function () {

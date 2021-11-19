@@ -98,6 +98,9 @@ _bulletT : 0,
 			this._resetCurrentLevel();
 			this._loadLevel(this._nextLevel);
 		}
+		else {
+			gameState.setLastLevelIsFinished();
+		}
 	},
 
 	_resetCurrentLevel: function () {
@@ -160,11 +163,7 @@ _bulletT : 0,
 	},
 
 	getCurrLevel: function () {
-		return this._nextLevel+1;
-	},
-
-	getTotalLevels: function () {
-		return this._levels.length;
+		return this._nextLevel-1;
 	},
 
 // Important: update function uses real time passed for accurate timing
@@ -232,6 +231,7 @@ _bulletT : 0,
 		this._resetCurrentLevel();
 		this._nextLevel = 0;
 		this.init();
+		gameState.setLastLevelIsNotFinished();
 	},
 
 
