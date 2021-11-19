@@ -17,15 +17,15 @@ e.g. starting, playing or ending.
 */
 
 const gameState = {
-    states : ["start", "play","winEnd", "loseEnd"],
-    _currState : "start",
 
-    _continueKey : ' '.charCodeAt(0),//enter key
+    _states : ["start", "play","winEnd", "loseEnd"],
+    _currState : "start",
+    _continueKey : ' '.charCodeAt(0),//space key
     _texts : [
         "WELCOME PILOT",
         "PRESS SPACE TO PLAY",
-        "YOU WON",
-        "YOU DIED",
+        "YOU COMPLETED YOUR MISSION",
+        "YOU DIED ON YOUR MISSION",
         "FINAL SCORE: ",
         "PRESS SPACE TO CONTINUE"
     ],
@@ -33,9 +33,8 @@ const gameState = {
     _lastLevelIsFinished : false,
 
     // PUBLIC METHODS
-
-    getCurrState : function () {
-        return this._currState;
+    checkIfPlaying : function () {
+        return this._currState === this._states[1];
     },
 
     setLastLevelIsFinished : function () {
@@ -47,27 +46,8 @@ const gameState = {
     },
 
     update : function (){
-        if (this._currState !== this.states[1]) {
-            if (eatKey(this._continueKey)) {
-                //In start state
-                if (this._currState === this.states[0]) {
-                    //Go to play state
-                    this._currState = this.states[1];
-                    entityManager.changeBackground(1);
-
-                }
-                //In end state
-                else if (this._currState === this.states[2] ||
-                    this._currState === this.states[3]) {
-
-                    //go to start state
-                    this._currState = this.states[0];
-                    entityManager.changeBackground(0);
-                }
-                levelManager.resetGame();
-            }
-        }
-        else {
+        if (this.checkIfPlaying()) {
+            //change background in accordance to level
             if (levelManager.getCurrLevel() === 0) {
                 entityManager.changeBackground(1);
             }else if (levelManager.getCurrLevel() === 1) {
@@ -79,13 +59,32 @@ const gameState = {
             }
 
             if (userInterface.player_health === 0) {
-                this._currState = this.states[3];
+                this._currState = this._states[3];
                 entityManager.changeBackground(6);
                 levelManager.resetGame();
             }
             else if (this._lastLevelIsFinished){
-                this._currState = this.states[2];
+                this._currState = this._states[2];
                 entityManager.changeBackground(5);
+                levelManager.resetGame();
+            }
+        }
+        else {
+            if (eatKey(this._continueKey)) {
+                //In start state
+                if (this._currState === this._states[0]) {
+                    //Go to play state
+                    this._currState = this._states[1];
+                    entityManager.changeBackground(1);
+
+                }
+                //In end state
+                else if (this._currState === this._states[2] ||
+                    this._currState === this._states[3]) {
+                    //go to start state
+                    this._currState = this._states[0];
+                    entityManager.changeBackground(0);
+                }
                 levelManager.resetGame();
             }
         }
@@ -99,32 +98,33 @@ const gameState = {
         ctx.fillStyle = '#FFFFFF';
         ctx.strokeStyle = "black";
 
-        if (this._currState === this.states[0]) {
-            writeTxt(ctx, this._texts[0],2, 2);
-            writeTxt(ctx, this._texts[1],2, 1);
+        if (this._currState === this._states[0]) {
+            writeTxt(ctx, this._texts[0],-1);
+            writeTxt(ctx, this._texts[1],1);
         }
-        else if (this._currState === this.states[2]) {
-            writeTxt(ctx, this._texts[2],3, 3);
-            writeTxt(ctx, this._texts[4] + userInterface.getScore(),3, 2);
-            writeTxt(ctx, this._texts[5],3, 1);
+        else if (this._currState === this._states[2]) {
+            writeTxt(ctx, this._texts[2],-1);
+            writeTxt(ctx, this._texts[4] + userInterface.getScore(), 0);
+            writeTxt(ctx, this._texts[5],1);
         }
-        else if (this._currState === this.states[3]) {
-            writeTxt(ctx, this._texts[3],3, 3);
-            writeTxt(ctx, this._texts[4] + userInterface.getScore(),3, 2);
-            writeTxt(ctx, this._texts[5],3, 1);
+        else if (this._currState === this._states[3]) {
+            writeTxt(ctx, this._texts[3],-1);
+            writeTxt(ctx, this._texts[4] + userInterface.getScore(),0);
+            writeTxt(ctx, this._texts[5],1);
         }
 
         ctx.restore();
     }
 }
 
-function writeTxt(ctx,txt, num, pos) {
+function writeTxt(ctx,txt, pos) {
+    const s = 40;
     ctx.font = 'bold 40px consolas';
 
     ctx.fillStyle = '#FFFFFF';
     const w = ctx.measureText(txt).width + 5;
-    ctx.fillText(txt, (g_canvas.width-w)/2, g_canvas.height/num+pos*45);
+    ctx.fillText(txt, (g_canvas.width-w)/2, g_canvas.height/2+pos*s);
 
     ctx.strokeStyle = "black";
-    ctx.strokeText(txt,(g_canvas.width-w)/2, g_canvas.height/num+pos*45);
+    ctx.strokeText(txt,(g_canvas.width-w)/2, g_canvas.height/2+pos*s);
 }

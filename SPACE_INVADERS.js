@@ -78,7 +78,7 @@ function updateSimulation(dt, du) {
     gameState.update();
     entityManager.updateBackground(du);
 
-    if(gameState.states[1] === gameState.getCurrState()) {
+    if(gameState.checkIfPlaying()) {
         levelManager.update(dt);
 
         formation.update(du);
@@ -148,7 +148,7 @@ function processDiagnostics() {
 function renderSimulation(ctx) {
     entityManager.renderBackground(ctx);
 
-    if(gameState.states[1] === gameState.getCurrState()){
+    if(gameState.checkIfPlaying()){
         formation.render(ctx);
         entityManager.render(ctx);
         userInterface.render(ctx);
@@ -185,25 +185,29 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        galagaShip   : "img/galagaship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        heart  : "img/heart_full_32x32.png",
-        bullet : "img/bullet.png",
-        bee : "img/enemyTypeBee.png",
-        enemyBullet : "img/enemyBullet.png",
-        purpleRock: "img/puPurpleRock.png",
-        greenRock: "img/puGreenRock.png",
-        yellowRock: "img/puYellowRock.png",
-        butterfly : "img/enemyTypeButterfly_single.png",
-        boss : "img/enemyTypeBoss_single.png",
-        purpleBoss : "img/enemyTypePurpleboss_single.png",
         bStart : "img/bgStart.jpg",
         bLvl1 : "img/bgLong1.jpg",
         bLvl2 : "img/bgLong2.jpg",
         bLvl3 : "img/bgLong3.jpg",
         bLvl4 : "img/bgLong4.jpg",
         bWin : "img/bgWin.png",
-        bLose : "img/bgLose.png"
+        bLose : "img/bgLose.png",
+
+        galagaShip   : "img/galagaShip.png",
+
+        heart  : "img/heart_full_32x32.png",
+
+        bullet : "img/bulletShip.png",
+        enemyBullet : "img/bulletEnemy.png",
+
+        purpleRock: "img/puPurpleRock.png",
+        greenRock: "img/puGreenRock.png",
+        yellowRock: "img/puYellowRock.png",
+
+        butterfly : "img/enemyTypeButterfly_single.png",
+        boss : "img/enemyTypeBoss_single.png",
+        bee : "img/enemyTypeBee.png",
+        purpleBoss : "img/enemyTypePurpleBoss_single.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -216,9 +220,8 @@ function preloadSoundsDone() {
 }
 
 function preloadImagesDone() {
-    //ships
+    //ship
     g_sprites.galagaShip  = new Sprite(g_images.galagaShip);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
 
     //power ups
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
