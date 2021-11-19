@@ -97,8 +97,9 @@ _bulletT : 0,
 		if (this._nextLevel < this._levels.length) {
 			this._resetCurrentLevel();
 			this._loadLevel(this._nextLevel);
-		} else {
-			gameState.currState = gameState.states[2];
+		}
+		else {
+			gameState.setLastLevelIsFinished();
 		}
 	},
 
@@ -113,6 +114,7 @@ _bulletT : 0,
 		this._dt = 0;
 		this._totalEnemies = 0;
 		//makes screen be empty
+		entityManager.killExtra();
 		entityManager.powerUpOff();
 	},
 
@@ -166,6 +168,12 @@ _bulletT : 0,
 
 // Update function uses real time passed for accurate timing
 // See changes in update.js
+	getCurrLevel: function () {
+		return this._nextLevel-1;
+	},
+
+// Important: update function uses real time passed for accurate timing
+// 			  See changes in update.js
 	update: function (dt) {
 		this._dt += dt;
 		this._bulletT += dt;
@@ -187,14 +195,14 @@ _bulletT : 0,
 	render: function (ctx) {
 
 		let s = "Enemies left: " + this._totalEnemies.toString();
-		util.renderText(ctx, s, 10, 10, .5, 'white', 'white');
+		util.renderText(ctx, s, 20, 10, 20, 0.5, 'white');
 
-		if (this._dt < 3000) {
-			let tSize = Math.floor(300 - this._dt / 10);
-			let font = tSize.toString() + "px";
+		if (this._dt < 2000) {
+			let tSize = Math.floor(200 - this._dt / 10);
+			let fontSize = tSize.toString();
 
 			ctx.save();
-			ctx.font = font + " bold Consolas";
+			ctx.font = 'bold '+fontSize+'px consolas';
 			ctx.lineWidth = 1;
 			ctx.strokeStyle = 'white';
 			ctx.fillStyle = 'white';
@@ -223,11 +231,11 @@ _bulletT : 0,
 	},
 
 	resetGame: function () {
-		userInterface.gameOver();
 		entityManager.killAllEnemies();
 		this._resetCurrentLevel();
 		this._nextLevel = 0;
 		this.init();
+		gameState.setLastLevelIsNotFinished();
 	},
 
 

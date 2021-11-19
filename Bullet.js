@@ -122,7 +122,7 @@ Bullet.prototype.renderEffects = function(ctx) {
     ctx.save();
     ctx.shadowBlur = 20;
     ctx.shadowColor = 'rgb(' + this.color + ')';
-    ctx.globalAlpha = 0.4;
+    ctx.globalAlpha = 0.5;
     ctx.fillStyle = 'rgb(' + this.color + ')';
     ctx.beginPath();
     ctx.arc(this.effects.eX, this.effects.eY, 5, 0, Math.PI *2);

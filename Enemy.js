@@ -2,6 +2,7 @@
 // ENEMY STUFF
 // ==========
 
+// A generic constructor which accepts an arbitrary descriptor object
 function Enemy(descr) {
 
 	this.entityType = "enemy"
@@ -50,12 +51,14 @@ function Enemy(descr) {
 Enemy.prototype = new Entity();
 
 // Initial, inheritable, default values
-Enemy.prototype.rotation = Math.PI;
+Enemy.prototype.rotation = 0;
 Enemy.prototype.cx = 300;
 Enemy.prototype.cy = -10;
 Enemy.prototype.velX = 0;
 Enemy.prototype.velY = 0;
 Enemy.prototype.waitT = 16;
+Enemy.prototype.flapRate = 100/NOMINAL_UPDATE_INTERVAL;
+Enemy.prototype.spriteSheetNum = 0;
 
 Enemy.prototype._type = null;
 Enemy.prototype._numberInLine = null;
@@ -64,6 +67,16 @@ Enemy.prototype._manoeuvre = null;
 
 
 Enemy.prototype.update = function (du) {
+
+	if (this.flapRate <= 0) {
+		if (this.spriteSheetNum === 0) {
+			this.spriteSheetNum = 1;
+		}else {
+			this.spriteSheetNum = 0;
+		}
+		this.flapRate = Enemy.prototype.flapRate;
+	}
+	this.flapRate -=du;
 	
 	let oldX = this.cx;
 	let oldY = this.cy;
@@ -115,9 +128,7 @@ Enemy.prototype.update = function (du) {
 Enemy.prototype.getRadius = function() {
 	return this._scale*(this.sprite.width / 2) * 0.9;
 }
-
-// TODO: this._pointN must be set equal to number of points generated
-// 		 for this implementation to work. FIX!
+//Makes the Enemy follow the given path
 Enemy.prototype.followPath = function(du) {
 
 	if (this.waitT <= 0) this._wait = false;
@@ -181,14 +192,14 @@ Enemy.prototype.collision = function () {
 Enemy.prototype.takeBulletHit = function () {
 	this._health--;
 	playSound(g_sounds.enemyHit);
+	entityManager.generateSpawn({
+		cx : this.cx,
+		cy : this.cy,
+		_scale : this._scale/2,
+		sprite : this.sprite
+	});
 
 	if (this._health <= 0) {
-		entityManager.generateSpawn({
-			cx : this.cx,
-			cy : this.cy,
-			_scale : this._scale/2,
-			sprite : this.sprite
-		});
 		this.kill();
 		userInterface.increaseScore(this._type);
 		levelManager.enemyKilled();
@@ -212,7 +223,6 @@ Enemy.prototype.adjustSpeed = function () {
 };
 
 // Seek coordinates of reserved cell in formation
-// TODO: Make it change velocity gradually!
 Enemy.prototype.goToFormation = function (cellID, du) {
 	let cellCoordinates = formation.getCellCoordinates(cellID);
 	let targetX = cellCoordinates.cx;
@@ -272,7 +282,7 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 		this.width = g_sprites.bee.width;
 	}
 
-	let offset = number * g_sprites.ship2.width + 16;
+	let offset = number * g_sprites.galagaShip.width + 16;
 	this.waitT = this.waitT * number * type;
 
 	
@@ -320,9 +330,11 @@ Enemy.prototype.initialize = function (number, spawnLocation, type) {
 Enemy.prototype.render = function (ctx) {
 	let origScale = this.sprite.scale;
 	this.sprite.scale = this._scale;
-	this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-	);
+
+	this.sprite.drawCentredAtForSheet(
+			ctx, this.spriteSheetNum,this.cx, this.cy, this.rotation
+		);
+
 	this.sprite.scale = origScale;
 };
 
@@ -338,7 +350,6 @@ Enemy.prototype.outOfBounds = function (x, y) {
 };
 
 Enemy.prototype.maybeShootBullet = function() {
-
 	if (!this._isDeadNow) {
 		var fire = util.randRange(1,100);
 
@@ -354,7 +365,7 @@ Enemy.prototype.maybeShootBullet = function() {
 	}
 };
 
-// Makes boss type fire a volley of three evenly spaced shots
+// Makes boss type fire a volley of evenly spaced bullets
 Enemy.prototype.bossBulletVolley = function () {
 	this._volleyTiming++;
 

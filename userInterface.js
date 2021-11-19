@@ -7,8 +7,7 @@ const userInterface = {
 	player_health: 3,
 	score: 0,
 
-	// Decrement player life pool and start over
-	// if it reaches zero
+	// Decrement player life pool
 	loseHealth: function () {
 		if (!g_playerInvincibility) {
 			this.player_health -= 1;
@@ -24,7 +23,6 @@ const userInterface = {
 		if (this.player_health < 5) {
 			this.player_health += 1;
 		}
-		//restrict health? have max health be 5?
 	},
 
 	increaseScoreFromPowerUp: function () {
@@ -32,32 +30,18 @@ const userInterface = {
 	},
 
 	// Reset all relevant UI data
-	// TODO: Have this function call entityManager
-	// 		 to initiate a reset of level?
 	gameOver: function () {
 		this.score = 0;
 		this.player_health = 3;
 	},
 
 	// Increase score according to type of enemy killed
-	// TODO: Have enemy/entityManager call this function
-	//       when an enemy entity requests deletion
 	increaseScore: function (eType) {
-		//Placeholder-þarf að bæta við mismunandi cases fyrir eType
-		switch (eType) {
-			case 1:
-				this.score += 100 + eType * 20;
-				break;
-			case 2:
-				this.score += 100 + eType * 20;
-				break;
-			case 3:
-				this.score += 100 + eType * 20;
-				break;
-			default:
-				this.score += 100 + eType * 20;
-		}
+		this.score += 100 + eType * 20;
+	},
 
+	getScore: function () {
+		return this.score.toString();
 	},
 
 	render: function (ctx) {
@@ -93,7 +77,7 @@ const userInterface = {
 		ctx.lineWidth = .5;
 		ctx.fillStyle = '#FFFFFF';
 
-		let scoreText = "Score: " + this.score.toString();
+		let scoreText = "Score: " + this.getScore();
 		let textWidth = ctx.measureText(scoreText).width + 5;
 
 		ctx.fillText(scoreText, g_canvas.width - textWidth, 20);

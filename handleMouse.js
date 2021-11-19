@@ -21,7 +21,7 @@ function handleMouse(evt) {
     
     // If no button is being pressed, then bail
     const button = evt.buttons === undefined ? evt.which : evt.buttons;
-    if (!button) return;
+    if (!button)
 }
 
 // Handle "down" and "move" events the same way.

@@ -11,7 +11,7 @@ const consts = {
     RADIANS_PER_DEGREE: Math.PI / 180.0,
 
     COLORS : {
-        BLUE : '69, 177, 255',
+        BLUE : '35, 13, 255',
         RED : '255, 0, 0',
         GREEN : '40, 255, 0'
     }

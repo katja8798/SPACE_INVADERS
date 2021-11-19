@@ -1,29 +1,29 @@
 // GENERIC RENDERING
 
-var g_doClear = true;
-var g_doBox = false;
-var g_undoBox = false;
-var g_doFlipFlop = false;
-var g_doRender = true;
-var g_doPaths = false;
-var g_doFormation = false;
+let g_doClear = true;
+let g_doBox = false;
+let g_undoBox = false;
+let g_doFlipFlop = false;
+let g_doRender = true;
+let g_doPaths = false;
+let g_doFormation = false;
 
-var g_frameCounter = 1;
+let g_frameCounter = 1;
 
-var TOGGLE_CLEAR = 'C'.charCodeAt(0);
-var TOGGLE_BOX = 'B'.charCodeAt(0);
-var TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
-var TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
-var TOGGLE_RENDER = 'R'.charCodeAt(0);
-var TOGGLE_PATHS = 'I'.charCodeAt(0);
-var TOGGLE_FORMATION = 'J'.charCodeAt(0);
+const TOGGLE_CLEAR = 'C'.charCodeAt(0);
+const TOGGLE_BOX = 'B'.charCodeAt(0);
+const TOGGLE_UNDO_BOX = 'U'.charCodeAt(0);
+const TOGGLE_FLIPFLOP = 'F'.charCodeAt(0);
+const TOGGLE_RENDER = 'R'.charCodeAt(0);
+const TOGGLE_PATHS = 'I'.charCodeAt(0);
+const TOGGLE_FORMATION = 'J'.charCodeAt(0);
 
-var TOGGLE_S1 = '1'.charCodeAt(0);
-var TOGGLE_S2 = '2'.charCodeAt(0);
-var TOGGLE_S3 = '3'.charCodeAt(0);
-var TOGGLE_S4 = '4'.charCodeAt(0);
-var TOGGLE_S5 = '5'.charCodeAt(0);
-var TOGGLE_S6 = '6'.charCodeAt(0);
+const TOGGLE_S1 = '1'.charCodeAt(0);
+const TOGGLE_S2 = '2'.charCodeAt(0);
+const TOGGLE_S3 = '3'.charCodeAt(0);
+const TOGGLE_S4 = '4'.charCodeAt(0);
+const TOGGLE_S5 = '5'.charCodeAt(0);
+const TOGGLE_S6 = '6'.charCodeAt(0);
 
 function render(ctx) {
     
@@ -72,16 +72,16 @@ function render(ctx) {
     // e.g. in pathological cases, we might only see the "even" frames.
     //
     if (g_doFlipFlop) {
-        var boxX = 250,
+        const boxX = 250,
             boxY = g_isUpdateOdd ? 100 : 200;
-        
+
         // Draw flip-flop box
         util.fillBox(ctx, boxX, boxY, 50, 50, "green");
         
         // Display the current frame-counter in the box...
-        ctx.fillText(g_frameCounter % 1000, boxX + 10, boxY + 20);
+        ctx.fillText(g_frameCounter % 1000+"", boxX + 10, boxY + 20);
         // ..and its odd/even status too
-        var text = g_frameCounter % 2 ? "odd" : "even";
+        const text = g_frameCounter % 2 ? "odd" : "even";
         ctx.fillText(text, boxX + 10, boxY + 40);
     }
     

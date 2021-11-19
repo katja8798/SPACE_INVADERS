@@ -27,6 +27,7 @@ const entityManager = {
 
 // "PRIVATE" DATA
     _background: [],
+    _backgroundNumber: 0,
     _bullets: [],
     _ships: [],
     _enemies: [],
@@ -57,11 +58,6 @@ const entityManager = {
             }
         }
         return closestShip;
-
-        /*{
-            theShip: closestShip,
-            theIndex: closestIndex
-        };*/
     },
 
     _forEachOf: function (aCategory, fn) {
@@ -82,7 +78,6 @@ const entityManager = {
 //
     deferredSetup: function () {
         this._categories = [
-            this._background,
             this._bullets,
             this._ships,
             this._enemies,
@@ -172,22 +167,21 @@ const entityManager = {
         levelManager.skipLevel();
     },
 
-    //bullets and power ups
-    /*killExtra: function () {
-        for (let e = 0; e < this._bullets; e++) {
-            this._bullets[e].kill();
+    //bullets, power ups and spawns
+    killExtra: function () {
+        for (let b = 0; b < this._bullets.length; b++) {
+            this._bullets[b].kill();
         }
-        for (let e = 0; e < this._powerUps; e++) {
-            this._powerUps[e].kill();
+        for (let p = 0; p < this._powerUps.length; p++) {
+            this._powerUps[p].kill();
         }
-    },*/
+        for (let s = 0; s < this._spawns.length; s++) {
+            this._spawns[s].kill();
+        }
+    },
 
     powerUpOff: function (){
-        /*TODO finna leið til að eyða almennilega svo ekkert annað en skipið er hjá nýju level
-        for (let e = 0; e < this._powerUps; e++) {
-            return this._powerUps[e].KILL_ME_NOW;
-        }*/
-        const ship = entityManager._findNearestShip(0, 0);
+        const ship = this._findNearestShip(0, 0);
         ship.powerUpBullet = false;
     },
 
@@ -206,21 +200,36 @@ const entityManager = {
                     }
             }
         }
+        this.maybeGeneratePowerUp();
     },
 
     render: function (ctx) {
-        let debugX = 10, debugY = 100;
+        //let debugX = 10, debugY = 100;
         for (let c = 0; c < this._categories.length; ++c) {
             const aCategory = this._categories[c];
             for (let i = 0; i < aCategory.length; ++i) {
                 aCategory[i].render(ctx);
                 //debug.text(".", debugX + i * 10, debugY);
             }
-            debugY += 10;
+            //debugY += 10;
         }
         paths.render(ctx);
-    }
+    },
 
+    //Separate cause only one should be rendered/updated at any one time
+    updateBackground: function (du) {
+        this._background[this._backgroundNumber].update(du);
+        stars.update(du);
+    },
+
+    renderBackground: function (ctx) {
+        this._background[this._backgroundNumber].render(ctx);
+        stars.render(ctx);
+    },
+
+    changeBackground: function (num){
+        this._backgroundNumber = num;
+    }
 };
 
 // Some deferred setup which needs the object to have been created first

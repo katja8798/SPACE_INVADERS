@@ -29,8 +29,8 @@ Sprite.prototype.drawAt = function (ctx, x, y) {
 
 Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     if (rotation === undefined) rotation = 0;
-    
-    var w = this.width,
+
+    const w = this.width,
         h = this.height;
 
     ctx.save();
@@ -40,17 +40,36 @@ Sprite.prototype.drawCentredAt = function (ctx, cx, cy, rotation) {
     
     // drawImage expects "top-left" coords, so we offset our destination
     // coords accordingly, to draw our sprite centred at the origin
-    ctx.drawImage(this.image, 
-                  -w/2, -h/2);
+    ctx.drawImage(this.image,-w/2, -h/2);
     
     ctx.restore();
-};  
+};
+
+//context.drawImage(img, sx, sy, swidth, sheight, x, y, width, height);
+//context.drawImage(img, x, y);
+Sprite.prototype.drawCentredAtForSheet = function (ctx, imgRowNum, cx, cy, rotation) {
+    if (rotation === undefined) rotation = 0;
+
+    const w = this.image.width,
+        h = this.image.height/2;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(rotation);
+    ctx.scale(this.scale, this.scale);
+
+    // drawImage expects "top-left" coords, so we offset our destination
+    // coords accordingly, to draw our sprite centred at the origin
+    ctx.drawImage(this.image, 0, h*imgRowNum, w, h, -w/2, -h/2, w, h);
+
+    ctx.restore();
+};
 
 Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
     
     // Get "screen width"
-    var sw = g_canvas.width;
-    
+    const sw = g_canvas.width;
+
     // Draw primary instance
     this.drawWrappedVerticalCentredAt(ctx, cx, cy, rotation);
     
@@ -62,8 +81,8 @@ Sprite.prototype.drawWrappedCentredAt = function (ctx, cx, cy, rotation) {
 Sprite.prototype.drawWrappedVerticalCentredAt = function (ctx, cx, cy, rotation) {
 
     // Get "screen height"
-    var sh = g_canvas.height;
-    
+    const sh = g_canvas.height;
+
     // Draw primary instance
     this.drawCentredAt(ctx, cx, cy, rotation);
     

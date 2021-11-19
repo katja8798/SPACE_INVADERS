@@ -23,9 +23,27 @@ function createInitialShips() {
     });
 }
 
-function createBackground() {
+function createBackgrounds() {
     entityManager.generateBackground({
-        sprite : g_sprites.gameBackground
+        sprite : g_sprites.bStart
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl1
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl2
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl3
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLvl4
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bWin
+    });
+    entityManager.generateBackground({
+        sprite : g_sprites.bLose
     });
 }
 
@@ -57,27 +75,18 @@ function updateSimulation(dt, du) {
     
     processDiagnostics();
     playBackgroundMusic();
-    if(gameState.states[0] === gameState.currState){
-        gameState.update(du)
-    }
-    else if(gameState.states[1] === gameState.currState){
+    gameState.update();
+    entityManager.updateBackground(du);
+
+    if(gameState.checkIfPlaying()) {
         levelManager.update(dt);
 
         formation.update(du);
-        stars.update(du);
 
         entityManager.update(du);
 
-        entityManager.maybeGeneratePowerUp();
-
         // Prevent perpetual firing!
         eatKey(Ship.prototype.KEY_FIRE);
-    }
-    if(gameState.states[2] === gameState.currState){
-        gameState.update(du)
-    }
-    if(gameState.states[3] === gameState.currState){
-        gameState.update(du)
     }
 }
 
@@ -142,24 +151,19 @@ function processDiagnostics() {
 // GAME-SPECIFIC RENDERING
 
 function renderSimulation(ctx) {
+    entityManager.renderBackground(ctx);
 
-    if(gameState.states[0] === gameState.currState){
-        gameState.render(ctx);
-    }
-    else if(gameState.states[1] === gameState.currState){
+    if(gameState.checkIfPlaying()){
         formation.render(ctx);
         entityManager.render(ctx);
         userInterface.render(ctx);
         levelManager.render(ctx);
 
         if (g_renderSpatialDebug) spatialManager.render(ctx);
-    }
-    if(gameState.states[2] === gameState.currState){
+    } else {
         gameState.render(ctx);
     }
-    if(gameState.states[3] === gameState.currState){
-        gameState.render(ctx);
-    }
+
 }
 
 
@@ -186,21 +190,29 @@ function requestPreloads() {
     soundsPreload(requiredSounds, g_sounds, preloadSoundsDone);
 
     const requiredImages = {
-        galagaShip   : "img/galagaship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        bStart : "img/bgStart.jpg",
+        bLvl1 : "img/bgLong1.jpg",
+        bLvl2 : "img/bgLong2.jpg",
+        bLvl3 : "img/bgLong3.jpg",
+        bLvl4 : "img/bgLong4.jpg",
+        bWin : "img/bgWin.png",
+        bLose : "img/bgLose.png",
+
+        galagaShip   : "img/galagaShip.png",
+
         heart  : "img/heart_full_32x32.png",
-        bullet : "img/bullet.png",
-        bee : "img/bee.png",
-        enemyBullet : "img/enemyBullet.png",
-        purpleRock: "img/purpleRock.png",
-        greenRock: "img/greenRock.png",
-        yellowRock: "img/yellowRock.png",
-        //Þetta eru semi sprite sheet-þarf þá að "animate-a" ef á að nota
-        butterfly : "img/butterfly_single.png",
-        boss : "img/boss_single.png",
-        purpleBoss : "img/purpleboss_single.png",
-        gameBackground : "img/background_vala_ver1.png"
-        //gameBackground : "img/gameBackground.jpg"
+
+        bullet : "img/bulletShip.png",
+        enemyBullet : "img/bulletEnemy.png",
+
+        purpleRock: "img/puPurpleRock.png",
+        greenRock: "img/puGreenRock.png",
+        yellowRock: "img/puYellowRock.png",
+
+        butterfly : "img/enemyTypeButterfly.png",
+        boss : "img/enemyTypeBoss.png",
+        bee : "img/enemyTypeBee.png",
+        purpleBoss : "img/enemyTypePurpleBoss_single.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadImagesDone);
@@ -213,9 +225,8 @@ function preloadSoundsDone() {
 }
 
 function preloadImagesDone() {
-    //ships
+    //ship
     g_sprites.galagaShip  = new Sprite(g_images.galagaShip);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
 
     //power ups
     g_sprites.purpleRock = new Sprite(g_images.purpleRock);
@@ -237,7 +248,15 @@ function preloadImagesDone() {
 
     //other
 	g_sprites.heart = new Sprite(g_images.heart);
-    g_sprites.gameBackground = new Sprite(g_images.gameBackground);
+
+    //backgrounds
+    g_sprites.bStart = new Sprite(g_images.bStart);
+    g_sprites.bLvl1 = new Sprite(g_images.bLvl1);
+    g_sprites.bLvl2 = new Sprite(g_images.bLvl2);
+    g_sprites.bLvl3 = new Sprite(g_images.bLvl3);
+    g_sprites.bLvl4 = new Sprite(g_images.bLvl4);
+    g_sprites.bWin = new Sprite(g_images.bWin);
+    g_sprites.bLose = new Sprite(g_images.bLose);
 
 
     playGame();
@@ -250,7 +269,7 @@ function playGame(){
     stars.init();
 	levelManager.init();
     entityManager.init();
-    createBackground();
+    createBackgrounds();
     createInitialShips();
 
     main.init();

@@ -115,23 +115,19 @@ fillBox: function (ctx, x, y, w, h, style) {
 },
     
 strokeBox : function (ctx, x, y, w, h, style) {
-	var oldStyle = ctx.strokeStyle;
-	ctx.strokeStyle = style;
+    const oldStyle = ctx.strokeStyle;
+    ctx.strokeStyle = style;
 	ctx.strokeRect(x, y, w, h);
 	ctx.strokeStyle = oldStyle;
 },
 
-renderText : function (ctx, str, x, y, lineWidth, fillStyle, strokeStyle) {
+renderText : function (ctx, str, textSize, x, y, lineWidth, fillStyle) {
 	ctx.save();
-	ctx.font = "12px bold Verdana";
+	ctx.font = 'bold '+textSize+'px Consolas';
 	ctx.lineWidth = lineWidth;
-	ctx.strokeStyle = strokeStyle;
 	ctx.fillStyle = fillStyle;
-	
-	let s = str;
-	let textWidth = ctx.measureText(str).width;
+
 	ctx.fillText(str, x, y);
-	ctx.strokeText(str, x, y);
 	ctx.restore();
 },
 

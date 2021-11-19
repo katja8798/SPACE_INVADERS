@@ -30,12 +30,12 @@ function Entity() {
     console.dir(this);
 */
 
-};
+}
 
 Entity.prototype.setup = function (descr) {
 
-    // Apply all setup properies from the (optional) descriptor
-    for (var property in descr) {
+    // Apply all setup properties from the (optional) descriptor
+    for (const property in descr) {
         this[property] = descr[property];
     }
     
@@ -46,7 +46,6 @@ Entity.prototype.setup = function (descr) {
     this._isDeadNow = false;
 
     this.isSpawn = false;
-    this.spawnIsReg = true;
 };
 
 Entity.prototype.setPos = function (cx, cy) {
@@ -71,7 +70,7 @@ Entity.prototype.kill = function () {
 };
 
 Entity.prototype.findHitEntity = function () {
-    var pos = this.getPos();
+    const pos = this.getPos();
     return spatialManager.findEntityInRange(
         pos.posX, pos.posY, this.getRadius()
     );

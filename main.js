@@ -23,11 +23,11 @@ haven't adopted it here.
 */
 
 
-var main = {
-    
+const main = {
+
     // "Frame Time" is a (potentially high-precision) frame-clock for animations
-    _frameTime_ms : null,
-    _frameTimeDelta_ms : null,
+    _frameTime_ms: null,
+    _frameTimeDelta_ms: null,
 
 };
 
@@ -60,14 +60,10 @@ main._updateClocks = function (frameTime) {
 main._iterCore = function (dt) {
     
     // Handle QUIT
-    //
-    // Actually, it's too easy to "quit" accidentally,
-    // so I'm gonna comment this out by default now.
-    //
-    //if (requestedQuit()) {
-    //    this.gameOver();
-    //    return;
-    //}
+    if (requestedQuit()) {
+        this.gameOver();
+        return;
+    }
     
     gatherInputs();
     update(dt);
@@ -78,12 +74,14 @@ main._isGameOver = false;
 
 main.gameOver = function () {
     this._isGameOver = true;
+
     console.log("gameOver: quitting...");
 };
 
 // Simple voluntary quit mechanism
 //
-var KEY_QUIT = 'Q'.charCodeAt(0);
+const KEY_QUIT = 'Q'.charCodeAt(0);
+
 function requestedQuit() {
     return keys[KEY_QUIT];
 }
@@ -105,7 +103,7 @@ main._requestNextIteration = function () {
 
 // Mainloop-level debug-rendering
 
-var TOGGLE_TIMER_SHOW = 'T'.charCodeAt(0);
+const TOGGLE_TIMER_SHOW = 'T'.charCodeAt(0);
 
 main._doTimerShow = false;
 
@@ -114,8 +112,8 @@ main._debugRender = function (ctx) {
     if (eatKey(TOGGLE_TIMER_SHOW)) this._doTimerShow = !this._doTimerShow;
     
     if (!this._doTimerShow) return;
-    
-    var y = 350;
+
+    const y = 350;
     ctx.fillText('FT ' + this._frameTime_ms, 50, y+10);
     ctx.fillText('FD ' + this._frameTimeDelta_ms, 50, y+20);
     ctx.fillText('UU ' + g_prevUpdateDu, 50, y+30); 
@@ -127,7 +125,7 @@ main.init = function () {
     // Grabbing focus is good, but it sometimes screws up jsfiddle,
     // so it's a risky option during "development"
     //
-    //window.focus(true);
+    window.focus();
 
     // We'll be working on a black background here,
     // so let's use a fillStyle which works against that...
