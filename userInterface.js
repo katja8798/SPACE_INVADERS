@@ -14,7 +14,7 @@ const userInterface = {
 		}
 
 		if (this.player_health === 0) {
-			gameState.currState = gameState.states[3];
+			gameState.currState = gameState._states[3];
 		}
 	},
 
