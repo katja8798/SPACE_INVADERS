@@ -108,7 +108,7 @@ Enemy.prototype.update = function (du) {
 		this.goToFormation(this._myCell, du);
 	}
 
-	if (!this._formation) {
+	else if (!this._formation) {
 
 		this.cx += this.velX * du;
 		this.cy += this.velY * du;
