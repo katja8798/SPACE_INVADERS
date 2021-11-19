@@ -165,13 +165,16 @@ const entityManager = {
         levelManager.skipLevel();
     },
 
-    //bullets and power ups
+    //bullets, power ups and spawns
     killExtra: function () {
-        for (let e = 0; e < this._bullets.length; e++) {
-            this._bullets[e].kill();
+        for (let b = 0; b < this._bullets.length; b++) {
+            this._bullets[b].kill();
         }
-        for (let e = 0; e < this._powerUps.length; e++) {
-            this._powerUps[e].kill();
+        for (let p = 0; p < this._powerUps.length; p++) {
+            this._powerUps[p].kill();
+        }
+        for (let s = 0; s < this._spawns.length; s++) {
+            this._powerUps[s].kill();
         }
     },
 
