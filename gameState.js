@@ -127,7 +127,4 @@ function writeTxt(ctx,txt, pos) {
     ctx.fillStyle = '#FFFFFF';
     const w = ctx.measureText(txt).width + 5;
     ctx.fillText(txt, (g_canvas.width-w)/2, g_canvas.height/2+pos*s);
-
-    ctx.strokeStyle = "black";
-    ctx.strokeText(txt,(g_canvas.width-w)/2, g_canvas.height/2+pos*s);
 }

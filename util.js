@@ -116,17 +116,13 @@ strokeBox : function (ctx, x, y, w, h, style) {
 	ctx.strokeStyle = oldStyle;
 },
 
-renderText : function (ctx, str, x, y, lineWidth, fillStyle, strokeStyle) {
+renderText : function (ctx, str, textSize, x, y, lineWidth, fillStyle) {
 	ctx.save();
-	ctx.font = "12px bold Consolas";
+	ctx.font = 'bold '+textSize+'px Consolas';
 	ctx.lineWidth = lineWidth;
-	ctx.strokeStyle = strokeStyle;
 	ctx.fillStyle = fillStyle;
-	
-	let s = str;
-	let textWidth = ctx.measureText(str).width;
+
 	ctx.fillText(str, x, y);
-	ctx.strokeText(str, x, y);
 	ctx.restore();
 },
 

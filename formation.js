@@ -128,7 +128,7 @@ const formation = {
 				}
 				s += "]";
 				let offset = 15 * i;
-				util.renderText(ctx, s, 10, 30 + offset, .5, 'red', 'red');
+				util.renderText(ctx, s, 20, 10, 30 + offset, .5, 'red');
 			}
 		}
 	},

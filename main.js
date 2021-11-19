@@ -60,14 +60,10 @@ main._updateClocks = function (frameTime) {
 main._iterCore = function (dt) {
     
     // Handle QUIT
-    //
-    // Actually, it's too easy to "quit" accidentally,
-    // so I'm gonna comment this out by default now.
-    //
-    //if (requestedQuit()) {
-    //    this.gameOver();
-    //    return;
-    //}
+    if (requestedQuit()) {
+        this.gameOver();
+        return;
+    }
     
     gatherInputs();
     update(dt);
@@ -78,6 +74,7 @@ main._isGameOver = false;
 
 main.gameOver = function () {
     this._isGameOver = true;
+
     console.log("gameOver: quitting...");
 };
 
@@ -128,7 +125,7 @@ main.init = function () {
     // Grabbing focus is good, but it sometimes screws up jsfiddle,
     // so it's a risky option during "development"
     //
-    //window.focus(true);
+    window.focus();
 
     // We'll be working on a black background here,
     // so let's use a fillStyle which works against that...

@@ -189,7 +189,7 @@ _bulletT : 0,
 	render: function (ctx) {
 
 		let s = "Enemies left: " + this._totalEnemies.toString();
-		util.renderText(ctx, s, 10, 10, .5, 'white', 'white');
+		util.renderText(ctx, s, 20, 10, 20, 0.5, 'white');
 
 		if (this._dt < 2000) {
 			let tSize = Math.floor(200 - this._dt / 10);
