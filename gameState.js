@@ -19,45 +19,34 @@ e.g. starting, playing or ending.
 const gameState = {
     states : ["start", "play","winEnd", "loseEnd"],
     currState : "start",
+
     _continueKey : ' '.charCodeAt(0),//enter key
     _texts : [
         "WELCOME PILOT",
         "PRESS SPACE TO PLAY",
         "YOU WON",
-        "YOU LOSE",
-        "PRESS SPACE TO PLAY AGAIN"],
-    _currText : ["WELCOME PILOT","PRESS SPACE TO PLAY"],
+        "YOU DIED",
+        "FINAL SCORE: ",
+        "PRESS SPACE TO CONTINUE"
+    ],
 
     // PUBLIC METHODS
-    update : function (du){
-        if(this.currState === this.states[0]) {
-            if (eatKey(this._continueKey)) {
-                if (this.currState === this.states[0]) {
-                    this.currState = this.states[1];
-                }
-            }
+
+    changeStateForEnd : function (result) {
+        if (result === "lost") {
+            this.currState = this.states[3];
         }
-        else if(this.currState === this.states[2] ||
-            this.currState === this.states[3]){
-            //levels, score, life and set text accordingly in gameState
+        else if (result === "won") {
+            this.currState = this.states[2];
+        }
+    },
 
-            //win state, happens if we have didnt die
-            if(this.currState === this.states[2]) {
-                this._currText[0] = this._texts[2];
-                this._currText[1] = this._texts[4];
-            }
-
-            //lose state
-            if (this.currState === this.states[3]) {
-                this._currText[0] = this._texts[3];
-                this._currText[1] = this._texts[4];
-            }
-
+    update : function (du){
+        if(this.currState === this.states[0] ||
+            this.currState === this.states[2] ||
+            this.currState === this.states[3]) {
             if (eatKey(this._continueKey)) {
-                if ((this.currState === this.states[2]) ||
-                    (this.currState === this.states[3])) {
-                    this.currState = this.states[1];
-                }
+                this.currState = this.states[1];
                 levelManager.resetGame();
             }
         }
@@ -66,26 +55,37 @@ const gameState = {
     render : function (ctx) {
         ctx.save();
 
-
-        let gapX = 20,
-            gapY = 190;
-
-        util.fillBox(ctx, gapX, gapY,
-            g_canvas.width-gapX*2, g_canvas.height-gapY*2, 'rgb(0,0,26)');
-
         ctx.font = 'bold 40px consolas';
         ctx.lineWidth = .5;
         ctx.fillStyle = '#FFFFFF';
+        ctx.strokeStyle = "black";
 
-        let stateTxtAbove = this._currText[0],
-            txtWAbove = ctx.measureText(stateTxtAbove).width + 5;
-
-        ctx.fillText(stateTxtAbove, (g_canvas.width-txtWAbove)/2, g_canvas.height/2-20);
-
-        let stateTxtBelow = this._currText[1],
-            txtWBelow = ctx.measureText(stateTxtBelow).width + 5;
-        ctx.fillText(stateTxtBelow, (g_canvas.width-txtWBelow)/2, g_canvas.height/2+20);
+        if (this.currState === this.states[0]) {
+            writeTxt(ctx, this._texts[0],2, 2);
+            writeTxt(ctx, this._texts[1],2, 1);
+        }
+        else if (this.currState === this.states[2]) {
+            writeTxt(ctx, this._texts[2],3, 3);
+            writeTxt(ctx, this._texts[4] + userInterface.getScore(),3, 2);
+            writeTxt(ctx, this._texts[5],3, 1);
+        }
+        else if (this.currState === this.states[3]) {
+            writeTxt(ctx, this._texts[3],3, 3);
+            writeTxt(ctx, this._texts[4] + userInterface.getScore(),3, 2);
+            writeTxt(ctx, this._texts[5],3, 1);
+        }
 
         ctx.restore();
     }
+}
+
+function writeTxt(ctx,txt, num, pos) {
+    ctx.font = 'bold 40px consolas';
+
+    ctx.fillStyle = '#FFFFFF';
+    const w = ctx.measureText(txt).width + 5;
+    ctx.fillText(txt, (g_canvas.width-w)/2, g_canvas.height/num-pos*45);
+
+    ctx.strokeStyle = "black";
+    ctx.strokeText(txt,(g_canvas.width-w)/2, g_canvas.height/num-pos*45);
 }

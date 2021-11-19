@@ -27,6 +27,7 @@ const entityManager = {
 
 // "PRIVATE" DATA
     _background: [],
+    _backgroundNumber: 0,
     _bullets: [],
     _ships: [],
     _enemies: [],
@@ -77,7 +78,6 @@ const entityManager = {
 //
     deferredSetup: function () {
         this._categories = [
-            this._background,
             this._bullets,
             this._ships,
             this._enemies,
@@ -176,7 +176,7 @@ const entityManager = {
     },
 
     powerUpOff: function (){
-        const ship = entityManager._findNearestShip(0, 0);
+        const ship = this._findNearestShip(0, 0);
         ship.powerUpBullet = false;
     },
 
@@ -208,8 +208,31 @@ const entityManager = {
             debugY += 10;
         }
         paths.render(ctx);
-    }
+    },
 
+    //Separate cause only one should be render/update at any one time
+    updateBackground: function (du) {
+        if (gameState.currState === gameState.states[0]) {
+            this._backgroundNumber = 0;
+        }
+        else if (gameState.currState === gameState.states[2]){
+            this._backgroundNumber = 5;
+        }
+        else if ((gameState.currState === gameState.states[3]) ||
+            (gameState.currState === gameState.states[3])){
+            this._backgroundNumber = 6;
+        }
+
+        this._background[this._backgroundNumber].update(du);
+    },
+
+    renderBackground: function (ctx) {
+        this._background[this._backgroundNumber].render(ctx);
+    },
+
+    changeBackgroundForLvl: function (num){
+        this._backgroundNumber = num;
+    }
 };
 
 // Some deferred setup which needs the object to have been created first

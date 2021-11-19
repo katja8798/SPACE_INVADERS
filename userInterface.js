@@ -14,7 +14,7 @@ const userInterface = {
 		this.player_health -= 1;
 
 		if (this.player_health === 0) {
-			gameState.currState = gameState.states[3];
+			gameState.changeStateForEnd("lost");
 		}
 	},
 
@@ -53,6 +53,10 @@ const userInterface = {
 
 	},
 
+	getScore: function () {
+		return this.score.toString();
+	},
+
 	render: function (ctx) {
 
 		this.renderHealth(ctx);
@@ -86,7 +90,7 @@ const userInterface = {
 		ctx.lineWidth = .5;
 		ctx.fillStyle = '#FFFFFF';
 
-		let scoreText = "Score: " + this.score.toString();
+		let scoreText = "Score: " + this.getScore();
 		let textWidth = ctx.measureText(scoreText).width + 5;
 
 		ctx.fillText(scoreText, g_canvas.width - textWidth, 20);

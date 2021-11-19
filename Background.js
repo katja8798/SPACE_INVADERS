@@ -14,11 +14,14 @@ Background.prototype = new Entity();
 
 Background.prototype.update = function (du){
 
-    if (this.cy <= this.sprite.height) {
-        this.cy += du;
-    }
-    else {
-        this.cy += du - this.sprite.height;
+    if (this.sprite !== g_sprites.bStart &&
+        this.sprite !== g_sprites.bWin &&
+        this.sprite !== g_sprites.bLose) {
+        if (this.cy <= this.sprite.height) {
+            this.cy += du;
+        } else {
+            this.cy += du - this.sprite.height;
+        }
     }
 
 }
@@ -27,9 +30,10 @@ Background.prototype.render = function (ctx){
     let origScale = this.sprite.scale;
     this.sprite.scale = this._scale;
 
+    //initial draw
     this.sprite.drawAt(ctx, this.cx, this.cy, this.rotation);
 
-    var sh = g_canvas.height;
+    //top wrapper
     this.sprite.drawAt(ctx, this.cx, this.cy - this.sprite.height, this.rotation);
     //this.sprite.drawAt(ctx, this.cx, this.cy + sh, this.rotation);
 

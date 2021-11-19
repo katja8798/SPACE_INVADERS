@@ -97,8 +97,9 @@ _bulletT : 0,
 		if (this._nextLevel < this._levels.length) {
 			this._resetCurrentLevel();
 			this._loadLevel(this._nextLevel);
+			entityManager.changeBackgroundForLvl(this._nextLevel+1);
 		} else {
-			gameState.currState = gameState.states[2];
+			gameState.changeStateForEnd("won");
 		}
 	},
 
@@ -226,6 +227,7 @@ _bulletT : 0,
 		this._resetCurrentLevel();
 		this._nextLevel = 0;
 		this.init();
+		entityManager.changeBackgroundForLvl(this._nextLevel+1);
 	},
 
 
